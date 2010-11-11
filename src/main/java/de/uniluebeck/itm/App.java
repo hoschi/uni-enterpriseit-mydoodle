@@ -1,4 +1,4 @@
-package de.uni-luebeck.itm;
+package de.uniluebeck.itm;
 
 /**
  * Hello world!

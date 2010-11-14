@@ -1,10 +1,16 @@
 package de.uniluebeck.itm;
 
-import java.util.*;
+import java.util.Date;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+@WebService()
 public class DateOption implements IOption {
-	Date value;
+	
+	private Date value;
 
+	@WebMethod()
 	public Date getValue() {
 		return value;
 	}

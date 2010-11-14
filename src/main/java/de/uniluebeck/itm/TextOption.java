@@ -1,14 +1,23 @@
 package de.uniluebeck.itm;
 
-public class TextOption implements IOption {
-	String value;
+import java.util.HashMap;
+import java.util.Locale;
 
-	public String getValue() {
-		return value;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+@WebService()
+public class TextOption implements IOption {
+	
+	private HashMap<Locale,String> textMap;
+
+	@WebMethod()
+	public String getValue(Locale locale) {
+		return textMap.get(locale);
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setValue(Locale locale, String value) {
+		textMap.put(locale, value);
 	}
 
 }

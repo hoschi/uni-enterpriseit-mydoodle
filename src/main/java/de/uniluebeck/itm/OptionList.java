@@ -1,10 +1,16 @@
 package de.uniluebeck.itm;
 
-import java.util.*;
+import java.util.List;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+@WebService()
 public class OptionList {
-	List<IOption> list;
+	
+	private List<IOption> list;
 
+	@WebMethod()
 	public List<IOption> getList() {
 		return list;
 	}

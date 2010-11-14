@@ -6,12 +6,12 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 @WebService()
-public interface IPoll {
+public interface IPollSystem {
 	
 	@WebMethod()
-	public IPollInfo getInfo();
+	public List<IPollInfo> getPolls();
 	
 	@WebMethod()
-	public List<OptionList> getOptionLists();
-	
+	public IPoll getPoll(int id);
+
 }

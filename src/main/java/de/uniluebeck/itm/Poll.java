@@ -3,7 +3,13 @@ package de.uniluebeck.itm;
 import java.util.List;
 
 public class Poll implements IPoll {
-	boolean isPublic;
+	
+	private IPollInfo info;
+	
+	private boolean isPublic;
+
+	private List<OptionList> optionLists;
+	
 	public boolean isPublic() {
 		return isPublic;
 	}
@@ -12,24 +18,16 @@ public class Poll implements IPoll {
 		this.isPublic = isPublic;
 	}
 
-	public List<OptionList> getList() {
-		return list;
+	@Override
+	public IPollInfo getInfo() {
+		return info;
 	}
 
-	public void setList(List<OptionList> list) {
-		this.list = list;
+	@Override
+	public List<OptionList> getOptionLists() {
+		return optionLists;
 	}
 
-	List<OptionList> list;
-
-	public List<IPoll> getPolls() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public IPoll getPoll(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }

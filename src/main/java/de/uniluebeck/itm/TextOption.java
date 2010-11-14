@@ -10,6 +10,10 @@ import javax.jws.WebService;
 public class TextOption implements IOption {
 	
 	private HashMap<Locale,String> textMap;
+	
+	public TextOption() {
+		
+	}
 
 	@WebMethod()
 	public String getValue(Locale locale) {

@@ -10,6 +10,10 @@ public class Poll implements IPoll {
 
 	private List<OptionList> optionLists;
 	
+	public Poll() {
+		
+	}
+	
 	public boolean isPublic() {
 		return isPublic;
 	}

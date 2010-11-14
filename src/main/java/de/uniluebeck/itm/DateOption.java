@@ -9,6 +9,10 @@ import javax.jws.WebService;
 public class DateOption implements IOption {
 	
 	private Date value;
+	
+	public DateOption() {
+		
+	}
 
 	@WebMethod()
 	public Date getValue() {

@@ -11,6 +11,10 @@ import javax.jws.WebService;
 public class PollSystem implements IPollSystem {
 	
 	private Map<Integer,IPoll> pollMap = new HashMap<Integer,IPoll>();
+	
+	public PollSystem() {
+		
+	}
 
 	@Override
 	public IPoll getPoll(int id) {

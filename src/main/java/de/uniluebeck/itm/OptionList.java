@@ -9,6 +9,10 @@ import javax.jws.WebService;
 public class OptionList {
 	
 	private List<IOption> list;
+	
+	public OptionList() {
+		
+	}
 
 	@WebMethod()
 	public List<IOption> getList() {

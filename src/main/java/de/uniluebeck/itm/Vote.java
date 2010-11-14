@@ -9,6 +9,10 @@ public class Vote {
 	private String voterName;
 	
 	private IOption option;
+	
+	public Vote() {
+		
+	}
 
 	@WebMethod()
 	public String getVoterName() {

@@ -15,6 +15,7 @@
 
   <build>
   	<plugins>
+<!--
  	  <plugin>
   	    <groupId>org.apache.cxf</groupId>
   	      <artifactId>cxf-java2ws-plugin</artifactId>
@@ -46,8 +47,9 @@
                 </goals>
             </execution>
           </executions>	
-  		</plugin>
-  	</plugins>
+      </plugin>
+-->
+    </plugins>
   </build>
   <dependencies>
     <dependency>

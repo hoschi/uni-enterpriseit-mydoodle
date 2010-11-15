@@ -14,12 +14,10 @@ public class PollInfo implements IPollInfo {
 		
 	}
 
-	@Override
 	public int getId() {
 		return id;
 	}
 
-	@Override
 	public String getName(Locale locale) {
 		return nameMap.get(locale);
 	}

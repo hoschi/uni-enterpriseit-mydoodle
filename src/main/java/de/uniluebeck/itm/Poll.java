@@ -2,6 +2,8 @@ package de.uniluebeck.itm;
 
 import java.util.List;
 
+import javax.jws.WebService;
+
 public class Poll implements IPoll {
 	
 	private IPollInfo info;
@@ -22,15 +24,16 @@ public class Poll implements IPoll {
 		this.isPublic = isPublic;
 	}
 
-	@Override
 	public IPollInfo getInfo() {
-		return info;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	@Override
 	public List<OptionList> getOptionLists() {
-		return optionLists;
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 
 	
 

@@ -16,12 +16,10 @@ public class PollSystem implements IPollSystem {
 		
 	}
 
-	@Override
 	public IPoll getPoll(int id) {
 		return pollMap.get(Integer.valueOf(id));
 	}
 
-	@Override
 	public List<IPollInfo> getPolls() {
 		ArrayList<IPollInfo> result = new ArrayList<IPollInfo>(pollMap.size());
 		for (IPoll poll : pollMap.values()) {

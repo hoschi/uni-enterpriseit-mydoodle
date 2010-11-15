@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class PollInfo implements IPollInfo {
+public class PollInfo {
 	
 	private int id;
 	

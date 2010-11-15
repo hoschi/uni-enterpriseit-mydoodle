@@ -7,25 +7,26 @@ import java.util.Map;
 
 import javax.jws.WebService;
 
+
 @WebService(endpointInterface = "de.uniluebeck.itm.IPollSystem")
 public class PollSystem implements IPollSystem {
 	
-	private Map<Integer,IPoll> pollMap = new HashMap<Integer,IPoll>();
+	private Map<Integer,Poll> pollMap = new HashMap<Integer,Poll>();
 	
 	public PollSystem() {
 		
 	}
 
-	public IPoll getPoll(int id) {
+	public Poll getPoll(int id) {
 		return pollMap.get(Integer.valueOf(id));
 	}
 
-	public List<IPollInfo> getPolls() {
-		ArrayList<IPollInfo> result = new ArrayList<IPollInfo>(pollMap.size());
-		for (IPoll poll : pollMap.values()) {
+	public PollInfo[] getPolls() {
+		ArrayList<PollInfo> result = new ArrayList<PollInfo>(pollMap.size());
+		for (Poll poll : pollMap.values()) {
 			result.add(poll.getInfo());
 		}
-		return result;
+		return (PollInfo[]) result.toArray();
 	}
 
 }

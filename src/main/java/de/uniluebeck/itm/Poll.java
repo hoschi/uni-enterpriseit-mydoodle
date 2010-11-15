@@ -1,16 +1,13 @@
 package de.uniluebeck.itm;
 
-import java.util.List;
 
-import javax.jws.WebService;
-
-public class Poll implements IPoll {
+public class Poll {
 	
-	private IPollInfo info;
+	private PollInfo info;
 	
 	private boolean isPublic;
 
-	private List<OptionList> optionLists;
+	private OptionList[] optionLists;
 	
 	public Poll() {
 		
@@ -24,12 +21,12 @@ public class Poll implements IPoll {
 		this.isPublic = isPublic;
 	}
 
-	public IPollInfo getInfo() {
+	public PollInfo getInfo() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.info;
 	}
 
-	public List<OptionList> getOptionLists() {
+	public OptionList[] getOptionLists() {
 		// TODO Auto-generated method stub
 		return null;
 	}

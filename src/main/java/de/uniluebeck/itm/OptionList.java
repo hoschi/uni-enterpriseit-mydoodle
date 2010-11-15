@@ -1,25 +1,25 @@
 package de.uniluebeck.itm;
 
-import java.util.List;
-
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @WebService()
+@XmlJavaTypeAdapter(AnyTypeAdapter.class) 
 public class OptionList {
 	
-	private List<IOption> list;
+	private IOption[] list;
 	
 	public OptionList() {
 		
 	}
 
 	@WebMethod()
-	public List<IOption> getList() {
+	public IOption[] getList() {
 		return list;
 	}
 
-	public void setList(List<IOption> list) {
+	public void setList(IOption[] list) {
 		this.list = list;
 	}
 }

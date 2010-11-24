@@ -1,4 +1,5 @@
 *.swo
+*.svn
 *.swp
 .classpath
 .project

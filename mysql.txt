@@ -1,0 +1,4 @@
+mysql -P 3333 -h localhost --protocol=TCP -u soa05 -p enterprise_it_ep5
+show tables;
+desc polls;
+select * from polls;

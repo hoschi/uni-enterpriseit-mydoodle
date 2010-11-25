@@ -13,6 +13,15 @@
 		<org.slf4j.version>1.5.10</org.slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+        <repositories>
+            <repository>
+                <id>jboss</id>
+                <name>jboss</name>
+                <layout>default</layout>
+                <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+             </repository>
+        </repositories>
+        
 	<dependencies>
 		<!-- Spring -->
 		<!-- Application Context (depends on spring-core, spring-expression, spring-aop, 

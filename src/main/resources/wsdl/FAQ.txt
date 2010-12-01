@@ -1,0 +1,65 @@
+FAQs zur wsdl/xsd
+
+
+>> Wie ist der LanguageCode definiert? Welche möglichen Werte gibt es?
+
+Wir nehmen String[] languages = Locale.getISOLanguages(); (Konvention).
+Das werde ich auch nochmal in einer FAQ.txt ablegen. Läst sich leider
+nicht als Kommentar in die WSDL schreiben, da es dann beim nächsten
+Generieren wieder platt gemacht wird.
+
+>> Wie sollen Fehler übergeben werden? In der WSDL sind keine Faults definiert.
+
+Bis jetzt haben wir keine Faults vorgesehen (uns nicht drum gekümmert),
+ihr könnt gerne Vorschläge machen ;-).
+
+>> Ist es notwendig das die Schnittstelle typisiert ist? Muss die pollId umbedingt ein Integer sein, macht es nicht aufgrund der 
+>> Flexibilität mehr Sinn, wenn sich die Gruppen ihre Ids mit Strings übertragen?
+
+Stimmt, zweite Version der .xsd definiert die Ids als String
+
+>> Also die Methode getPolls gibt eine List von XsPolls zurück, das impliziert
+aber das man die komplett geladenen (mit Optionlists, options, votes)
+zurückgeben muss, die eigentliche Intention ist aber nur ID und Titel
+zurückzugeben. Das geht aus der Schnittstelle nicht hervor, besser wäre doch
+nur eine Klasse XsPollInfo die nur ID und Titel enthält.
+
+Stimmt auch, die dritte Version der .xsd enthält zu diesem Zweck ein XsPollInfo.
+
+>> welches Datumformat wird denn bei XsOption.setDateTime
+erwartet? eine Stringdarstellung wäre die beste Variante, dann kann jede
+Gruppe das parsen und in ihr Format umwandeln.
+
+Leider mündete die einfache Umwandlung eines java.util.Date mit JAXB in Object (obwohl das theoretisch out of the Box gehen sollte).
+Stattdessen werden wir einen String übertragen im Format: "yyyy-MM-dd'T'HH:mm". Eine nette Umwandlung erlaubt der folgende Code, der
+aus diesem sehr informativen Artikel zu Jaxb stammt: http://blogs.sun.com/CoreJavaTechTips/entry/exchanging_data_with_xml_and
+
+package de.uniluebeck.itm.ep0.poll.web;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+public class DateAdapter extends XmlAdapter<String, Date> {
+
+		// the desired format
+    private final String pattern = "yyyy-MM-dd'T'HH:mm";
+
+    @Override
+    public String marshal(Date date) throws Exception {
+        return new SimpleDateFormat(pattern).format(date);
+    }
+
+    @Override
+    public Date unmarshal(String dateString) throws Exception {
+        return new SimpleDateFormat(pattern).parse(dateString);
+    }
+
+}
+
+
+
+
+
+

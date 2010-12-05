@@ -16,6 +16,11 @@ public class PollServiceImpl implements PollService {
 		pollRepository.add(poll);
 	}
 
+	@Transactional
+	public void updatePoll(Poll poll) {
+		pollRepository.update(poll);
+	}
+
 	@Transactional(readOnly = true)
 	public List<Poll> getPolls() {
 		return pollRepository.findAll();

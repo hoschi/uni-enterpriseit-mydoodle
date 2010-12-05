@@ -12,25 +12,32 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import de.uniluebeck.itm.ep5.poll.domain.Option;
 import de.uniluebeck.itm.ep5.poll.domain.Poll;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
+import java.util.GregorianCalendar;
 import org.junit.Assert;
+import org.junit.Before;
 
 public class PollServiceTest {
 
-    final static Logger logger = LoggerFactory.getLogger(PollServiceTest.class);
+	final static Logger logger = LoggerFactory.getLogger(PollServiceTest.class);
+	ApplicationContext ctx;
+	PollService pollService;
 
-    /*
+	@Before
+	public void setUp() {
+		// Create the spring container using the XML configuration in
+		// application-context.xml
+		ctx = new ClassPathXmlApplicationContext(
+				"application-context.xml");
+
+		// Retrieve the beans we'll use during testing
+		pollService = ctx.getBean(PollService.class);
+	}
+
+	/*
      * nutzer kann abstimmung anlegen
      */
     @Test
     public void addPoll() {
-        // Create the spring container using the XML configuration in
-        // application-context.xml
-        ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                "application-context.xml");
-
-        // Retrieve the beans we'll use during testing
-        PollService pollService = ctx.getBean(PollService.class);
-
         Poll poll = new Poll("createpoll");
         pollService.addPoll(poll);
 
@@ -48,14 +55,6 @@ public class PollServiceTest {
      */
     @Test
     public void createPollId() {
-        // Create the spring container using the XML configuration in
-        // application-context.xml
-        ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                "application-context.xml");
-
-        // Retrieve the beans we'll use during testing
-        PollService pollService = ctx.getBean(PollService.class);
-
         Poll poll = new Poll("identity");
         pollService.addPoll(poll);
 
@@ -75,7 +74,7 @@ public class PollServiceTest {
     }
 
     /////////////////////////////////////////////////////
-    // TODO _nur_ anleger kann eine angelegte abstimmung verwalten (CRUD)
+    // TODO _nur_ anleger kann eine angelegte abstimmung verwalten
     /////////////////////////////////////////////////////
     /////////////////////////////////////////////////////
     // TODO nutzer kann angbeben wie lange die abstimmung aktiv ist
@@ -98,14 +97,6 @@ public class PollServiceTest {
      */
     @Test
     public void createDateAndTextOptions() {
-        // Create the spring container using the XML configuration in
-        // application-context.xml
-        ApplicationContext ctx = new ClassPathXmlApplicationContext(
-                "application-context.xml");
-
-        // Retrieve the beans we'll use during testing
-        PollService pollService = ctx.getBean(PollService.class);
-
         // Create options to test
         Option wine = new Option("Wine", "red and tasty", 0);
         Option beer = new Option("Beer", "cold and tasty", 0);
@@ -146,4 +137,54 @@ public class PollServiceTest {
     /////////////////////////////////////////////////////
     // TODO nutzer kann abstimmungen nach titel suchen mit wildcards
     /////////////////////////////////////////////////////
+
+	/*
+	 * change a poll
+	 */
+	@Test
+	public void changePoll() {
+		// add poll
+		Poll poll = new Poll("changepoll", false);
+		pollService.addPoll(poll);
+		Assert.assertEquals("changepoll", poll.getTitle());
+		Assert.assertEquals(false, poll.isPublic());
+		Assert.assertEquals(true, poll.isActive());
+
+		// change it
+		poll.setTitle("blubb");
+		poll.isPublic(true);
+
+		GregorianCalendar tomorrow = new GregorianCalendar();
+		tomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
+		
+		GregorianCalendar inTwoDays = new GregorianCalendar();
+		inTwoDays.add(GregorianCalendar.DAY_OF_MONTH, 2);
+		poll.setActiveTimeSpan(tomorrow.getTime(), inTwoDays.getTime());
+		// save changes
+		pollService.updatePoll(poll);
+
+		List<Poll> list = pollService.getPolls();
+		Assert.assertEquals(1, list.size());
+		poll = list.get(0);
+		Assert.assertEquals("blubb", poll.getTitle());
+		Assert.assertEquals(true, poll.isPublic());
+		Assert.assertEquals(false, poll.isActive());
+
+		// test other date cases
+		GregorianCalendar yesterday = new GregorianCalendar();
+		yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
+		poll.setActiveTimeSpan(yesterday.getTime(), inTwoDays.getTime());
+		Assert.assertEquals(true, poll.isActive());
+
+		GregorianCalendar beforeTwoDays = new GregorianCalendar();
+		beforeTwoDays.add(GregorianCalendar.DAY_OF_MONTH, -2);
+		poll.setActiveTimeSpan(beforeTwoDays.getTime(), yesterday.getTime());
+		Assert.assertEquals(false, poll.isActive());
+
+		// Print all polls and options
+		for (Poll p : pollService.getPolls()) {
+			logger.info(p.toString());
+		}
+
+	}
 }

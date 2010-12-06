@@ -31,8 +31,8 @@ public class Poll implements Serializable {
 	// Default fetch type would be LAZY. But lazy fetching does not work
 	// when the session/transaction is already closed at the time the
 	// options list's lazy initialization is triggered.
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Option.class)
-	private List<Option> options;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = OptionList.class)
+	private List<OptionList> options;
 	private boolean isPublic;
 	@Temporal(javax.persistence.TemporalType.DATE)
 	private Date startDate;
@@ -45,10 +45,10 @@ public class Poll implements Serializable {
 
 	public Poll(String title) {
 		this.title = title;
-		this.options = new ArrayList<Option>();
+		this.options = new ArrayList<OptionList>();
 	}
 
-	public Poll(Integer id, String title, List<Option> options) {
+	public Poll(Integer id, String title, List<OptionList> options) {
 		this.id = id;
 		this.title = title;
 		this.options = options;
@@ -59,15 +59,9 @@ public class Poll implements Serializable {
 		this.isPublic = isPublic;
 	}
 
-	public void addOption(Option option) {
-		if (!options.contains(option)) {
-			options.add(option);
-		}
-	}
-
-	public void addOptions(List<Option> option) {
-		for (Option o : options) {
-			addOption(o);
+	public void addOptionList(OptionList list) {
+		if (!options.contains(list)) {
+			options.add(list);
 		}
 	}
 
@@ -79,7 +73,7 @@ public class Poll implements Serializable {
 		return title;
 	}
 
-	public List<Option> getOptions() {
+	public List<OptionList> getOptionLists() {
 		return options;
 	}
 
@@ -91,7 +85,7 @@ public class Poll implements Serializable {
 		this.title = title;
 	}
 
-	public void setOptions(List<Option> options) {
+	public void setOptions(List<OptionList> options) {
 		this.options = options;
 	}
 
@@ -117,13 +111,13 @@ public class Poll implements Serializable {
 	}
 
 	public static Poll copy(Poll src) {
-		return new Poll(src.getId(), src.getTitle(), src.getOptions());
+		return new Poll(src.getId(), src.getTitle(), src.getOptionLists());
 	}
 
 	@Override
 	public String toString() {
 		return format("Poll: id=%s, title=%s, #options=%s", getId(),
-				getTitle(), getOptions().size());
+				getTitle(), getOptionLists().size());
 	}
 
 	public void setActiveTimeSpan(Date start, Date end) {

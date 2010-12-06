@@ -2,6 +2,8 @@ package de.uniluebeck.itm.ep5.poll;
 
 //import static org.hamcrest.CoreMatchers.equalTo;
 //import static org.junit.Assert.assertThat;
+import de.uniluebeck.itm.ep5.poll.domain.DateOption;
+import de.uniluebeck.itm.ep5.poll.domain.IOption;
 import java.util.List;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -10,7 +12,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.uniluebeck.itm.ep5.poll.domain.Option;
+import de.uniluebeck.itm.ep5.poll.domain.OptionList;
 import de.uniluebeck.itm.ep5.poll.domain.Poll;
+import de.uniluebeck.itm.ep5.poll.domain.TextOption;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
 import java.util.GregorianCalendar;
 import org.junit.Assert;
@@ -162,9 +166,37 @@ public class PollServiceTest {
 		Assert.assertEquals(false, poll.isActive());
 	}
 
-	/////////////////////////////////////////////////////
-	// TODO abstimmung kann beliebigviele optionlisten enthalten
-	/////////////////////////////////////////////////////
+	/*
+	 * TODO abstimmung kann beliebigviele optionlisten enthalten
+	 */
+	//@Test
+	public void setOptionList() {
+		TextOption text = new TextOption("test");
+		DateOption date = new DateOption();
+
+		OptionList olist = new OptionList();
+		olist.addOption(date);
+		olist.addOption(text);
+
+		Poll poll = new Poll("poll");
+		poll.addOptionList(olist);
+
+		// save changes
+		pollService.addPoll(poll);
+		List<Poll> list = pollService.getPolls();
+		Assert.assertEquals(1, list.size());
+
+		poll = list.get(0);
+		List<OptionList> listOfOptionLists = poll.getOptionLists();
+		Assert.assertEquals(1, list.size());
+
+		olist = listOfOptionLists.get(0);
+		List<IOption> options = olist.getOptions();
+		Assert.assertEquals(2, options.size());
+
+
+
+	}
 	/////////////////////////////////////////////////////
 	// TODO abstimmung kann beliebigviele optionen enthalten
 	/////////////////////////////////////////////////////

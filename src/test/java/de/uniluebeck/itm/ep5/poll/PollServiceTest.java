@@ -34,113 +34,48 @@ public class PollServiceTest {
 	}
 
 	/*
-     * nutzer kann abstimmung anlegen
-     */
-    @Test
-    public void addPoll() {
-        Poll poll = new Poll("createpoll");
-        pollService.addPoll(poll);
+	 * nutzer kann abstimmung anlegen
+	 */
+	@Test
+	public void addPoll() {
+		Poll poll = new Poll("createpoll");
+		pollService.addPoll(poll);
 
-        List<Poll> list = pollService.getPolls();
-        Assert.assertEquals(1, list.size());
+		List<Poll> list = pollService.getPolls();
+		Assert.assertEquals(1, list.size());
 
-        // Print all polls and options
-        for (Poll p : pollService.getPolls()) {
-            logger.info(p.toString());
-        }
-    }
+		// Print all polls and options
+		for (Poll p : pollService.getPolls()) {
+			logger.info(p.toString());
+		}
+	}
 
-    /*
-     * beim anlegen einer abstimmung wird eine eindeutige ID angeleget
-     */
-    @Test
-    public void createPollId() {
-        Poll poll = new Poll("identity");
-        pollService.addPoll(poll);
+	/*
+	 * beim anlegen einer abstimmung wird eine eindeutige ID angeleget
+	 */
+	@Test
+	public void createPollId() {
+		Poll poll = new Poll("identity");
+		pollService.addPoll(poll);
 
-        poll = new Poll("identity1");
-        pollService.addPoll(poll);
-        List<Poll> list = pollService.getPolls();
-        Assert.assertEquals(2, list.size());
+		poll = new Poll("identity1");
+		pollService.addPoll(poll);
+		List<Poll> list = pollService.getPolls();
+		Assert.assertEquals(2, list.size());
 
-        int id = list.get(0).getId();
-        int id1 = list.get(1).getId();
-        Assert.assertFalse(id == id1);
+		int id = list.get(0).getId();
+		int id1 = list.get(1).getId();
+		Assert.assertFalse(id == id1);
 
-        // Print all polls and options
-        for (Poll p : pollService.getPolls()) {
-            logger.info(p.toString());
-        }
-    }
-
-    /////////////////////////////////////////////////////
-    // TODO _nur_ anleger kann eine angelegte abstimmung verwalten
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO nutzer kann angbeben wie lange die abstimmung aktiv ist
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO nutzer kann bestimmen ob die abstimmung public
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO abstimmung kann beliebigviele optionlisten enthalten
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO abstimmung kann beliebigviele optionen enthalten
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO nutzer kann also option datum oder text angeben
-    /////////////////////////////////////////////////////
-
-    /*
-     * TODO nutzer kann datums und frei text option anlegen
-     */
-    @Test
-    public void createDateAndTextOptions() {
-        // Create options to test
-        Option wine = new Option("Wine", "red and tasty", 0);
-        Option beer = new Option("Beer", "cold and tasty", 0);
-        Option whiskey = new Option("Whiskey", "strong and tasty", 0);
-        // Create voting to test
-        Poll poll = new Poll("optiontest");
-        poll.addOption(wine);
-        poll.addOption(beer);
-        poll.addOption(whiskey);
-        pollService.addPoll(poll);
-        List<Poll> list = pollService.getPolls();
-        for (Poll p : list) {
-            if (p.getTitle().equals("optiontest")) {
-                Assert.assertEquals(3, p.getOptions().size());
-            }
-        }
-
-        // Print all polls and options
-        for (Poll p : pollService.getPolls()) {
-            logger.info(p.toString());
-            for (Option o : p.getOptions()) {
-                logger.info(o.toString());
-            }
-        }
-    }
-    /////////////////////////////////////////////////////
-    // TODO optionen können in verschiedenen sprachen eingeben un angezeigt werden
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO nutzer kann abstimmen in dem er seinen namen angbibt und seine gewählten optionen
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO interaktive abstimmungen können eingesehen werden
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO interaktive abstimmungen können nicht mehr verändert werden
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO nutzer kann abstimmungen nach titel suchen mit wildcards
-    /////////////////////////////////////////////////////
-
+		// Print all polls and options
+		for (Poll p : pollService.getPolls()) {
+			logger.info(p.toString());
+		}
+	}
 	/*
 	 * change a poll
 	 */
+
 	@Test
 	public void changePoll() {
 		// add poll
@@ -156,7 +91,7 @@ public class PollServiceTest {
 
 		GregorianCalendar tomorrow = new GregorianCalendar();
 		tomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
-		
+
 		GregorianCalendar inTwoDays = new GregorianCalendar();
 		inTwoDays.add(GregorianCalendar.DAY_OF_MONTH, 2);
 		poll.setActiveTimeSpan(tomorrow.getTime(), inTwoDays.getTime());
@@ -185,6 +120,74 @@ public class PollServiceTest {
 		for (Poll p : pollService.getPolls()) {
 			logger.info(p.toString());
 		}
+		/////////////////////////////////////////////////////
+		// TODO _nur_ anleger kann eine angelegte abstimmung verwalten
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO nutzer kann angbeben wie lange die abstimmung aktiv ist
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO nutzer kann bestimmen ob die abstimmung public
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO abstimmung kann beliebigviele optionlisten enthalten
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO abstimmung kann beliebigviele optionen enthalten
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO nutzer kann also option datum oder text angeben
+		/////////////////////////////////////////////////////
+
+		/*
+		 * TODO nutzer kann datums und frei text option anlegen
+		 */
+		@Test
+		public void createDateAndTextOptions
+
+			    () {
+        // Create options to test
+        Option wine = new Option("Wine", "red and tasty", 0);
+			Option beer = new Option("Beer", "cold and tasty", 0);
+			Option whiskey = new Option("Whiskey", "strong and tasty", 0);
+			// Create voting to test
+			Poll poll = new Poll("optiontest");
+			poll.addOption(wine);
+			poll.addOption(beer);
+			poll.addOption(whiskey);
+			pollService.addPoll(poll);
+			List<Poll> list = pollService.getPolls();
+			for (Poll p : list) {
+				if (p.getTitle().equals("optiontest")) {
+					Assert.assertEquals(3, p.getOptions().size());
+				}
+			}
+
+			// Print all polls and options
+			for (Poll p : pollService.getPolls()) {
+				logger.info(p.toString());
+				for (Option o : p.getOptions()) {
+					logger.info(o.toString());
+				}
+			}
+		}
+		/////////////////////////////////////////////////////
+		// TODO optionen können in verschiedenen sprachen eingeben un angezeigt werden
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO nutzer kann abstimmen in dem er seinen namen angbibt und seine gewählten optionen
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO interaktive abstimmungen können eingesehen werden
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO interaktive abstimmungen können nicht mehr verändert werden
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		// TODO nutzer kann abstimmungen nach titel suchen mit wildcards
+		/////////////////////////////////////////////////////
+
+
 
 	}
 }

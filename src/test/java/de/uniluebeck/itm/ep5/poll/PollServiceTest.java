@@ -120,6 +120,7 @@ public class PollServiceTest {
 
 	/*
 	 * nutzer kann angbeben wie lange die abstimmung aktiv ist
+	 * interaktive abstimmungen können eingesehen werden
 	 */
 	@Test
 	public void setActiveDatePoll() {
@@ -135,6 +136,7 @@ public class PollServiceTest {
 		// save changes
 		pollService.addPoll(poll);
 
+		// interactive poll must be in list with other polls
 		List<Poll> list = pollService.getPolls();
 		Assert.assertEquals(1, list.size());
 		poll = list.get(0);
@@ -202,9 +204,6 @@ public class PollServiceTest {
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
 	// TODO nutzer kann abstimmen in dem er seinen namen angbibt und seine gewählten optionen
-	/////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////
-	// TODO interaktive abstimmungen können eingesehen werden
 	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
 	// TODO interaktive abstimmungen können nicht mehr verändert werden

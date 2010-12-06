@@ -72,10 +72,10 @@ public class PollServiceTest {
 			logger.info(p.toString());
 		}
 	}
+
 	/*
 	 * change a poll
 	 */
-
 	@Test
 	public void changePoll() {
 		// add poll
@@ -120,74 +120,71 @@ public class PollServiceTest {
 		for (Poll p : pollService.getPolls()) {
 			logger.info(p.toString());
 		}
-		/////////////////////////////////////////////////////
-		// TODO _nur_ anleger kann eine angelegte abstimmung verwalten
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO nutzer kann angbeben wie lange die abstimmung aktiv ist
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO nutzer kann bestimmen ob die abstimmung public
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO abstimmung kann beliebigviele optionlisten enthalten
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO abstimmung kann beliebigviele optionen enthalten
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO nutzer kann also option datum oder text angeben
-		/////////////////////////////////////////////////////
-
-		/*
-		 * TODO nutzer kann datums und frei text option anlegen
-		 */
-		@Test
-		public void createDateAndTextOptions
-
-			    () {
-        // Create options to test
-        Option wine = new Option("Wine", "red and tasty", 0);
-			Option beer = new Option("Beer", "cold and tasty", 0);
-			Option whiskey = new Option("Whiskey", "strong and tasty", 0);
-			// Create voting to test
-			Poll poll = new Poll("optiontest");
-			poll.addOption(wine);
-			poll.addOption(beer);
-			poll.addOption(whiskey);
-			pollService.addPoll(poll);
-			List<Poll> list = pollService.getPolls();
-			for (Poll p : list) {
-				if (p.getTitle().equals("optiontest")) {
-					Assert.assertEquals(3, p.getOptions().size());
-				}
-			}
-
-			// Print all polls and options
-			for (Poll p : pollService.getPolls()) {
-				logger.info(p.toString());
-				for (Option o : p.getOptions()) {
-					logger.info(o.toString());
-				}
-			}
-		}
-		/////////////////////////////////////////////////////
-		// TODO optionen können in verschiedenen sprachen eingeben un angezeigt werden
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO nutzer kann abstimmen in dem er seinen namen angbibt und seine gewählten optionen
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO interaktive abstimmungen können eingesehen werden
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO interaktive abstimmungen können nicht mehr verändert werden
-		/////////////////////////////////////////////////////
-		/////////////////////////////////////////////////////
-		// TODO nutzer kann abstimmungen nach titel suchen mit wildcards
-		/////////////////////////////////////////////////////
-
-
 
 	}
+
+	/////////////////////////////////////////////////////
+	// TODO _nur_ anleger kann eine angelegte abstimmung verwalten
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO nutzer kann angbeben wie lange die abstimmung aktiv ist
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO nutzer kann bestimmen ob die abstimmung public
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO abstimmung kann beliebigviele optionlisten enthalten
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO abstimmung kann beliebigviele optionen enthalten
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO nutzer kann also option datum oder text angeben
+	/////////////////////////////////////////////////////
+
+	/*
+	 * TODO nutzer kann datums und frei text option anlegen
+	 */
+	@Test
+	public void createDateAndTextOptions() {
+		// Create options to test
+		Option wine = new Option("Wine", "red and tasty", 0);
+		Option beer = new Option("Beer", "cold and tasty", 0);
+		Option whiskey = new Option("Whiskey", "strong and tasty", 0);
+		// Create voting to test
+		Poll poll = new Poll("optiontest");
+		poll.addOption(wine);
+		poll.addOption(beer);
+		poll.addOption(whiskey);
+		pollService.addPoll(poll);
+		List<Poll> list = pollService.getPolls();
+		for (Poll p : list) {
+			if (p.getTitle().equals("optiontest")) {
+				Assert.assertEquals(3, p.getOptions().size());
+			}
+		}
+
+		// Print all polls and options
+		for (Poll p : pollService.getPolls()) {
+			logger.info(p.toString());
+			for (Option o : p.getOptions()) {
+				logger.info(o.toString());
+			}
+		}
+	}
+	/////////////////////////////////////////////////////
+	// TODO optionen können in verschiedenen sprachen eingeben un angezeigt werden
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO nutzer kann abstimmen in dem er seinen namen angbibt und seine gewählten optionen
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO interaktive abstimmungen können eingesehen werden
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO interaktive abstimmungen können nicht mehr verändert werden
+	/////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
+	// TODO nutzer kann abstimmungen nach titel suchen mit wildcards
+	/////////////////////////////////////////////////////
 }

@@ -168,37 +168,9 @@ public class PollServiceTest {
 	/////////////////////////////////////////////////////
 	// TODO abstimmung kann beliebigviele optionen enthalten
 	/////////////////////////////////////////////////////
-
-	/*
-	 * TODO nutzer kann datums und frei text option anlegen
-	 */
-	@Test
-	public void createDateAndTextOptions() {
-		// Create options to test
-		Option wine = new Option("Wine", "red and tasty", 0);
-		Option beer = new Option("Beer", "cold and tasty", 0);
-		Option whiskey = new Option("Whiskey", "strong and tasty", 0);
-		// Create voting to test
-		Poll poll = new Poll("optiontest");
-		poll.addOption(wine);
-		poll.addOption(beer);
-		poll.addOption(whiskey);
-		pollService.addPoll(poll);
-		List<Poll> list = pollService.getPolls();
-		for (Poll p : list) {
-			if (p.getTitle().equals("optiontest")) {
-				Assert.assertEquals(3, p.getOptions().size());
-			}
-		}
-
-		// Print all polls and options
-		for (Poll p : pollService.getPolls()) {
-			logger.info(p.toString());
-			for (Option o : p.getOptions()) {
-				logger.info(o.toString());
-			}
-		}
-	}
+	/////////////////////////////////////////////////////
+	// TODO nutzer kann datums und frei text option anlegen
+	/////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////
 	// TODO optionen können in verschiedenen sprachen eingeben un angezeigt werden
 	/////////////////////////////////////////////////////

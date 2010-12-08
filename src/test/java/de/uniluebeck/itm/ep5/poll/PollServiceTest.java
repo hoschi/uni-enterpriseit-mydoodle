@@ -212,7 +212,36 @@ public class PollServiceTest {
 	/////////////////////////////////////////////////////
 	// TODO interaktive abstimmungen können nicht mehr verändert werden
 	/////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////
-	// TODO nutzer kann abstimmungen nach titel suchen mit wildcards
-	/////////////////////////////////////////////////////
+
+	/*
+	 * TODO nutzer kann abstimmungen nach titel suchen mit wildcards
+	 */
+	@Test
+	public void searchTest() {
+		Poll poll = new Poll("poll");
+		pollService.addPoll(poll);
+		poll = new Poll("poll1");
+		pollService.addPoll(poll);
+		poll = new Poll("poll2");
+		pollService.addPoll(poll);
+
+		// find our poll
+		List<Poll> list = this.pollService.search("poll");
+		Assert.assertEquals(1, list.size());
+		poll = list.get(0);
+		Assert.assertEquals("poll", poll.getTitle());
+
+		list = this.pollService.search("poll*");
+		Assert.assertEquals(3, list.size());
+		poll = list.get(0);
+		Assert.assertEquals("poll", poll.getTitle());
+		poll = list.get(1);
+		Assert.assertEquals("poll1", poll.getTitle());
+		poll = list.get(2);
+		Assert.assertEquals("poll2", poll.getTitle());
+
+		list = this.pollService.search("foo");
+		Assert.assertNotNull(list);
+		Assert.assertEquals(0, list.size());
+	}
 }

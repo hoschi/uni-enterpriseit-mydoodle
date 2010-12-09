@@ -35,4 +35,30 @@ public class boPoll implements Serializable {
 	private Date startDate;
 	@Temporal(javax.persistence.TemporalType.DATE)
 	private Date endDate;
+
+	public boPoll() {
+	}
+
+	public boPoll(xoPoll poll) {
+		this.id = poll.getId();
+		this.title = poll.getTitle();
+		this.options = poll.getOptionLists();
+		this.isPublic = poll.isPublic();
+		this.startDate = poll.getStartDate();
+		this.endDate = poll.getEndDate();
+	}
+
+	public xoPoll toX() {
+		xoPoll x = new xoPoll();
+		x.setActiveTimeSpan(this.startDate, this.endDate);
+		x.setId(this.id);
+		x.setTitle(title);
+		x.setOptions(options);
+		x.isPublic(isPublic);
+		return x;
+	}
+
+	public Integer getId() {
+		return this.id;
+	}
 }

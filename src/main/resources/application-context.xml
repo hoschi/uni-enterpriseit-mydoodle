@@ -38,10 +38,6 @@
 		<constructor-arg ref="entityManagerFactory" /> </bean> -->
 
 	<!-- Our beans -->
-	<bean name="mapper" class="org.dozer.DozerBeanMapper">
-		
-	</bean>
-
 	<bean name="pollRepository"
 		class="de.uniluebeck.itm.ep5.poll.repository.PersistentPollRepository">
 	</bean>
@@ -49,7 +45,6 @@
 	<!-- This is our service object that we want to make transactional -->
 	<bean name="pollService" class="de.uniluebeck.itm.ep5.poll.service.PollServiceImpl">
 		<property name="pollRepository" ref="pollRepository" />
-		<property name="mapper" ref="mapper" />
 	</bean>
 
 </beans>

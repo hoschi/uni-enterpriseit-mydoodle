@@ -18,41 +18,30 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 
-@Entity
-@Table(name = "polls")
-public class Poll implements Serializable {
+public class xoPoll {
 
-	@Transient
-	private static final long serialVersionUID = -980869932728084332L;
-	@Id
-	@GeneratedValue
 	private Integer id;
 	private String title;
-	
-	@OneToMany
 	private List<OptionList> options;
 	private boolean isPublic;
-	@Temporal(javax.persistence.TemporalType.DATE)
 	private Date startDate;
-	@Temporal(javax.persistence.TemporalType.DATE)
 	private Date endDate;
 	
-
-	public Poll() {
+	public xoPoll() {
 	}
 
-	public Poll(String title) {
+	public xoPoll(String title) {
 		this.title = title;
 		this.options = new ArrayList<OptionList>();
 	}
 
-	public Poll(Integer id, String title, List<OptionList> options) {
+	public xoPoll(Integer id, String title, List<OptionList> options) {
 		this.id = id;
 		this.title = title;
 		this.options = options;
 	}
 
-	public Poll(String title, boolean isPublic) {
+	public xoPoll(String title, boolean isPublic) {
 		this.title = title;
 		this.isPublic = isPublic;
 	}
@@ -106,10 +95,6 @@ public class Poll implements Serializable {
 		}
 
 		return false;
-	}
-
-	public static Poll copy(Poll src) {
-		return new Poll(src.getId(), src.getTitle(), src.getOptionLists());
 	}
 
 	@Override

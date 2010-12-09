@@ -23,7 +23,7 @@ public class Option implements Serializable {
 	private String description;
 	private int votes;
 	@ManyToOne
-	private Poll poll;
+	private boPoll poll;
 
 	public Option() {
 	}
@@ -77,11 +77,11 @@ public class Option implements Serializable {
 		this.votes = votes;
 	}
 
-	public Poll getPoll() {
+	public boPoll getPoll() {
 		return poll;
 	}
 
-	public void setPoll(Poll poll) {
+	public void setPoll(boPoll poll) {
 		this.poll = poll;
 	}
 

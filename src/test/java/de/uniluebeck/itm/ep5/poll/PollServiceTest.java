@@ -13,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.uniluebeck.itm.ep5.poll.domain.Option;
 import de.uniluebeck.itm.ep5.poll.domain.OptionList;
-import de.uniluebeck.itm.ep5.poll.domain.Poll;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.domain.TextOption;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
 import java.util.GregorianCalendar;
@@ -42,16 +42,17 @@ public class PollServiceTest {
 	 */
 	@Test
 	public void addPoll() {
-		Poll poll = new Poll("createpoll");
+		xoPoll poll = new xoPoll("createpoll");
 		pollService.addPoll(poll);
 
-		List<Poll> list = pollService.getPolls();
+		List<xoPoll> list = pollService.getPolls();
 		Assert.assertEquals(1, list.size());
-
+		Assert.assertEquals("createpoll", list.get(0).getTitle());
+/*
 		// Print all polls and options
-		for (Poll p : pollService.getPolls()) {
+		for (xoPoll p : pollService.getPolls()) {
 			logger.info(p.toString());
-		}
+		}*/
 	}
 
 	/*
@@ -59,12 +60,12 @@ public class PollServiceTest {
 	 */
 	@Test
 	public void createPollId() {
-		Poll poll = new Poll("identity");
+		xoPoll poll = new xoPoll("identity");
 		pollService.addPoll(poll);
 
-		poll = new Poll("identity1");
+		poll = new xoPoll("identity1");
 		pollService.addPoll(poll);
-		List<Poll> list = pollService.getPolls();
+		List<xoPoll> list = pollService.getPolls();
 		Assert.assertEquals(2, list.size());
 
 		int id = list.get(0).getId();
@@ -72,7 +73,7 @@ public class PollServiceTest {
 		Assert.assertFalse(id == id1);
 
 		// Print all polls and options
-		for (Poll p : pollService.getPolls()) {
+		for (xoPoll p : pollService.getPolls()) {
 			logger.info(p.toString());
 		}
 	}
@@ -84,7 +85,7 @@ public class PollServiceTest {
 	@Test
 	public void changePoll() {
 		// add poll
-		Poll poll = new Poll("changepoll", false);
+		xoPoll poll = new xoPoll("changepoll", false);
 		pollService.addPoll(poll);
 		Assert.assertEquals("changepoll", poll.getTitle());
 		Assert.assertEquals(false, poll.isPublic());
@@ -103,7 +104,7 @@ public class PollServiceTest {
 		// save changes
 		pollService.updatePoll(poll);
 
-		List<Poll> list = pollService.getPolls();
+		List<xoPoll> list = pollService.getPolls();
 		Assert.assertEquals(1, list.size());
 		poll = list.get(0);
 		Assert.assertEquals("blubb", poll.getTitle());
@@ -129,7 +130,7 @@ public class PollServiceTest {
 	@Test
 	public void setActiveDatePoll() {
 		// add poll
-		Poll poll = new Poll("setActiveDatePoll");
+		xoPoll poll = new xoPoll("setActiveDatePoll");
 
 		GregorianCalendar tomorrow = new GregorianCalendar();
 		tomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
@@ -141,7 +142,7 @@ public class PollServiceTest {
 		pollService.addPoll(poll);
 
 		// interactive poll must be in list with other polls
-		List<Poll> list = pollService.getPolls();
+		List<xoPoll> list = pollService.getPolls();
 		Assert.assertEquals(1, list.size());
 		poll = list.get(0);
 		Assert.assertEquals(false, poll.isActive());
@@ -178,12 +179,12 @@ public class PollServiceTest {
 		olist.addOption(date);
 		olist.addOption(text);
 
-		Poll poll = new Poll("poll");
+		xoPoll poll = new xoPoll("poll");
 		poll.addOptionList(olist);
 
 		// save changes
 		pollService.addPoll(poll);
-		List<Poll> list = pollService.getPolls();
+		List<xoPoll> list = pollService.getPolls();
 		Assert.assertEquals(1, list.size());
 
 		poll = list.get(0);
@@ -218,15 +219,15 @@ public class PollServiceTest {
 	 */
 	@Test
 	public void searchTest() {
-		Poll poll = new Poll("poll");
+		xoPoll poll = new xoPoll("poll");
 		pollService.addPoll(poll);
-		poll = new Poll("poll1");
+		poll = new xoPoll("poll1");
 		pollService.addPoll(poll);
-		poll = new Poll("poll2");
+		poll = new xoPoll("poll2");
 		pollService.addPoll(poll);
 
 		// find our poll
-		List<Poll> list = this.pollService.search("poll");
+		List<xoPoll> list = this.pollService.search("poll");
 		Assert.assertEquals(1, list.size());
 		poll = list.get(0);
 		Assert.assertEquals("poll", poll.getTitle());

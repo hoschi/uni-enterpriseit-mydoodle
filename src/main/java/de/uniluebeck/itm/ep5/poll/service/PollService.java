@@ -2,15 +2,16 @@ package de.uniluebeck.itm.ep5.poll.service;
 
 import java.util.List;
 
-import de.uniluebeck.itm.ep5.poll.domain.Poll;
+import de.uniluebeck.itm.ep5.poll.domain.boPoll;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 
 public interface PollService {
 
-	void addPoll(Poll poll);
+	void addPoll(xoPoll poll);
 
-	void updatePoll(Poll poll);
+	void updatePoll(xoPoll poll);
 
-	List<Poll> getPolls();
+	List<xoPoll> getPolls();
 
-	List<Poll> search(String search);
+	List<xoPoll> search(String search);
 }

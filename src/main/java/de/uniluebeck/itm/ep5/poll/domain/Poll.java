@@ -28,10 +28,8 @@ public class Poll implements Serializable {
 	@GeneratedValue
 	private Integer id;
 	private String title;
-	// Default fetch type would be LAZY. But lazy fetching does not work
-	// when the session/transaction is already closed at the time the
-	// options list's lazy initialization is triggered.
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = OptionList.class)
+	
+	@OneToMany
 	private List<OptionList> options;
 	private boolean isPublic;
 	@Temporal(javax.persistence.TemporalType.DATE)

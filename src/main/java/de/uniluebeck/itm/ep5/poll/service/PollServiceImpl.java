@@ -15,21 +15,29 @@ public class PollServiceImpl implements PollService {
 	private PollRepository pollRepository;
 
 	@Transactional
+	@Override
 	public void addPoll(Poll poll) {
 		pollRepository.add(poll);
 	}
 
 	@Transactional
+	@Override
 	public void updatePoll(Poll poll) {
 		pollRepository.update(poll);
 	}
 
 	@Transactional(readOnly = true)
+	@Override
 	public List<Poll> getPolls() {
-		return pollRepository.findAll();
+		List<Poll> all = pollRepository.findAll();
+		for (Poll p : all) {
+			p.toString();
+		}
+		return all;
 	}
 
 	@Transactional(readOnly = true)
+	@Override
 	public List<Poll> search(String search) {
 		List<Poll> list = new ArrayList<Poll>();
 		Wildcard wildcard = new Wildcard(search);

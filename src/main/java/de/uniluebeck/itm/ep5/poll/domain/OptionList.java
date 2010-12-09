@@ -22,11 +22,9 @@ public class OptionList implements Serializable {
 	@GeneratedValue
 	private Integer id;
 	private String title;
-	@OneToMany(cascade = CascadeType.ALL, //fetch = FetchType.EAGER,
-	targetEntity = DateOption.class)
+	@OneToMany(targetEntity = DateOption.class)
 	private List<IOption> dates;
-	@OneToMany(cascade = CascadeType.ALL, //fetch = FetchType.EAGER,
-	targetEntity = TextOption.class)
+	@OneToMany(targetEntity = TextOption.class)
 	private List<IOption> texts;
 
 	public OptionList() {

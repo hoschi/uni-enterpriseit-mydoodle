@@ -214,7 +214,7 @@ public class PollServiceTest {
 	/////////////////////////////////////////////////////
 
 	/*
-	 * TODO nutzer kann abstimmungen nach titel suchen mit wildcards
+	 * nutzer kann abstimmungen nach titel suchen mit wildcards
 	 */
 	@Test
 	public void searchTest() {

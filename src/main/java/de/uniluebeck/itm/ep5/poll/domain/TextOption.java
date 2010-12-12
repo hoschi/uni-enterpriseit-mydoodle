@@ -32,5 +32,16 @@ public class TextOption implements IOption, Serializable {
 	public String getText() {
 		return text;
 	}
+	
+	public void setOptionList(OptionList list) {
+		this.list = list;
+	}
+	
+	public Object clone() {
+		TextOption result = new TextOption();
+		result.id = id;
+		result.text = text;
+		return result;
+	}
 
 }

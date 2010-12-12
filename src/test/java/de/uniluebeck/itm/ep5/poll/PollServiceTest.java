@@ -60,7 +60,7 @@ public class PollServiceTest {
 	 * beim anlegen einer abstimmung wird eine eindeutige ID angeleget
 	 */
 	@Test
-	@Ignore // TODO hier muss noch option list in boPoll richtig copiert werden
+	//@Ignore // TODO hier muss noch option list in boPoll richtig copiert werden
 	public void createPollId() {
 		xoPoll poll = new xoPoll("identity");
 		pollService.addPoll(poll);

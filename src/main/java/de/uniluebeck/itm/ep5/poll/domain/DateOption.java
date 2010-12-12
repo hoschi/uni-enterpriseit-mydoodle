@@ -26,5 +26,15 @@ public class DateOption implements IOption, Serializable {
 	public Date getDate() {
 		return GregorianCalendar.getInstance().getTime();
 	}
+	
+	public void setOptionList(OptionList list) {
+		this.list = list;
+	}
+	
+	public Object clone() {
+		DateOption result = new DateOption();
+		result.id = id;
+		return result;
+	}
 
 }

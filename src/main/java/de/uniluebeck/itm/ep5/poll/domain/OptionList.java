@@ -43,9 +43,26 @@ public class OptionList implements Serializable {
 	}
 
 	public List<IOption> getOptions() {
-		List<IOption> list = new ArrayList();
+		List<IOption> list = new ArrayList<IOption>();
 		list.addAll(this.dates);
 		list.addAll(this.texts);
 		return list;
+	}
+	
+	public Object clone() {
+		OptionList result = new OptionList();
+		result.id = id;
+		result.title = title;
+		for (IOption o : dates) {
+			DateOption clone = (DateOption)((DateOption)o).clone();
+			clone.setOptionList(result);
+			result.dates.add(clone);
+		}
+		for (IOption o : texts) {
+			TextOption clone = (TextOption)((TextOption)o).clone();
+			clone.setOptionList(result);
+			result.texts.add(clone);
+		}
+		return result;
 	}
 }

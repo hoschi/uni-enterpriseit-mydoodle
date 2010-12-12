@@ -1,16 +1,11 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
-import static java.lang.String.format;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -42,7 +37,9 @@ public class boPoll implements Serializable {
 	public boPoll(xoPoll poll) {
 		this.id = poll.getId();
 		this.title = poll.getTitle();
-		this.options = poll.getOptionLists();
+		
+		this.options = cloneList(poll.getOptionLists());
+		
 		this.isPublic = poll.isPublic();
 		this.startDate = poll.getStartDate();
 		this.endDate = poll.getEndDate();
@@ -53,9 +50,19 @@ public class boPoll implements Serializable {
 		x.setActiveTimeSpan(this.startDate, this.endDate);
 		x.setId(this.id);
 		x.setTitle(title);
-		x.setOptions(options);
+		
+		x.setOptions(cloneList(options));
+		
 		x.isPublic(isPublic);
 		return x;
+	}
+	
+	private static <T> List<T> cloneList(List<T> list) {
+		if (list == null)
+			return null;
+		List<T> result = new LinkedList<T>();
+		result.addAll(list);
+		return result;
 	}
 
 	public Integer getId() {

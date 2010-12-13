@@ -24,6 +24,7 @@ public class PollServiceImpl implements PollService {
         //boPoll b = mapper.map(poll, boPoll.class);
         boPoll b = PollMapper.createBO(poll);
         pollRepository.add(b);
+		poll.setId(b.getId());
     }
 
     @Transactional

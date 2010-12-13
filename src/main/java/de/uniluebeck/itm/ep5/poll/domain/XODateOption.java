@@ -1,11 +1,9 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class XODateOption implements IOption, Serializable {
-    private static final long serialVersionUID = -2030218482407285034L;
+public class XODateOption implements IOption {
 
     private Integer id;
 

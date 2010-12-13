@@ -6,9 +6,11 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
 import java.io.Serializable;
-import java.util.Locale;
+
 import javax.persistence.Entity;
-import javax.persistence.*;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  *

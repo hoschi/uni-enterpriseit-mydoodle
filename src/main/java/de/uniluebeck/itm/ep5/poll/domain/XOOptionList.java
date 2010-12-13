@@ -1,25 +1,13 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+public class XOOptionList  {
 
-public class XOOptionList implements Serializable {
-
-    @Transient
-    private static final long serialVersionUID = -2030218482407285034L;
-    @Id
-    @GeneratedValue
     private Integer id;
     private String title;
-    @OneToMany(targetEntity = BODateOption.class)
     private List<IOption> dates;
-    @OneToMany(targetEntity = BOTextOption.class)
     private List<IOption> texts;
 
     public XOOptionList() {

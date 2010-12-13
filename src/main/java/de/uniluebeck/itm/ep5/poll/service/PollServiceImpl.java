@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.uniluebeck.itm.ep5.poll.domain.BODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.BOLocalizedString;
 import de.uniluebeck.itm.ep5.poll.domain.BOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.BOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
@@ -13,6 +14,7 @@ import de.uniluebeck.itm.ep5.poll.domain.PollMapper;
 import de.uniluebeck.itm.ep5.poll.domain.boPoll;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.repository.DateOptionRepository;
+import de.uniluebeck.itm.ep5.poll.repository.LocalizedStringRepository;
 import de.uniluebeck.itm.ep5.poll.repository.OptionListRepository;
 import de.uniluebeck.itm.ep5.poll.repository.PollRepository;
 import de.uniluebeck.itm.ep5.poll.repository.TextOptionRepository;
@@ -26,6 +28,7 @@ public class PollServiceImpl implements PollService {
     private OptionListRepository optionListRepository;
     private TextOptionRepository textOptionRepository;
     private DateOptionRepository dateOptionRepository;
+    private LocalizedStringRepository localizedStringRepository;
 
     @Transactional
     @Override
@@ -61,10 +64,25 @@ public class PollServiceImpl implements PollService {
 	}
 
 	private void handleTextOption(BOTextOption option) {
+		handleLocalizedStrings(option.getStrings());
 		if (option.getId() == null) {
 			textOptionRepository.add(option);
 		} else {
 			textOptionRepository.update(option);
+		}
+	}
+
+	private void handleLocalizedStrings(List<BOLocalizedString> strings) {
+		for (BOLocalizedString string : strings) {
+			handleLocalizedString(string);
+		}
+	}
+
+	private void handleLocalizedString(BOLocalizedString string) {
+		if (string.getId() == null) {
+			localizedStringRepository.add(string);
+		} else {
+			localizedStringRepository.update(string);
 		}
 	}
 
@@ -126,11 +144,6 @@ public class PollServiceImpl implements PollService {
         this.pollRepository = pollRepository;
     }
     
-
-    /**
-     * Used by Spring to inject the OptionListRepository.
-     * @param optionListRepository
-     */
     public void setOptionListRepository(OptionListRepository optionListRepository) {
 		this.optionListRepository = optionListRepository;
 	}
@@ -141,5 +154,10 @@ public class PollServiceImpl implements PollService {
 
 	public void setDateOptionRepository(DateOptionRepository dateOptionRepository) {
 		this.dateOptionRepository = dateOptionRepository;
+	}
+	
+	public void setLocalizedStringRepository(
+			LocalizedStringRepository localizedStringRepository) {
+		this.localizedStringRepository = localizedStringRepository;
 	}
 }

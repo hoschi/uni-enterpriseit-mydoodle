@@ -60,9 +60,28 @@ public class PollMapper {
     public static BOTextOption createBO(BOOptionList parentList, XOTextOption option) {
         BOTextOption result = new BOTextOption();
         result.setId(option.getId());
-        //result.setStrings(option.getStrings());
+        result.setStrings(createBOLocalizedStrings(option.getStrings()));
         result.setList(parentList);
         return result;
+    }
+    
+    public static List<BOLocalizedString> createBOLocalizedStrings(List<XOLocalizedString> strings) {
+    	if (strings == null) {
+    		return null;
+    	}
+    	List<BOLocalizedString> result = new LinkedList<BOLocalizedString>();
+    	for (XOLocalizedString string : strings) {
+    		result.add(createBO(string));
+    	}
+    	return result;
+    }
+    
+    public static BOLocalizedString createBO(XOLocalizedString string) {
+    	BOLocalizedString result = new BOLocalizedString();
+    	result.setId(string.getId());
+    	result.setLocale(string.getLocale());
+    	result.setText(string.getText());
+    	return result;
     }
 
 
@@ -124,8 +143,30 @@ public class PollMapper {
     public static XOTextOption createXO(XOOptionList parentList, BOTextOption option) {
         XOTextOption result = new XOTextOption();
         result.setId(option.getId());
-        //result.setStrings(option.getStrings());
+        result.setStrings(createXOLocalizedStrings(option.getStrings()));
         result.setList(parentList);
         return result;
     }
+    
+    public static List<XOLocalizedString> createXOLocalizedStrings(List<BOLocalizedString> strings) {
+    	if (strings == null) {
+    		return null;
+    	}
+    	List<XOLocalizedString> result = new LinkedList<XOLocalizedString>();
+    	for (BOLocalizedString string : strings) {
+    		result.add(createXO(string));
+    	}
+    	return result;
+    }
+    
+    public static XOLocalizedString createXO(BOLocalizedString string) {
+    	XOLocalizedString result = new XOLocalizedString();
+    	result.setId(string.getId());
+    	result.setLocale(string.getLocale());
+    	result.setText(string.getText());
+    	return result;
+    }
+    
+    
+    
 }

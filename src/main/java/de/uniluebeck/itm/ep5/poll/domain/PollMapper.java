@@ -60,7 +60,7 @@ public class PollMapper {
     public static BOTextOption createBO(BOOptionList parentList, XOTextOption option) {
         BOTextOption result = new BOTextOption();
         result.setId(option.getId());
-        result.setText(option.getText());
+        result.setStrings(option.getStrings());
         result.setList(parentList);
         return result;
     }
@@ -124,7 +124,7 @@ public class PollMapper {
     public static XOTextOption createXO(XOOptionList parentList, BOTextOption option) {
         XOTextOption result = new XOTextOption();
         result.setId(option.getId());
-        result.setText(option.getText());
+        result.setStrings(option.getStrings());
         result.setList(parentList);
         return result;
     }

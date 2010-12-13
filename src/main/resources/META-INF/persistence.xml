@@ -4,6 +4,7 @@
     <class>de.uniluebeck.itm.ep5.poll.domain.BODateOption</class>
     <class>de.uniluebeck.itm.ep5.poll.domain.BOOptionList</class>
     <class>de.uniluebeck.itm.ep5.poll.domain.BOTextOption</class>
+    <class>de.uniluebeck.itm.ep5.poll.domain.BOLocalizedString</class>
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>de.uniluebeck.itm.ep5.poll.domain.boPoll</class>
     <properties>

@@ -1,21 +1,16 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
 import java.io.Serializable;
+import java.util.*;
 
 public class XOTextOption implements IOption, Serializable {
     private static final long serialVersionUID = -2030218482407285034L;
     private Integer id;
     private XOOptionList list;
-    private String text;
+    private List<BOLocalizedString> strings;
 
     public XOTextOption() {
-    }
-
-    public XOTextOption(String text){
-        this.text = text;
-    }
-    public String getText() {
-        return text;
+        this.strings = new ArrayList<BOLocalizedString>();
     }
 
     /**
@@ -47,10 +42,22 @@ public class XOTextOption implements IOption, Serializable {
     }
 
     /**
-     * @param text the text to set
+     * @return the strings
      */
-    public void setText(String text) {
-        this.text = text;
+    public List<BOLocalizedString> getStrings() {
+        return strings;
+    }
+
+    /**
+     * @param strings the strings to set
+     */
+    public void setStrings(List<BOLocalizedString> strings) {
+        this.strings = strings;
+    }
+
+    public void addString(String text, String locale) {
+        BOLocalizedString s = new BOLocalizedString(text, locale);
+        this.strings.add(s);
     }
 
 }

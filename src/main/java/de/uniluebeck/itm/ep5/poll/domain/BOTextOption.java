@@ -6,6 +6,7 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
 import java.io.Serializable;
+import java.util.*;
 import javax.persistence.*;
 
 /**
@@ -21,16 +22,11 @@ public class BOTextOption implements IOption, Serializable {
     private Integer id;
     @ManyToOne
     private BOOptionList list;
-    private String text;
+    @OneToMany
+    private List<BOLocalizedString> strings;
 
     public BOTextOption() {
-    }
-
-    public BOTextOption(String text){
-        this.text = text;
-    }
-    public String getText() {
-        return text;
+        this.strings = new ArrayList<BOLocalizedString>();
     }
 
     /**
@@ -61,11 +57,19 @@ public class BOTextOption implements IOption, Serializable {
         this.list = list;
     }
 
+
     /**
-     * @param text the text to set
+     * @return the strings
      */
-    public void setText(String text) {
-        this.text = text;
+    public List<BOLocalizedString> getStrings() {
+        return strings;
+    }
+
+    /**
+     * @param strings the strings to set
+     */
+    public void setStrings(List<BOLocalizedString> strings) {
+        this.strings = strings;
     }
 
 }

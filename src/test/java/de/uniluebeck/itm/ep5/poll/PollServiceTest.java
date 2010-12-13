@@ -156,9 +156,8 @@ public class PollServiceTest {
      * TODO abstimmung kann beliebigviele optionlisten enthalten
      */
     @Test
-	//@Ignore
     public void setOptionList() {
-        XOTextOption text = new XOTextOption("test");
+        XOTextOption text = new XOTextOption();
         XODateOption date = new XODateOption();
 
         XOOptionList olist = new XOOptionList();
@@ -180,10 +179,39 @@ public class PollServiceTest {
         olist = listOfOptionLists.get(0);
         List<IOption> options = olist.getOptions();
         Assert.assertEquals(2, options.size());
-
-
-
     }
+
+    @Test
+    public void setTextOptions() {
+        XOTextOption text = new XOTextOption();
+        text.addString("hello", "EN-en");
+        text.addString("hallo", "DE-de");
+
+        XOOptionList olist = new XOOptionList();
+        olist.addOption(text);
+
+        xoPoll poll = new xoPoll("poll");
+        poll.addOptionList(olist);
+
+        // save changes
+        pollService.addPoll(poll);
+        List<xoPoll> list = pollService.getPolls();
+        Assert.assertEquals(1, list.size());
+
+        poll = list.get(0);
+        List<XOOptionList> listOfOptionLists = poll.getOptionLists();
+        Assert.assertEquals(1, list.size());
+
+        olist = listOfOptionLists.get(0);
+        List<IOption> options = olist.getOptions();
+        Assert.assertEquals(1, options.size());
+
+        Assert.assertTrue(options.get(0) instanceof XOTextOption);
+        XOTextOption t = (XOTextOption) options.get(0);
+        Assert.assertEquals(2, t.getStrings().size());
+    }
+
+
     /////////////////////////////////////////////////////
     // TODO abstimmung kann beliebigviele optionen enthalten
     /////////////////////////////////////////////////////

@@ -97,12 +97,13 @@ public class PollServiceTest {
         poll.setTitle("blubb");
         poll.setPublic(true);
 
-        GregorianCalendar tomorrow = new GregorianCalendar();
-        tomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
+        GregorianCalendar yesterday = new GregorianCalendar();
+        yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
+        
 
         GregorianCalendar inTwoDays = new GregorianCalendar();
         inTwoDays.add(GregorianCalendar.DAY_OF_MONTH, 2);
-        poll.setActiveTimeSpan(tomorrow.getTime(), inTwoDays.getTime());
+        poll.setActiveTimeSpan(yesterday.getTime(), inTwoDays.getTime());
         // save changes
         pollService.updatePoll(poll);
 
@@ -111,18 +112,7 @@ public class PollServiceTest {
         poll = list.get(0);
         Assert.assertEquals("blubb", poll.getTitle());
         Assert.assertEquals(true, poll.isPublic());
-        Assert.assertEquals(false, poll.isActive());
-
-        // test other date cases
-        GregorianCalendar yesterday = new GregorianCalendar();
-        yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
-        poll.setActiveTimeSpan(yesterday.getTime(), inTwoDays.getTime());
         Assert.assertEquals(true, poll.isActive());
-
-        GregorianCalendar beforeTwoDays = new GregorianCalendar();
-        beforeTwoDays.add(GregorianCalendar.DAY_OF_MONTH, -2);
-        poll.setActiveTimeSpan(beforeTwoDays.getTime(), yesterday.getTime());
-        Assert.assertEquals(false, poll.isActive());
     }
 
     /*
@@ -133,6 +123,7 @@ public class PollServiceTest {
     public void setActiveDatePoll() {
         // add poll
         xoPoll poll = new xoPoll("setActiveDatePoll");
+        Assert.assertEquals(true, poll.isActive());
 
         GregorianCalendar tomorrow = new GregorianCalendar();
         tomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
@@ -153,19 +144,11 @@ public class PollServiceTest {
         GregorianCalendar yesterday = new GregorianCalendar();
         yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
         poll.setActiveTimeSpan(yesterday.getTime(), inTwoDays.getTime());
-        pollService.updatePoll(poll);
-        list = pollService.getPolls();
-        Assert.assertEquals(1, list.size());
-        poll = list.get(0);
         Assert.assertEquals(true, poll.isActive());
 
         GregorianCalendar beforeTwoDays = new GregorianCalendar();
         beforeTwoDays.add(GregorianCalendar.DAY_OF_MONTH, -2);
         poll.setActiveTimeSpan(beforeTwoDays.getTime(), yesterday.getTime());
-        pollService.updatePoll(poll);
-        list = pollService.getPolls();
-        Assert.assertEquals(1, list.size());
-        poll = list.get(0);
         Assert.assertEquals(false, poll.isActive());
     }
 
@@ -216,7 +199,7 @@ public class PollServiceTest {
     /*
      * interaktive abstimmungen können nicht mehr verändert werden
      */
-    @Test(expected= InactiveExcepiton.class)
+    @Test(expected=InactiveExcepiton.class)
     public void dontUpdateInactivePolls() {
         // add poll
         xoPoll poll = new xoPoll("changepoll", false);

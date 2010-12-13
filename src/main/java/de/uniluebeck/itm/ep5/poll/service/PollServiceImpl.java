@@ -9,6 +9,7 @@ import de.uniluebeck.itm.ep5.poll.domain.PollMapper;
 import de.uniluebeck.itm.ep5.poll.domain.boPoll;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.repository.PollRepository;
+import de.uniluebeck.itm.ep5.util.InactiveExcepiton;
 import de.uniluebeck.itm.ep5.util.Wildcard;
 
 public class PollServiceImpl implements PollService {
@@ -27,6 +28,8 @@ public class PollServiceImpl implements PollService {
     @Transactional
     @Override
     public void updatePoll(xoPoll poll) {
+        if (!poll.isActive())
+            throw new InactiveExcepiton("you can't do this");
         boPoll b = PollMapper.createBO(poll);
         pollRepository.update(b);
     }

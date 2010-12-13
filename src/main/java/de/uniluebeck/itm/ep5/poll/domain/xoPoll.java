@@ -122,14 +122,4 @@ public class xoPoll {
         this.endDate = end;
     }
 
-	Date getStartDate() {
-		return this.startDate;
-	}
-
-	Date getEndDate() {
-		return this.endDate;
-	}
-
-
-
 }

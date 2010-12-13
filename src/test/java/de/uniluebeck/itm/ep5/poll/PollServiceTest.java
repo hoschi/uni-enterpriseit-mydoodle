@@ -19,6 +19,7 @@ import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
+import de.uniluebeck.itm.ep5.util.InactiveExcepiton;
 import org.junit.Ignore;
 
 public class PollServiceTest {
@@ -212,9 +213,35 @@ public class PollServiceTest {
     /////////////////////////////////////////////////////
     // TODO nutzer kann abstimmen in dem er seinen namen angbibt und seine gewählten optionen
     /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO interaktive abstimmungen können nicht mehr verändert werden
-    /////////////////////////////////////////////////////
+    /*
+     * interaktive abstimmungen können nicht mehr verändert werden
+     */
+    @Test(expected= InactiveExcepiton.class)
+    public void dontUpdateInactivePolls() {
+        // add poll
+        xoPoll poll = new xoPoll("changepoll", false);
+        pollService.addPoll(poll);
+        List<xoPoll> list = pollService.getPolls();
+        Assert.assertEquals(1, list.size());
+        poll = list.get(0);
+
+        // set inactive
+        GregorianCalendar yesterday = new GregorianCalendar();
+        yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
+        GregorianCalendar beforeTwoDays = new GregorianCalendar();
+        beforeTwoDays.add(GregorianCalendar.DAY_OF_MONTH, -2);
+        poll.setActiveTimeSpan(beforeTwoDays.getTime(), yesterday.getTime());
+
+        // if poll is not active -> don't allow an update
+        Assert.assertEquals(false, poll.isActive());
+        Assert.assertEquals("changepoll", poll.getTitle());
+        Assert.assertEquals(false, poll.isPublic());
+
+        // change it
+        poll.setTitle("blubb");
+        poll.setPublic(true);
+        pollService.updatePoll(poll);
+    }
 
     /*
      * nutzer kann abstimmungen nach titel suchen mit wildcards

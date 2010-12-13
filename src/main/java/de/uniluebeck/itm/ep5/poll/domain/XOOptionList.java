@@ -29,9 +29,9 @@ public class XOOptionList implements Serializable {
 
     public void addOption(IOption option) {
 		// TODO muss noch von xo nach bo convertiert werden
-        if (option instanceof BODateOption) {
+        if (option instanceof XODateOption) {
             this.dates.add(option);
-        } else if (option instanceof BOTextOption) {
+        } else if (option instanceof XOTextOption) {
             this.texts.add(option);
         } else {
             throw new RuntimeException("no known option type");

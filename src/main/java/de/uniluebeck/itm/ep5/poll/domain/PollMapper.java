@@ -55,6 +55,7 @@ public class PollMapper {
         BODateOption result = new BODateOption();
         result.setId(option.getId());
         result.setList(parentList);
+        result.setVotes(new ArrayList<String>(option.getVotes()));
         return result;
     }
 
@@ -139,6 +140,7 @@ public class PollMapper {
         XODateOption result = new XODateOption();
         result.setId(option.getId());
         result.setList(parentList);
+        result.setVotes(new ArrayList<String>(option.getVotes()));
         return result;
     }
 

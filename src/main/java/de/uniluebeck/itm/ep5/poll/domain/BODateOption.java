@@ -6,8 +6,11 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -23,11 +26,16 @@ public class BODateOption implements IOption, Serializable {
     private Integer id;
     @ManyToOne
     private BOOptionList list;
+    @ElementCollection
+    private List<String> votes;
+    
     public Date getDate() {
         return GregorianCalendar.getInstance().getTime();
     }
 
-    public BODateOption() {}
+    public BODateOption() {
+        this.setVotes(new ArrayList<String>());
+    }
 
     /**
      * @return the id
@@ -56,6 +64,20 @@ public class BODateOption implements IOption, Serializable {
     public void setList(BOOptionList list) {
         this.list = list;
     }
+
+	/**
+	 * @param votes the votes to set
+	 */
+	public void setVotes(List<String> votes) {
+		this.votes = votes;
+	}
+
+	/**
+	 * @return the votes
+	 */
+	public List<String> getVotes() {
+		return votes;
+	}
 
 
 }

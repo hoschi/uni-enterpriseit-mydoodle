@@ -8,16 +8,23 @@ import java.util.List;
 public class XODateOption implements IOption {
 
     private Integer id;
-
+	private Date date;
     private XOOptionList list;
     private List<String> votes;
-    public Date getDate() {
-        return GregorianCalendar.getInstance().getTime();
-    }
 
     public XODateOption() {
         this.setVotes(new ArrayList<String>());
     }
+
+	public XODateOption(Date date) {
+        this.setVotes(new ArrayList<String>());
+		this.date = date;
+    }
+
+    public Date getDate() {
+        return GregorianCalendar.getInstance().getTime();
+    }
+
 
     /**
      * @return the id
@@ -68,6 +75,12 @@ public class XODateOption implements IOption {
 	
 	public void removeVote(String voter) {
 		this.votes.remove(voter);
+	}
+
+	/**
+	 * @param date the date to set
+	 */ public void setDate(Date date) {
+		this.date = date;
 	}
 
 }

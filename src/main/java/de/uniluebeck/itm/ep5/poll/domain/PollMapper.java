@@ -54,6 +54,7 @@ public class PollMapper {
     public static BODateOption createBO(BOOptionList parentList, XODateOption option) {
         BODateOption result = new BODateOption();
         result.setId(option.getId());
+		result.setDate(option.getDate());
         result.setList(parentList);
         result.setVotes(new ArrayList<String>(option.getVotes()));
         return result;
@@ -139,6 +140,7 @@ public class PollMapper {
     public static XODateOption createXO(XOOptionList parentList, BODateOption option) {
         XODateOption result = new XODateOption();
         result.setId(option.getId());
+		result.setDate(option.getDate());
         result.setList(parentList);
         result.setVotes(new ArrayList<String>(option.getVotes()));
         return result;

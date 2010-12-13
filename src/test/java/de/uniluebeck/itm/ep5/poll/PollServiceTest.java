@@ -181,6 +181,60 @@ public class PollServiceTest {
         Assert.assertEquals(2, options.size());
     }
 
+	/*
+	 * abstimmung kann beliebigviele optionen enthalten
+	 * nutzer kann datums und frei text option anlegen
+	 */
+    @Test
+    public void setDateOptions() {
+        XODateOption date = null;
+		XOOptionList olist = new XOOptionList();
+
+		GregorianCalendar yesterday = new GregorianCalendar();
+        yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
+        GregorianCalendar beforeTwoDays = new GregorianCalendar();
+        beforeTwoDays.add(GregorianCalendar.DAY_OF_MONTH, -2);
+		GregorianCalendar tomorrow = new GregorianCalendar();
+        tomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
+        GregorianCalendar inTwoDays = new GregorianCalendar();
+        inTwoDays.add(GregorianCalendar.DAY_OF_MONTH, 2);
+
+		date = new XODateOption(yesterday.getTime());
+        olist.addOption(date);
+		date = new XODateOption(beforeTwoDays.getTime());
+        olist.addOption(date);
+		date = new XODateOption(tomorrow.getTime());
+        olist.addOption(date);
+		date = new XODateOption(inTwoDays.getTime());
+        olist.addOption(date);
+
+        xoPoll poll = new xoPoll("poll");
+        poll.addOptionList(olist);
+
+        // save changes
+        pollService.addPoll(poll);
+        List<xoPoll> list = pollService.getPolls();
+        Assert.assertEquals(1, list.size());
+
+        poll = list.get(0);
+        List<XOOptionList> listOfOptionLists = poll.getOptionLists();
+        Assert.assertEquals(1, list.size());
+
+        olist = listOfOptionLists.get(0);
+        List<IOption> options = olist.getOptions();
+        Assert.assertEquals(4, options.size());
+
+		for (IOption io : options) {
+			Assert.assertTrue(io instanceof XODateOption);
+		}
+        
+    }
+
+	/*
+	 * abstimmung kann beliebigviele optionen enthalten
+	 * nutzer kann datums und frei text option anlegen
+	 * optionen können in verschiedenen sprachen eingeben un angezeigt werden
+	 */
     @Test
     public void setTextOptions() {
         XOTextOption text = new XOTextOption();
@@ -211,16 +265,6 @@ public class PollServiceTest {
         Assert.assertEquals(2, t.getStrings().size());
     }
 
-
-    /////////////////////////////////////////////////////
-    // TODO abstimmung kann beliebigviele optionen enthalten
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO nutzer kann datums und frei text option anlegen
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO optionen können in verschiedenen sprachen eingeben un angezeigt werden
-    /////////////////////////////////////////////////////
     /////////////////////////////////////////////////////
     // TODO nutzer kann abstimmen in dem er seinen namen angbibt und seine gewählten optionen
     /////////////////////////////////////////////////////

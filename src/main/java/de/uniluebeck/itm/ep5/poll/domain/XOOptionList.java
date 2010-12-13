@@ -28,6 +28,7 @@ public class XOOptionList implements Serializable {
     }
 
     public void addOption(IOption option) {
+		// TODO muss noch von xo nach bo convertiert werden
         if (option instanceof BODateOption) {
             this.dates.add(option);
         } else if (option instanceof BOTextOption) {
@@ -38,6 +39,7 @@ public class XOOptionList implements Serializable {
     }
 
     public List<IOption> getOptions() {
+		// TODO muss noch von bo nach xo convertiert werden
         List<IOption> list = new ArrayList<IOption>();
         list.addAll(this.dates);
         list.addAll(this.texts);

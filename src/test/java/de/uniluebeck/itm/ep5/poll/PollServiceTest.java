@@ -19,6 +19,7 @@ import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
+import org.junit.Ignore;
 
 public class PollServiceTest {
 
@@ -170,7 +171,8 @@ public class PollServiceTest {
     /*
      * TODO abstimmung kann beliebigviele optionlisten enthalten
      */
-    //@Test
+    @Test
+	@Ignore
     public void setOptionList() {
         XOTextOption text = new XOTextOption("test");
         XODateOption date = new XODateOption();

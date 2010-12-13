@@ -3,7 +3,6 @@ package de.uniluebeck.itm.ep5.poll.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dozer.Mapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.uniluebeck.itm.ep5.poll.domain.PollMapper;
@@ -16,12 +15,10 @@ public class PollServiceImpl implements PollService {
 
 
     private PollRepository pollRepository;
-    private Mapper mapper;
 
     @Transactional
     @Override
     public void addPoll(xoPoll poll) {
-        //boPoll b = mapper.map(poll, boPoll.class);
         boPoll b = PollMapper.createBO(poll);
         pollRepository.add(b);
 		poll.setId(b.getId());
@@ -30,7 +27,6 @@ public class PollServiceImpl implements PollService {
     @Transactional
     @Override
     public void updatePoll(xoPoll poll) {
-        //boPoll b = mapper.map(poll, boPoll.class);
         boPoll b = PollMapper.createBO(poll);
         pollRepository.update(b);
     }
@@ -41,7 +37,6 @@ public class PollServiceImpl implements PollService {
         List<boPoll> all = pollRepository.findAll();
         List<xoPoll> trans = new ArrayList<xoPoll>();
         for (boPoll p : all){
-            //xoPoll x = mapper.map(p, xoPoll.class);
             xoPoll x = PollMapper.createXO(p);
             trans.add(x);
         }
@@ -68,12 +63,5 @@ public class PollServiceImpl implements PollService {
      */
     public void setPollRepository(PollRepository pollRepository) {
         this.pollRepository = pollRepository;
-    }
-    /**
-     * Used by Spring to inject the Mapper.
-     * @param mapper
-     */
-    public void setMapper(Mapper mapper) {
-        this.mapper = mapper;
     }
 }

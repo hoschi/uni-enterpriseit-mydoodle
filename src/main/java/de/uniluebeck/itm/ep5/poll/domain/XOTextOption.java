@@ -7,9 +7,11 @@ public class XOTextOption implements IOption {
     private Integer id;
     private XOOptionList list;
     private List<XOLocalizedString> strings;
+    private List<String> votes;
 
     public XOTextOption() {
         this.strings = new ArrayList<XOLocalizedString>();
+        this.setVotes(new ArrayList<String>());
     }
 
     /**
@@ -58,6 +60,28 @@ public class XOTextOption implements IOption {
         XOLocalizedString s = new XOLocalizedString(text, locale);
         this.strings.add(s);
     }
+
+	/**
+	 * @param votes the votes to set
+	 */
+	public void setVotes(List<String> votes) {
+		this.votes = votes;
+	}
+
+	/**
+	 * @return the votes
+	 */
+	public List<String> getVotes() {
+		return votes;
+	}
+
+	public void addVote(String voter) {
+		this.votes.add(voter);
+	}
+	
+	public void removeVote(String voter) {
+		this.votes.remove(voter);
+	}
 
 }
 

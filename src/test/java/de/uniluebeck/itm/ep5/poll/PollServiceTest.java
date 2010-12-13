@@ -15,12 +15,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
 import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOLocalizedString;
 import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
 import de.uniluebeck.itm.ep5.util.InactiveExcepiton;
-import org.junit.Ignore;
 
 public class PollServiceTest {
 
@@ -266,8 +266,71 @@ public class PollServiceTest {
     }
 
     /////////////////////////////////////////////////////
-    // TODO nutzer kann abstimmen in dem er seinen namen angbibt und seine gewählten optionen
+    // TODO abstimmung kann beliebigviele optionen enthalten
     /////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////
+    // TODO nutzer kann datums und frei text option anlegen
+    /////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////
+    // TODO optionen können in verschiedenen sprachen eingeben un angezeigt werden
+    /////////////////////////////////////////////////////
+    
+    /**
+     * Nutzer kann abstimmen in dem er seinen namen angibt und seine gewaehlten optionen
+     */
+    @Test
+    public void vote() {
+    	String person1 = "person1";	// votes for option1a
+    	String person2 = "person2"; // votes for option1b
+    	String person3 = "person3"; // votes for option1a
+    	
+    	xoPoll poll = new xoPoll("somepoll");
+    	
+    	XOOptionList optionList1 = new XOOptionList();
+    	XOTextOption option1a = new XOTextOption();
+    	option1a.addString("option1a", "EN-en");
+    	option1a.addVote(person1);
+    	option1a.addVote(person3);
+    	optionList1.addOption(option1a);
+    	
+    	XOTextOption option1b = new XOTextOption();
+    	option1b.addString("option1b", "EN-en");
+    	option1b.addVote(person2);
+    	optionList1.addOption(option1b);
+    	
+    	poll.addOptionList(optionList1);
+    	
+    	pollService.addPoll(poll);
+    	
+    	List<xoPoll> polls = pollService.search("somepoll");
+    	poll = polls.get(0);
+    	optionList1 = poll.getOptionLists().get(0);
+    	option1a = (XOTextOption)findOption(optionList1.getOptions(), "option1a", "EN-en");
+    	Assert.assertTrue(option1a.getVotes().contains(person1));
+    	Assert.assertTrue(option1a.getVotes().contains(person3));
+    	
+    	option1b = (XOTextOption)findOption(optionList1.getOptions(), "option1b", "EN-en");
+    	Assert.assertTrue(option1b.getVotes().contains(person2));
+    	
+    }
+    
+    private IOption findOption(List<IOption> options, String text, String locale) {
+    	for (IOption option : options) {
+    		List<XOLocalizedString> strings = null;
+    		if (option instanceof XOTextOption) {
+    			strings = ((XOTextOption)option).getStrings();
+    		}
+    		if (strings != null) {
+    			for (XOLocalizedString string : strings) {
+    				if (string.getLocale().equals(locale) && string.getText().equals(text)) {
+    					return option;
+    				}
+    			}
+    		}
+    	}
+    	return null;
+    }
+    
     /*
      * interaktive abstimmungen können nicht mehr verändert werden
      */

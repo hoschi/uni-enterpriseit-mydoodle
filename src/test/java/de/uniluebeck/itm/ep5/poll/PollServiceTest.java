@@ -156,7 +156,7 @@ public class PollServiceTest {
      * TODO abstimmung kann beliebigviele optionlisten enthalten
      */
     @Test
-	@Ignore
+	//@Ignore
     public void setOptionList() {
         XOTextOption text = new XOTextOption("test");
         XODateOption date = new XODateOption();

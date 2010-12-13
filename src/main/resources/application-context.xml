@@ -54,6 +54,9 @@
 	<!-- This is our service object that we want to make transactional -->
 	<bean name="pollService" class="de.uniluebeck.itm.ep5.poll.service.PollServiceImpl">
 		<property name="pollRepository" ref="pollRepository" />
+		<property name="optionListRepository" ref="optionListRepository" />
+		<property name="dateOptionRepository" ref="dateOptionRepository" />
+		<property name="textOptionRepository" ref="textOptionRepository" />
 	</bean>
 
 </beans>

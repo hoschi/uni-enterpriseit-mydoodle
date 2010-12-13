@@ -127,7 +127,10 @@ public class PollServiceImpl implements PollService {
     }
     
 
-
+    /**
+     * Used by Spring to inject the OptionListRepository.
+     * @param optionListRepository
+     */
     public void setOptionListRepository(OptionListRepository optionListRepository) {
 		this.optionListRepository = optionListRepository;
 	}

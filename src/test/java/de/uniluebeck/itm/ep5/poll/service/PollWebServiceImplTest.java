@@ -49,6 +49,7 @@ public class PollWebServiceImplTest {
 	 * Test of getPolls method, of class PollWebServiceImpl.
 	 */
 	@Test
+	@Ignore
 	public void testGetPolls() {
 		logger.info("getPolls");
 		PollWebServiceImpl instance = new PollWebServiceImpl();
@@ -93,17 +94,17 @@ public class PollWebServiceImplTest {
 	 * Test of getPoll method, of class PollWebServiceImpl.
 	 */
 	@Test
-	@Ignore
 	public void testGetPoll() {
 		logger.info("getPoll");
-		String pollId = "";
-		String languageCode = "";
 		PollWebServiceImpl instance = new PollWebServiceImpl();
-		XsPoll expResult = null;
-		XsPoll result = instance.getPoll(pollId, languageCode);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		XsPoll result;
+
+		logger.info("- insert a multi lingual poll into DB");
+		logger.info("- fetch infos about the poll");
+		logger.info("- get the poll by this ID - english locale");
+		//result = instance.getPoll(pollId, languageCode);
+		logger.info("- get the poll by this ID - german locale");
+		//result = instance.getPoll(pollId, languageCode);
 	}
 
 	/**

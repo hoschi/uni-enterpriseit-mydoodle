@@ -4,7 +4,11 @@
  */
 package de.uniluebeck.itm.ep5.poll.service;
 
+import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.pollservice.XsPoll;
+import de.uniluebeck.itm.pollservice.XsPollInfo;
 import de.uniluebeck.itm.pollservice.XsVote;
 import java.util.List;
 import java.util.Locale;
@@ -38,7 +42,6 @@ public class PollWebServiceImplTest {
 	@After
 	public void tearDown() {
 	}// </editor-fold>
-
 	final static Logger logger =
 			LoggerFactory.getLogger(PollWebServiceImplTest.class);
 
@@ -46,19 +49,44 @@ public class PollWebServiceImplTest {
 	 * Test of getPolls method, of class PollWebServiceImpl.
 	 */
 	@Test
-	@Ignore
 	public void testGetPolls() {
 		logger.info("getPolls");
-		Locale l = new Locale("en");
-		logger.info(l.getLanguage());
-		logger.info(Locale.getISOLanguages().toString());
-		String languageCode = "";
 		PollWebServiceImpl instance = new PollWebServiceImpl();
-		List expResult = null;
-		//List result = instance.getPolls(languageCode);
-		//assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
+		List<XsPollInfo> result;
+		XsPollInfo info;
+
+		logger.info("- insert multi lingual polls into DB");
+		// create strings
+		XOTextOption text = new XOTextOption();
+        text.addString("hello", Locale.ENGLISH.toString());
+        text.addString("hallo", Locale.GERMAN.toString());
+
+		XOTextOption text1 = new XOTextOption();
+        text1.addString("in the morning", Locale.ENGLISH.toString());
+        text1.addString("morgens", Locale.GERMAN.toString());
+
+		// save string options
+        XOOptionList olist = new XOOptionList();
+		olist.setTitle("strings");
+        olist.addOption(text);
+		olist.addOption(text1);
+
+        xoPoll poll = new xoPoll("poll");
+        poll.addOptionList(olist);
+
+		logger.info("- get english poll infos");
+		result = instance.getPolls(Locale.ENGLISH.toString());
+		assertEquals(1, result.size());
+		info = result.get(0);
+		assertEquals(poll.getTitle(), info.getTitle());
+		assertEquals(poll.getId(), info.getId());
+
+		logger.info("- get german poll infos");
+		result = instance.getPolls(Locale.GERMAN.toString());
+		assertEquals(1, result.size());
+		info = result.get(0);
+		assertEquals(poll.getTitle(), info.getTitle());
+		assertEquals(poll.getId(), info.getId());
 	}
 
 	/**

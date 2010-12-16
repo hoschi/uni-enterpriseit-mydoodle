@@ -153,7 +153,7 @@ public class PollServiceTest {
     }
 
     /*
-     * TODO abstimmung kann beliebigviele optionlisten enthalten
+     * abstimmung kann beliebigviele optionlisten enthalten
      */
     @Test
     public void setOptionList() {
@@ -265,16 +265,6 @@ public class PollServiceTest {
         Assert.assertEquals(2, t.getStrings().size());
     }
 
-    /////////////////////////////////////////////////////
-    // TODO abstimmung kann beliebigviele optionen enthalten
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO nutzer kann datums und frei text option anlegen
-    /////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    // TODO optionen können in verschiedenen sprachen eingeben un angezeigt werden
-    /////////////////////////////////////////////////////
-    
     /**
      * Nutzer kann abstimmen in dem er seinen namen angibt und seine gewaehlten optionen
      */
@@ -392,4 +382,65 @@ public class PollServiceTest {
         Assert.assertNotNull(list);
         Assert.assertEquals(0, list.size());
     }
+
+	/*
+     * das wichtigste auf einen blick für sönke und florian
+     */
+    @Test
+    public void milestoneOneHighligtTest() {
+		// create strings
+		XOTextOption text = new XOTextOption();
+        text.addString("hello", "EN-en");
+        text.addString("hallo", "DE-de");
+
+		XOTextOption text1 = new XOTextOption();
+        text1.addString("in the morning", "EN-en");
+        text1.addString("morgens", "DE-de");
+
+		// add vote
+		text.addVote("hoschi");
+		text1.addVote("jacob");
+
+		// save string options
+        XOOptionList olist = new XOOptionList();
+		olist.setTitle("strings");
+        olist.addOption(text);
+		olist.addOption(text1);
+
+        xoPoll poll = new xoPoll("poll");
+        poll.addOptionList(olist);
+
+
+		// create dates
+		XODateOption date = null;
+		olist = new XOOptionList();
+		olist.setTitle("dates");
+
+		GregorianCalendar yesterday = new GregorianCalendar();
+        yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
+        GregorianCalendar beforeTwoDays = new GregorianCalendar();
+        beforeTwoDays.add(GregorianCalendar.DAY_OF_MONTH, -2);
+		GregorianCalendar tomorrow = new GregorianCalendar();
+        tomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
+        GregorianCalendar inTwoDays = new GregorianCalendar();
+        inTwoDays.add(GregorianCalendar.DAY_OF_MONTH, 2);
+
+		date = new XODateOption(yesterday.getTime());
+        olist.addOption(date);
+		date = new XODateOption(beforeTwoDays.getTime());
+        olist.addOption(date);
+		date = new XODateOption(tomorrow.getTime());
+        olist.addOption(date);
+		date = new XODateOption(inTwoDays.getTime());
+        olist.addOption(date);
+
+        poll.addOptionList(olist);
+
+		// set active date
+		poll.setActiveTimeSpan(yesterday.getTime(), tomorrow.getTime());
+
+        // save changes
+        pollService.addPoll(poll);
+
+	}
 }

@@ -1,5 +1,6 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -11,6 +12,8 @@ public class XODateOption implements IOption {
 	private Date date;
     private XOOptionList list;
     private List<String> votes;
+	// the desired format
+    private static final String pattern = "yyyy-MM-dd'T'HH:mm";
 
     public XODateOption() {
         this.setVotes(new ArrayList<String>());
@@ -82,5 +85,9 @@ public class XODateOption implements IOption {
 	 */ public void setDate(Date date) {
 		this.date = date;
 	}
+
+	 public static Date parseString(String dateString) throws Exception {
+		 return new SimpleDateFormat(pattern).parse(dateString);
+	 }
 
 }

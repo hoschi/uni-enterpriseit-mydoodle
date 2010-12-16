@@ -4,10 +4,10 @@
  */
 package de.uniluebeck.itm.ep5.poll.service;
 
-import org.springframework.context.ApplicationContext;
 import de.uniluebeck.itm.pollservice.XsPoll;
 import de.uniluebeck.itm.pollservice.XsVote;
 import java.util.List;
+import java.util.Locale;
 import org.junit.*;
 import static org.junit.Assert.*;
 import org.slf4j.Logger;
@@ -49,13 +49,16 @@ public class PollWebServiceImplTest {
 	@Ignore
 	public void testGetPolls() {
 		logger.info("getPolls");
+		Locale l = new Locale("en");
+		logger.info(l.getLanguage());
+		logger.info(Locale.getISOLanguages().toString());
 		String languageCode = "";
 		PollWebServiceImpl instance = new PollWebServiceImpl();
 		List expResult = null;
-		List result = instance.getPolls(languageCode);
-		assertEquals(expResult, result);
+		//List result = instance.getPolls(languageCode);
+		//assertEquals(expResult, result);
 		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		//fail("The test case is a prototype.");
 	}
 
 	/**

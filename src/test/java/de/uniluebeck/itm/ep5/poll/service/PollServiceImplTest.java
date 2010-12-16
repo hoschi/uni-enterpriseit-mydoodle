@@ -21,6 +21,7 @@ import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
 import de.uniluebeck.itm.ep5.util.InactiveExcepiton;
+import java.util.Locale;
 
 public class PollServiceImplTest {
 
@@ -238,8 +239,8 @@ public class PollServiceImplTest {
     @Test
     public void setTextOptions() {
         XOTextOption text = new XOTextOption();
-        text.addString("hello", "EN-en");
-        text.addString("hallo", "DE-de");
+        text.addString("hello", Locale.ENGLISH.toString());
+        text.addString("hallo", Locale.GERMAN.toString());
 
         XOOptionList olist = new XOOptionList();
         olist.addOption(text);
@@ -278,13 +279,13 @@ public class PollServiceImplTest {
     	
     	XOOptionList optionList1 = new XOOptionList();
     	XOTextOption option1a = new XOTextOption();
-    	option1a.addString("option1a", "EN-en");
+    	option1a.addString("option1a", Locale.ENGLISH.toString());
     	option1a.addVote(person1);
     	option1a.addVote(person3);
     	optionList1.addOption(option1a);
     	
     	XOTextOption option1b = new XOTextOption();
-    	option1b.addString("option1b", "EN-en");
+    	option1b.addString("option1b", Locale.ENGLISH.toString());
     	option1b.addVote(person2);
     	optionList1.addOption(option1b);
     	
@@ -295,11 +296,11 @@ public class PollServiceImplTest {
     	List<xoPoll> polls = pollService.search("somepoll");
     	poll = polls.get(0);
     	optionList1 = poll.getOptionLists().get(0);
-    	option1a = (XOTextOption)findOption(optionList1.getOptions(), "option1a", "EN-en");
+    	option1a = (XOTextOption)findOption(optionList1.getOptions(), "option1a", Locale.ENGLISH.toString());
     	Assert.assertTrue(option1a.getVotes().contains(person1));
     	Assert.assertTrue(option1a.getVotes().contains(person3));
     	
-    	option1b = (XOTextOption)findOption(optionList1.getOptions(), "option1b", "EN-en");
+    	option1b = (XOTextOption)findOption(optionList1.getOptions(), "option1b", Locale.ENGLISH.toString());
     	Assert.assertTrue(option1b.getVotes().contains(person2));
     	
     }
@@ -390,12 +391,12 @@ public class PollServiceImplTest {
     public void milestoneOneHighligtTest() {
 		// create strings
 		XOTextOption text = new XOTextOption();
-        text.addString("hello", "EN-en");
-        text.addString("hallo", "DE-de");
+        text.addString("hello", Locale.ENGLISH.toString());
+        text.addString("hallo", Locale.GERMAN.toString());
 
 		XOTextOption text1 = new XOTextOption();
-        text1.addString("in the morning", "EN-en");
-        text1.addString("morgens", "DE-de");
+        text1.addString("in the morning", Locale.ENGLISH.toString());
+        text1.addString("morgens", Locale.GERMAN.toString());
 
 		// add vote
 		text.addVote("hoschi");

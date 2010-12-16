@@ -1,4 +1,4 @@
-package de.uniluebeck.itm.ep5.poll;
+package de.uniluebeck.itm.ep5.poll.service;
 
 //import static org.hamcrest.CoreMatchers.equalTo;
 //import static org.junit.Assert.assertThat;
@@ -22,9 +22,9 @@ import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
 import de.uniluebeck.itm.ep5.util.InactiveExcepiton;
 
-public class PollServiceTest {
+public class PollServiceImplTest {
 
-    final static Logger logger = LoggerFactory.getLogger(PollServiceTest.class);
+    final static Logger logger = LoggerFactory.getLogger(PollServiceImplTest.class);
     ApplicationContext ctx;
     PollService pollService;
 

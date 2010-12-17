@@ -64,12 +64,10 @@ public class PollWebServiceImplTest {
 	 * Test of getPolls method, of class PollWebServiceImpl.
 	 */
 	@Test
-	@Ignore
 	public void testGetPolls() {
 		logger.info("getPolls");
 		PollWebServiceImpl instance = new PollWebServiceImpl();
 		List<XsPollInfo> result;
-		XsPollInfo info;
 		xoPoll poll;
 
 		logger.info("- insert polls into DB");

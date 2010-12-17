@@ -64,12 +64,10 @@ public class PollWebServiceImplTest {
 	 * Test of getPolls method, of class PollWebServiceImpl.
 	 */
 	@Test
-	@Ignore
 	public void testGetPolls() {
 		logger.info("getPolls");
 		PollWebServiceImpl instance = new PollWebServiceImpl();
 		List<XsPollInfo> result;
-		XsPollInfo info;
 		xoPoll poll;
 
 		logger.info("- insert polls into DB");
@@ -189,10 +187,10 @@ public class PollWebServiceImplTest {
 	 * Test of voteForOptions method, of class PollWebServiceImpl.
 	 */
 	@Test
-	//@Ignore
+	@Ignore
 	public void testVoteForOptions() {
 		logger.info("voteForOptions");
-		XsVote voteForOptions = null;
+		XsVote vote = null;
 		PollWebServiceImpl instance = new PollWebServiceImpl();
 
 		logger.info(" - create poll with two options to vote for");
@@ -200,7 +198,6 @@ public class PollWebServiceImplTest {
 		XOTextOption text = new XOTextOption();
 		text.addString("hello", Locale.ENGLISH.toString());
 		text.addString("hallo", Locale.GERMAN.toString());
-		text.addVote("hoschi");
 
 		GregorianCalendar yesterday = new GregorianCalendar();
 		yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
@@ -219,13 +216,63 @@ public class PollWebServiceImplTest {
 		pollService.addPoll(poll);
 		olist = poll.getOptionLists().get(0);
 		assertNotNull(olist.getId());
+		text = (XOTextOption) olist.getTexts().get(0);
+		date = (XODateOption) olist.getDates().get(0);
 
 		logger.info(" - vote for one");
+		vote = new XsVote();
+		vote.setVoter("hoschi");
+		vote.getOptionId().add(text.getId().toString());
+		instance.voteForOptions(vote);
+
+		pollService.updatePoll(poll);
+		text = (XOTextOption) olist.getTexts().get(0);
+		assertEquals(1, text.getVotes().size());
+		assertEquals(0, date.getVotes().size());
+		assertEquals("hoschi", text.getVotes().get(0));
 
 		logger.info(" - vote for both, with same voter");
-		logger.info(" - vote for both, with another voter");
-		logger.info(" - vote for no one");
+		vote = new XsVote();
+		vote.setVoter("hoschi");
+		vote.getOptionId().add(text.getId().toString());
+		vote.getOptionId().add(date.getId().toString());
+		instance.voteForOptions(vote);
 
-		instance.voteForOptions(voteForOptions);
+		pollService.updatePoll(poll);
+		text = (XOTextOption) olist.getTexts().get(0);
+		assertEquals(1, text.getVotes().size());
+		assertEquals(1, date.getVotes().size());
+		assertEquals("hoschi", text.getVotes().get(0));
+		assertEquals("hoschi", date.getVotes().get(0));
+
+		logger.info(" - vote for both, with another voter");
+		vote = new XsVote();
+		vote.setVoter("jacob");
+		vote.getOptionId().add(text.getId().toString());
+		vote.getOptionId().add(date.getId().toString());
+		instance.voteForOptions(vote);
+
+		pollService.updatePoll(poll);
+		text = (XOTextOption) olist.getTexts().get(0);
+		assertEquals(2, text.getVotes().size());
+		assertEquals(2, date.getVotes().size());
+		assertEquals("hoschi", text.getVotes().get(0));
+		assertEquals("jacob", text.getVotes().get(1));
+		assertEquals("hoschi", date.getVotes().get(0));
+		assertEquals("jacob", date.getVotes().get(1));
+
+		logger.info(" - vote for no one");
+		vote = new XsVote();
+		vote.setVoter("hoschi");
+		instance.voteForOptions(vote);
+
+		pollService.updatePoll(poll);
+		text = (XOTextOption) olist.getTexts().get(0);
+		assertEquals(2, text.getVotes().size());
+		assertEquals(2, date.getVotes().size());
+		assertEquals("hoschi", text.getVotes().get(0));
+		assertEquals("jacob", text.getVotes().get(1));
+		assertEquals("hoschi", date.getVotes().get(0));
+		assertEquals("jacob", date.getVotes().get(1));
 	}
 }

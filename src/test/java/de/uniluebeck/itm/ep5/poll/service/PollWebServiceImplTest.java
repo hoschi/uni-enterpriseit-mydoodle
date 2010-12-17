@@ -189,10 +189,10 @@ public class PollWebServiceImplTest {
 	 * Test of voteForOptions method, of class PollWebServiceImpl.
 	 */
 	@Test
-	//@Ignore
+	@Ignore
 	public void testVoteForOptions() {
 		logger.info("voteForOptions");
-		XsVote voteForOptions = null;
+		XsVote vote = null;
 		PollWebServiceImpl instance = new PollWebServiceImpl();
 
 		logger.info(" - create poll with two options to vote for");
@@ -200,7 +200,6 @@ public class PollWebServiceImplTest {
 		XOTextOption text = new XOTextOption();
 		text.addString("hello", Locale.ENGLISH.toString());
 		text.addString("hallo", Locale.GERMAN.toString());
-		text.addVote("hoschi");
 
 		GregorianCalendar yesterday = new GregorianCalendar();
 		yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
@@ -219,13 +218,24 @@ public class PollWebServiceImplTest {
 		pollService.addPoll(poll);
 		olist = poll.getOptionLists().get(0);
 		assertNotNull(olist.getId());
+		text = (XOTextOption) olist.getTexts().get(0);
+		date = (XODateOption) olist.getDates().get(0);
 
 		logger.info(" - vote for one");
+		vote = new XsVote();
+		vote.setVoter("hoschi");
+		vote.getOptionId().add(text.getId().toString());
+		instance.voteForOptions(vote);
+
+		pollService.updatePoll(poll);
+		text = (XOTextOption) olist.getTexts().get(0);
+		assertEquals(1, text.getVotes().size());
+		assertEquals("hoschi", text.getVotes().get(0));
 
 		logger.info(" - vote for both, with same voter");
 		logger.info(" - vote for both, with another voter");
 		logger.info(" - vote for no one");
 
-		instance.voteForOptions(voteForOptions);
+		//instance.voteForOptions(voteForOptions);
 	}
 }

@@ -5,11 +5,16 @@
 
 package de.uniluebeck.itm.ep5.poll.service;
 
+import de.uniluebeck.itm.ep5.poll.domain.IOption;
+import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.pollservice.PollWebService;
+import de.uniluebeck.itm.pollservice.XsOption;
 import de.uniluebeck.itm.pollservice.XsPoll;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
 import de.uniluebeck.itm.pollservice.XsVote;
+import de.uniluebeck.itm.pollservice.XsVotes;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -52,7 +57,25 @@ public class PollWebServiceImpl implements PollWebService {
 
 	@Override
 	public XsPoll getPoll(String pollId, String languageCode) {
-		return null;
+		xoPoll poll = pollService.getPoll(new Integer(pollId));
+		XsPoll xs = new XsPoll();
+		xs.setId(poll.getId().toString());
+		xs.setTitle(poll.getTitle());
+		for (XOOptionList list : poll.getOptionLists()){
+			for (IOption option : list.getDates()) {
+				XODateOption date = (XODateOption) option;
+				XsOption op = new XsOption();
+				op.setDateTime(date.toString());
+				op.setId(date.getId().toString());
+				XsVotes votes = new XsVotes();
+				// TODO votes umfummeln
+				op.setVotes(votes);
+			}
+			for (IOption option : list.getTexts()) {
+
+			}
+		}
+		return xs;
 	}
 
 	@Override

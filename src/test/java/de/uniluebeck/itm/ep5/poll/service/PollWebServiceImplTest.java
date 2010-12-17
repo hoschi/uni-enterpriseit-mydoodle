@@ -108,7 +108,6 @@ public class PollWebServiceImplTest {
 	 * Test of getPoll method, of class PollWebServiceImpl.
 	 */
 	@Test
-	@Ignore
 	public void testGetPoll() throws Exception {
 		logger.info("getPoll");
 		PollWebServiceImpl instance = new PollWebServiceImpl();

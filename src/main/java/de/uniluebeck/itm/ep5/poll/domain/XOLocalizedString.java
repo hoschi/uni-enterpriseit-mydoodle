@@ -10,7 +10,7 @@ package de.uniluebeck.itm.ep5.poll.domain;
  *
  * @author hoschi
  */
-public class XOLocalizedString implements IOption {
+public class XOLocalizedString {
     private Integer id;
     private String text;
     private String locale;

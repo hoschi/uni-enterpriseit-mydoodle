@@ -28,11 +28,11 @@ public class BODateOption implements IOption, Serializable {
     private BOOptionList list;
     @ElementCollection
     private List<String> votes;
-	@Temporal(javax.persistence.TemporalType.DATE)
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     
     public Date getDate() {
-        return GregorianCalendar.getInstance().getTime();
+        return date;
     }
 
     public BODateOption() {
@@ -86,6 +86,5 @@ public class BODateOption implements IOption, Serializable {
 	 */ public void setDate(Date date) {
 		this.date = date;
 	}
-
 
 }

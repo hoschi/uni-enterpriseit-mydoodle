@@ -25,9 +25,9 @@ public class boPoll implements Serializable {
     @OneToMany
     private List<BOOptionList> options;
     private boolean isPublic;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date startDate;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date endDate;
 
     public boPoll() {}

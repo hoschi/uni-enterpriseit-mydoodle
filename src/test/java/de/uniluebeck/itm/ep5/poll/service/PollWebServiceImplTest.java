@@ -194,8 +194,37 @@ public class PollWebServiceImplTest {
 		logger.info("voteForOptions");
 		XsVote voteForOptions = null;
 		PollWebServiceImpl instance = new PollWebServiceImpl();
+
+		logger.info(" - create poll with two options to vote for");
+		// create strings
+		XOTextOption text = new XOTextOption();
+		text.addString("hello", Locale.ENGLISH.toString());
+		text.addString("hallo", Locale.GERMAN.toString());
+		text.addVote("hoschi");
+
+		GregorianCalendar yesterday = new GregorianCalendar();
+		yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
+		XODateOption date = new XODateOption(yesterday.getTime());
+
+		// save string options
+		XOOptionList olist = new XOOptionList();
+		olist.setTitle("stuff");
+		olist.addOption(text);
+		olist.addOption(date);
+
+		xoPoll poll = new xoPoll("poll");
+		poll.addOptionList(olist);
+
+		// save changes and generate ID
+		pollService.addPoll(poll);
+		assertNotNull(olist.getId());
+
+		logger.info(" - vote for one");
+
+		logger.info(" - vote for both, with same voter");
+		logger.info(" - vote for both, with another voter");
+		logger.info(" - vote for no one");
+
 		instance.voteForOptions(voteForOptions);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 }

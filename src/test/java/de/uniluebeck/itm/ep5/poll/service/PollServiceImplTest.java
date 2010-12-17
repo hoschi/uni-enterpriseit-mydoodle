@@ -170,6 +170,7 @@ public class PollServiceImplTest {
 
         // save changes
         pollService.addPoll(poll);
+		Assert.assertNotNull(olist.getId());
         List<xoPoll> list = pollService.getPolls();
         Assert.assertEquals(1, list.size());
 

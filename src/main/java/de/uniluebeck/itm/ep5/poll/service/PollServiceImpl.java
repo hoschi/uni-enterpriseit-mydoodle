@@ -37,6 +37,7 @@ public class PollServiceImpl implements PollService {
         handleOptionLists(b.getOptions());
         pollRepository.add(b);
 		poll.setId(b.getId());
+		poll.setOptions(PollMapper.createXO(b.getOptions()));
     }
     
     private void handleOptionLists(List<BOOptionList> lists) {

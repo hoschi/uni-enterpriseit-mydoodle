@@ -189,7 +189,7 @@ public class PollWebServiceImplTest {
 	 * Test of voteForOptions method, of class PollWebServiceImpl.
 	 */
 	@Test
-	@Ignore
+	//@Ignore
 	public void testVoteForOptions() {
 		logger.info("voteForOptions");
 		XsVote voteForOptions = null;
@@ -217,6 +217,7 @@ public class PollWebServiceImplTest {
 
 		// save changes and generate ID
 		pollService.addPoll(poll);
+		olist = poll.getOptionLists().get(0);
 		assertNotNull(olist.getId());
 
 		logger.info(" - vote for one");

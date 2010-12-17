@@ -230,12 +230,51 @@ public class PollWebServiceImplTest {
 		pollService.updatePoll(poll);
 		text = (XOTextOption) olist.getTexts().get(0);
 		assertEquals(1, text.getVotes().size());
+		assertEquals(0, date.getVotes().size());
 		assertEquals("hoschi", text.getVotes().get(0));
 
 		logger.info(" - vote for both, with same voter");
-		logger.info(" - vote for both, with another voter");
-		logger.info(" - vote for no one");
+		vote = new XsVote();
+		vote.setVoter("hoschi");
+		vote.getOptionId().add(text.getId().toString());
+		vote.getOptionId().add(date.getId().toString());
+		instance.voteForOptions(vote);
 
-		//instance.voteForOptions(voteForOptions);
+		pollService.updatePoll(poll);
+		text = (XOTextOption) olist.getTexts().get(0);
+		assertEquals(1, text.getVotes().size());
+		assertEquals(1, date.getVotes().size());
+		assertEquals("hoschi", text.getVotes().get(0));
+		assertEquals("hoschi", date.getVotes().get(0));
+
+		logger.info(" - vote for both, with another voter");
+		vote = new XsVote();
+		vote.setVoter("jacob");
+		vote.getOptionId().add(text.getId().toString());
+		vote.getOptionId().add(date.getId().toString());
+		instance.voteForOptions(vote);
+
+		pollService.updatePoll(poll);
+		text = (XOTextOption) olist.getTexts().get(0);
+		assertEquals(2, text.getVotes().size());
+		assertEquals(2, date.getVotes().size());
+		assertEquals("hoschi", text.getVotes().get(0));
+		assertEquals("jacob", text.getVotes().get(1));
+		assertEquals("hoschi", date.getVotes().get(0));
+		assertEquals("jacob", date.getVotes().get(1));
+
+		logger.info(" - vote for no one");
+		vote = new XsVote();
+		vote.setVoter("hoschi");
+		instance.voteForOptions(vote);
+
+		pollService.updatePoll(poll);
+		text = (XOTextOption) olist.getTexts().get(0);
+		assertEquals(2, text.getVotes().size());
+		assertEquals(2, date.getVotes().size());
+		assertEquals("hoschi", text.getVotes().get(0));
+		assertEquals("jacob", text.getVotes().get(1));
+		assertEquals("hoschi", date.getVotes().get(0));
+		assertEquals("jacob", date.getVotes().get(1));
 	}
 }

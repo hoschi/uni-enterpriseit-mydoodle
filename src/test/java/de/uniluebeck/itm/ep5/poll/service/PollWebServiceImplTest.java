@@ -141,10 +141,10 @@ public class PollWebServiceImplTest {
 		result = instance.getPoll(poll.getId().toString(),
 				Locale.ENGLISH.toString());
 		assertEquals(poll.getTitle(), result.getTitle());
-		assertEquals(1, result.getOptionList());
+		assertEquals(1, result.getOptionList().size());
 		optionList = result.getOptionList().get(0);
 		assertEquals(olist.getTitle(), optionList.getTitle());
-		assertEquals(2, optionList.getOption());
+		assertEquals(2, optionList.getOption().size());
 		for (XsOption option : optionList.getOption()) {
 			if (option.getDateTime() == null) {
 				// text option
@@ -153,8 +153,7 @@ public class PollWebServiceImplTest {
 				assertEquals("hoschi", option.getVotes().getVoter().get(0));
 			} else if (option.getValue() == null) {
 				// date option
-				assertEquals(date.getDate(),
-						XODateOption.parseString(option.getDateTime()));
+				assertEquals(date.toString(),option.getDateTime());
 				assertEquals(0, option.getVotes().getVoter().size());
 			}
 		}
@@ -163,10 +162,10 @@ public class PollWebServiceImplTest {
 		result = instance.getPoll(poll.getId().toString(),
 				Locale.GERMAN.toString());
 		assertEquals(poll.getTitle(), result.getTitle());
-		assertEquals(1, result.getOptionList());
+		assertEquals(1, result.getOptionList().size());
 		optionList = result.getOptionList().get(0);
 		assertEquals(olist.getTitle(), optionList.getTitle());
-		assertEquals(2, optionList.getOption());
+		assertEquals(2, optionList.getOption().size());
 		for (XsOption option : optionList.getOption()) {
 			if (option.getDateTime() == null) {
 				// text option
@@ -175,8 +174,7 @@ public class PollWebServiceImplTest {
 				assertEquals("hoschi", option.getVotes().getVoter().get(0));
 			} else if (option.getValue() == null) {
 				// date option
-				assertEquals(date.getDate(),
-						XODateOption.parseString(option.getDateTime()));
+				assertEquals(date.toString(),option.getDateTime());
 				assertEquals(0, option.getVotes().getVoter().size());
 			}
 		}

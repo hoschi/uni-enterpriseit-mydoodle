@@ -12,10 +12,4 @@ import java.util.List;
  * @author hoschi
  */
 public interface IOption {
-	public void setVotes(List<String> votes);
-	public List<String> getVotes();
-
-	public void addVote(String voter);
-	public void removeVote(String voter);
-
 }

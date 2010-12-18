@@ -137,6 +137,13 @@ public class PollServiceImpl implements PollService {
         return list;
     }
 
+	@Transactional(readOnly = true)
+	@Override
+	public xoPoll getPoll(Integer integer) {
+		boPoll bo = this.pollRepository.findById(integer);
+		return PollMapper.createXO(bo);
+	}
+
     /**
      * Used by Spring to inject the PollRepository.
      * @param pollRepository
@@ -162,10 +169,4 @@ public class PollServiceImpl implements PollService {
 		this.localizedStringRepository = localizedStringRepository;
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public xoPoll getPoll(Integer integer) {
-		boPoll bo = this.pollRepository.findById(integer);
-		return PollMapper.createXO(bo);
-	}
 }

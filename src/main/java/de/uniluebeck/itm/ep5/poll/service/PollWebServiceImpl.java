@@ -2,15 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package de.uniluebeck.itm.ep5.poll.service;
 
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
 import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
 import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.pollservice.PollWebService;
 import de.uniluebeck.itm.pollservice.XsOption;
+import de.uniluebeck.itm.pollservice.XsOptionList;
 import de.uniluebeck.itm.pollservice.XsPoll;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
 import de.uniluebeck.itm.pollservice.XsVote;
@@ -27,6 +28,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author hoschi
  */
 public class PollWebServiceImpl implements PollWebService {
+
 	final static Logger logger =
 			LoggerFactory.getLogger(PollWebServiceImpl.class);
 	ApplicationContext ctx;
@@ -61,27 +63,46 @@ public class PollWebServiceImpl implements PollWebService {
 		XsPoll xs = new XsPoll();
 		xs.setId(poll.getId().toString());
 		xs.setTitle(poll.getTitle());
-		for (XOOptionList list : poll.getOptionLists()){
+
+		// add options recursively
+		for (XOOptionList list : poll.getOptionLists()) {
+			XsOptionList xsList = new XsOptionList();
+			xsList.setTitle(list.getTitle());
+
+			// all date options
 			for (IOption option : list.getDates()) {
-				XODateOption date = (XODateOption) option;
 				XsOption op = new XsOption();
+				XODateOption date = (XODateOption) option;
 				op.setDateTime(date.toString());
 				op.setId(date.getId().toString());
-				op.setVotes(this.setVoters(option));
+				XsVotes votes = new XsVotes();
+				for (String voter : date.getVotes()) {
+					votes.getVoter().add(voter);
+				}
+				op.setVotes(votes);
+				xsList.getOption().add(op);
 			}
-			for (IOption option : list.getTexts()) {
 
+			// all text options
+			for (IOption option : list.getTexts()) {
+				XsOption op = new XsOption();
+				XOTextOption text = (XOTextOption) option;
+				op.setValue(text.getStringByLocale(languageCode));
+				op.setId(text.getId().toString());
+				XsVotes votes = new XsVotes();
+				for (String voter : text.getVotes()) {
+					votes.getVoter().add(voter);
+				}
+				op.setVotes(votes);
+				xsList.getOption().add(op);
 			}
+			
+			xs.getOptionList().add(xsList);
 		}
 		return xs;
-	}
-
-	private XsVotes setVoters(IOption option) {
-		return null;
 	}
 
 	@Override
 	public void voteForOptions(XsVote voteForOptions) {
 	}
-
 }

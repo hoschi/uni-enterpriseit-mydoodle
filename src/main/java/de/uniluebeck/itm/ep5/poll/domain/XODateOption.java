@@ -25,7 +25,7 @@ public class XODateOption implements IOption {
     }
 
     public Date getDate() {
-        return GregorianCalendar.getInstance().getTime();
+        return date;
     }
 
 
@@ -89,5 +89,11 @@ public class XODateOption implements IOption {
 	 public static Date parseString(String dateString) throws Exception {
 		 return new SimpleDateFormat(pattern).parse(dateString);
 	 }
+
+	@Override
+	public String toString() {
+		return new SimpleDateFormat(pattern).format(date);
+	}
+
 
 }

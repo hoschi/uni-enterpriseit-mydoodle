@@ -18,7 +18,7 @@ import javax.persistence.*;
  * @author hoschi
  */
 @Entity
-public class BODateOption implements Serializable {
+public class BODateOption implements IOption, Serializable {
     @Transient
     private static final long serialVersionUID = -2030218482407285034L;
     @Id
@@ -28,11 +28,11 @@ public class BODateOption implements Serializable {
     private BOOptionList list;
     @ElementCollection
     private List<String> votes;
-	@Temporal(javax.persistence.TemporalType.DATE)
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     
     public Date getDate() {
-        return GregorianCalendar.getInstance().getTime();
+        return date;
     }
 
     public BODateOption() {
@@ -86,6 +86,5 @@ public class BODateOption implements Serializable {
 	 */ public void setDate(Date date) {
 		this.date = date;
 	}
-
 
 }

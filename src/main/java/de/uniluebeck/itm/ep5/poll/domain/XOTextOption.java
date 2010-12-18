@@ -83,5 +83,13 @@ public class XOTextOption implements IOption {
 		this.votes.remove(voter);
 	}
 
+	public String getStringByLocale(String languageCode) {
+		for (XOLocalizedString lString : this.getStrings()) {
+			if (lString.getLocale().equals(languageCode))
+				return lString.getText();
+		}
+		return null;
+	}
+
 }
 

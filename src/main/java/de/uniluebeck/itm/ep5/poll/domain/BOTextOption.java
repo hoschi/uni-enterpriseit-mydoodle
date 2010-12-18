@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -26,8 +27,9 @@ public class BOTextOption implements IOption, Serializable {
     @Transient
     private static final long serialVersionUID = -2030218482407285034L;
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GenericGenerator(name="seq_id", strategy="de.uniluebeck.itm.ep5.util.UuidGenerator")
+	@GeneratedValue(generator="seq_id")
+    private String id;
     @ManyToOne
     private BOOptionList list;
     @OneToMany
@@ -43,14 +45,14 @@ public class BOTextOption implements IOption, Serializable {
     /**
      * @return the id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

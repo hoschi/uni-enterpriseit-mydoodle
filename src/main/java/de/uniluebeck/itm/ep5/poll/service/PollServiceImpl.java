@@ -161,4 +161,11 @@ public class PollServiceImpl implements PollService {
 			LocalizedStringRepository localizedStringRepository) {
 		this.localizedStringRepository = localizedStringRepository;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public xoPoll getPoll(Integer integer) {
+		boPoll bo = this.pollRepository.findById(integer);
+		return PollMapper.createXO(bo);
+	}
 }

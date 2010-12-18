@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XOTextOption implements IOption {
-    private Integer id;
+    private String id;
     private XOOptionList list;
     private List<XOLocalizedString> strings;
     private List<String> votes;
@@ -17,14 +17,14 @@ public class XOTextOption implements IOption {
     /**
      * @return the id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

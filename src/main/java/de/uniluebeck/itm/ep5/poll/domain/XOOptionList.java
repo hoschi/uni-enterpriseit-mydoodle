@@ -16,7 +16,6 @@ public class XOOptionList  {
     }
 
     public void addOption(IOption option) {
-		// TODO muss noch von xo nach bo convertiert werden
         if (option instanceof XODateOption) {
             this.dates.add(option);
         } else if (option instanceof XOTextOption) {
@@ -27,7 +26,6 @@ public class XOOptionList  {
     }
 
     public List<IOption> getOptions() {
-		// TODO muss noch von bo nach xo convertiert werden
         List<IOption> list = new ArrayList<IOption>();
         list.addAll(this.dates);
         list.addAll(this.texts);

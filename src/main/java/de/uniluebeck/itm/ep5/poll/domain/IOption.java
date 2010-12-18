@@ -12,4 +12,5 @@ import java.util.List;
  * @author hoschi
  */
 public interface IOption {
+	public void addVote(String voter);
 }

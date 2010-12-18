@@ -8,7 +8,7 @@ import java.util.List;
 
 public class XODateOption implements IOption {
 
-    private Integer id;
+    private String id;
 	private Date date;
     private XOOptionList list;
     private List<String> votes;
@@ -32,14 +32,14 @@ public class XODateOption implements IOption {
     /**
      * @return the id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

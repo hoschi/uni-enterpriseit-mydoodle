@@ -22,7 +22,7 @@ import javax.persistence.Transient;
  * @author hoschi
  */
 @Entity
-public class BOTextOption implements IOption, Serializable {
+public class BOTextOption implements Serializable {
     @Transient
     private static final long serialVersionUID = -2030218482407285034L;
     @Id

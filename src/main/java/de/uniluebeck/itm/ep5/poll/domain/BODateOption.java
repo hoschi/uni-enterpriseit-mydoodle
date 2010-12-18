@@ -18,7 +18,7 @@ import javax.persistence.*;
  * @author hoschi
  */
 @Entity
-public class BODateOption implements IOption, Serializable {
+public class BODateOption implements Serializable {
     @Transient
     private static final long serialVersionUID = -2030218482407285034L;
     @Id

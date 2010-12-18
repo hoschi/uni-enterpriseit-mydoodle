@@ -67,15 +67,17 @@ public class PollWebServiceImpl implements PollWebService {
 				XsOption op = new XsOption();
 				op.setDateTime(date.toString());
 				op.setId(date.getId().toString());
-				XsVotes votes = new XsVotes();
-				// TODO votes umfummeln
-				op.setVotes(votes);
+				op.setVotes(this.setVoters(option));
 			}
 			for (IOption option : list.getTexts()) {
 
 			}
 		}
 		return xs;
+	}
+
+	private XsVotes setVoters(IOption option) {
+		return null;
 	}
 
 	@Override

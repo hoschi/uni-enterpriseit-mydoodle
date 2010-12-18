@@ -1,5 +1,6 @@
 package de.uniluebeck.itm.ep5.poll.service;
 
+import de.uniluebeck.itm.ep5.poll.domain.IOption;
 import java.util.List;
 
 import de.uniluebeck.itm.ep5.poll.domain.boPoll;
@@ -16,4 +17,6 @@ public interface PollService {
 	List<xoPoll> search(String search);
 
 	xoPoll getPoll(Integer integer);
+
+	public IOption getOption(Integer id);
 }

@@ -184,7 +184,6 @@ public class PollWebServiceImplTest {
 	 * Test of voteForOptions method, of class PollWebServiceImpl.
 	 */
 	@Test
-	@Ignore
 	public void testVoteForOptions() {
 		logger.info("voteForOptions");
 		XsVote vote = null;

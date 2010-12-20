@@ -18,5 +18,6 @@ public interface PollService {
 
 	xoPoll getPoll(Integer integer);
 
-	public IOption getOption(Integer id);
+	public IOption getOption(String id);
+
 }

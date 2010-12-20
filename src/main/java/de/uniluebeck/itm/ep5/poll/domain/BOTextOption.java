@@ -99,4 +99,9 @@ public class BOTextOption implements IOption, Serializable {
 		return votes;
 	}
 
+	@Override
+	public void addVote(String voter) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
 }

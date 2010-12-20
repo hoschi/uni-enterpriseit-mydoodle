@@ -218,7 +218,7 @@ public class PollWebServiceImplTest {
 		logger.info(" - vote for one");
 		vote = new XsVote();
 		vote.setVoter("hoschi");
-		vote.getOptionId().add(text.getId().toString());
+		vote.getOptionId().add(text.getId());
 		instance.voteForOptions(vote);
 
 		pollService.updatePoll(poll);
@@ -230,8 +230,8 @@ public class PollWebServiceImplTest {
 		logger.info(" - vote for both, with same voter");
 		vote = new XsVote();
 		vote.setVoter("hoschi");
-		vote.getOptionId().add(text.getId().toString());
-		vote.getOptionId().add(date.getId().toString());
+		vote.getOptionId().add(text.getId());
+		vote.getOptionId().add(date.getId());
 		instance.voteForOptions(vote);
 
 		pollService.updatePoll(poll);
@@ -244,8 +244,8 @@ public class PollWebServiceImplTest {
 		logger.info(" - vote for both, with another voter");
 		vote = new XsVote();
 		vote.setVoter("jacob");
-		vote.getOptionId().add(text.getId().toString());
-		vote.getOptionId().add(date.getId().toString());
+		vote.getOptionId().add(text.getId());
+		vote.getOptionId().add(date.getId());
 		instance.voteForOptions(vote);
 
 		pollService.updatePoll(poll);

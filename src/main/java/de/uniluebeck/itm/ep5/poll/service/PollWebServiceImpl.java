@@ -104,9 +104,9 @@ public class PollWebServiceImpl implements PollWebService {
 
 	@Override
 	public void voteForOptions(XsVote voteForOptions) {
-		for (String sId : voteForOptions.getOptionId()){
-			Integer id = new Integer(sId);
+		for (String id : voteForOptions.getOptionId()){
 			IOption option = pollService.getOption(id);
+			option.addVote(voteForOptions.getVoter());
 		}
 	}
 }

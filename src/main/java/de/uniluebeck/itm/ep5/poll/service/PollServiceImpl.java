@@ -146,8 +146,19 @@ public class PollServiceImpl implements PollService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public IOption getOption(Integer id) {
-		return null;
+	public IOption getOption(String id) {
+		IOption option = null;
+		for (BOTextOption o : textOptionRepository.findAll()) {
+			if (o.getId().equals(id)) {
+				option = PollMapper.createXO(null, o);
+			}
+		}
+		for (BODateOption o : dateOptionRepository.findAll()) {
+			if (o.getId().equals(id)) {
+				option = PollMapper.createXO(null, o);
+			}
+		}
+		return option;
 	}
 
 	/**

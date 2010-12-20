@@ -1,6 +1,8 @@
 package de.uniluebeck.itm.ep5.poll.service;
 
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
+import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import java.util.List;
 
 import de.uniluebeck.itm.ep5.poll.domain.boPoll;
@@ -10,7 +12,7 @@ public interface PollService {
 
 	void addPoll(xoPoll poll);
 
-	void updatePoll(xoPoll poll);
+	xoPoll updatePoll(xoPoll poll);
 
 	List<xoPoll> getPolls();
 
@@ -19,5 +21,7 @@ public interface PollService {
 	xoPoll getPoll(Integer integer);
 
 	public IOption getOption(String id);
+
+	public void updateOption(IOption option);
 
 }

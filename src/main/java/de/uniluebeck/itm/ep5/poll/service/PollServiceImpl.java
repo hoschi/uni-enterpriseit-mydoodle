@@ -1,5 +1,7 @@
 package de.uniluebeck.itm.ep5.poll.service;
 
+import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,13 +104,14 @@ public class PollServiceImpl implements PollService {
 
 	@Transactional
 	@Override
-	public void updatePoll(xoPoll poll) {
+	public xoPoll updatePoll(xoPoll poll) {
 		if (!poll.isActive()) {
 			throw new InactiveExcepiton("you can't do this");
 		}
 		boPoll b = PollMapper.createBO(poll);
 		handleOptionLists(b.getOptions());
 		pollRepository.update(b);
+		return PollMapper.createXO(b);
 	}
 
 	@Transactional(readOnly = true)
@@ -150,15 +153,26 @@ public class PollServiceImpl implements PollService {
 		IOption option = null;
 		for (BOTextOption o : textOptionRepository.findAll()) {
 			if (o.getId().equals(id)) {
-				option = PollMapper.createXO(null, o);
+				option = PollMapper.createXO(o);
 			}
 		}
 		for (BODateOption o : dateOptionRepository.findAll()) {
 			if (o.getId().equals(id)) {
-				option = PollMapper.createXO(null, o);
+				option = PollMapper.createXO(o);
 			}
 		}
 		return option;
+	}
+
+	@Override
+	public void updateOption(IOption option) {
+		if (option instanceof XODateOption) {
+			BODateOption date = PollMapper.createBO((XODateOption) option);
+			dateOptionRepository.update(date);
+		} else if (option instanceof XOTextOption) {
+			BOTextOption text = PollMapper.createBO((XOTextOption) option);
+			textOptionRepository.update(text);
+		}
 	}
 
 	/**

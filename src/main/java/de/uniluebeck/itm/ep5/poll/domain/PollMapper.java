@@ -173,6 +173,22 @@ public class PollMapper {
     	result.setText(string.getText());
     	return result;
     }
+
+	public static BODateOption createBO(XODateOption option) {
+		return createBO(createBO(option.getList()), option);
+	}
+
+	public static BOTextOption createBO(XOTextOption option) {
+		return createBO(createBO(option.getList()), option);
+	}
+
+	public static IOption createXO(BOTextOption o) {
+		return createXO(createXO(o.getList()), o);
+	}
+
+	public static IOption createXO(BODateOption o) {
+		return createXO(createXO(o.getList()), o);
+	}
     
     
     

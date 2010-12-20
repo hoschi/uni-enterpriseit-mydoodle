@@ -165,6 +165,7 @@ public class PollServiceImpl implements PollService {
 	}
 
 	@Override
+	@Transactional
 	public void updateOption(IOption option) {
 		if (option instanceof XODateOption) {
 			BODateOption date = PollMapper.createBO((XODateOption) option);

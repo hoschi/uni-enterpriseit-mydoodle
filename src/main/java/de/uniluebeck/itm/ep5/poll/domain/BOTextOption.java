@@ -34,12 +34,9 @@ public class BOTextOption implements IOption, Serializable {
     private BOOptionList list;
     @OneToMany
     private List<BOLocalizedString> strings;
-    @ElementCollection
-    private List<String> votes;
 
     public BOTextOption() {
         this.strings = new ArrayList<BOLocalizedString>();
-        this.setVotes(new ArrayList<String>());
     }
 
     /**
@@ -84,20 +81,6 @@ public class BOTextOption implements IOption, Serializable {
     public void setStrings(List<BOLocalizedString> strings) {
         this.strings = strings;
     }
-
-	/**
-	 * @param votes the votes to set
-	 */
-	public void setVotes(List<String> votes) {
-		this.votes = votes;
-	}
-
-	/**
-	 * @return the votes
-	 */
-	public List<String> getVotes() {
-		return votes;
-	}
 
 	@Override
 	public void addVote(String voter) {

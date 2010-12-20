@@ -56,7 +56,6 @@ public class PollMapper {
         result.setId(option.getId());
 		result.setDate(option.getDate());
         result.setList(parentList);
-        result.setVotes(new ArrayList<String>(option.getVotes()));
         return result;
     }
 
@@ -65,7 +64,6 @@ public class PollMapper {
         result.setId(option.getId());
         result.setStrings(createBOLocalizedStrings(option.getStrings()));
         result.setList(parentList);
-        result.setVotes(new ArrayList<String>(option.getVotes()));
         return result;
     }
     
@@ -142,7 +140,6 @@ public class PollMapper {
         result.setId(option.getId());
 		result.setDate(option.getDate());
         result.setList(parentList);
-        result.setVotes(new ArrayList<String>(option.getVotes()));
         return result;
     }
 
@@ -151,7 +148,6 @@ public class PollMapper {
         result.setId(option.getId());
         result.setStrings(createXOLocalizedStrings(option.getStrings()));
         result.setList(parentList);
-        result.setVotes(new ArrayList<String>(option.getVotes()));
         return result;
     }
     

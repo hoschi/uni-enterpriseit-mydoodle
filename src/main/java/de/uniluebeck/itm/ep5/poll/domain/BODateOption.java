@@ -28,8 +28,6 @@ public class BODateOption implements IOption, Serializable {
     private String id;
     @ManyToOne
     private BOOptionList list;
-    @ElementCollection
-    private List<String> votes;
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     
@@ -38,7 +36,6 @@ public class BODateOption implements IOption, Serializable {
     }
 
     public BODateOption() {
-        this.setVotes(new ArrayList<String>());
     }
 
     /**
@@ -68,20 +65,6 @@ public class BODateOption implements IOption, Serializable {
     public void setList(BOOptionList list) {
         this.list = list;
     }
-
-	/**
-	 * @param votes the votes to set
-	 */
-	public void setVotes(List<String> votes) {
-		this.votes = votes;
-	}
-
-	/**
-	 * @return the votes
-	 */
-	public List<String> getVotes() {
-		return votes;
-	}
 
 	/**
 	 * @param date the date to set

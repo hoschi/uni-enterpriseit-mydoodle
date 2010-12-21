@@ -2,6 +2,7 @@ package de.uniluebeck.itm.ep5.poll.service;
 
 import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOVote;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import de.uniluebeck.itm.ep5.poll.domain.BODateOption;
 import de.uniluebeck.itm.ep5.poll.domain.BOLocalizedString;
 import de.uniluebeck.itm.ep5.poll.domain.BOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.BOTextOption;
+import de.uniluebeck.itm.ep5.poll.domain.BOVote;
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
 import de.uniluebeck.itm.ep5.poll.domain.PollMapper;
 import de.uniluebeck.itm.ep5.poll.domain.boPoll;
@@ -20,6 +22,7 @@ import de.uniluebeck.itm.ep5.poll.repository.LocalizedStringRepository;
 import de.uniluebeck.itm.ep5.poll.repository.OptionListRepository;
 import de.uniluebeck.itm.ep5.poll.repository.PollRepository;
 import de.uniluebeck.itm.ep5.poll.repository.TextOptionRepository;
+import de.uniluebeck.itm.ep5.poll.repository.VoteRepository;
 import de.uniluebeck.itm.ep5.util.InactiveExcepiton;
 import de.uniluebeck.itm.ep5.util.Wildcard;
 
@@ -30,14 +33,15 @@ public class PollServiceImpl implements PollService {
 	private TextOptionRepository textOptionRepository;
 	private DateOptionRepository dateOptionRepository;
 	private LocalizedStringRepository localizedStringRepository;
+	private VoteRepository voteRepository;
 
 	@Transactional
 	@Override
 	public void addPoll(xoPoll poll) {
 		boPoll b = PollMapper.createBO(poll);
-		handleOptionLists(b.getOptions());
 		pollRepository.add(b);
 		poll.setId(b.getId());
+		handleOptionLists(b.getOptions());	
 		poll.setOptions(PollMapper.createXO(b.getOptions()));
 	}
 
@@ -50,13 +54,14 @@ public class PollServiceImpl implements PollService {
 	}
 
 	private void handleOptionList(BOOptionList list) {
-		handleDateOptions(list.getDates());
-		handleTextOptions(list.getTexts());
+		
 		if (list.getId() == null) {
 			optionListRepository.add(list);
 		} else {
 			optionListRepository.update(list);
 		}
+		handleDateOptions(list.getDates());
+		handleTextOptions(list.getTexts());
 	}
 
 	private void handleTextOptions(List<IOption> texts) {
@@ -199,5 +204,39 @@ public class PollServiceImpl implements PollService {
 	public void setLocalizedStringRepository(
 			LocalizedStringRepository localizedStringRepository) {
 		this.localizedStringRepository = localizedStringRepository;
+	}
+	
+	public void setVoteRepository(
+			VoteRepository voteRepository) {
+		this.voteRepository = voteRepository;
+	}
+
+	@Override
+	public void addVote(IOption option, String voter) {
+		BOVote vote = new BOVote();
+		vote.setOptionId(option.getId());
+		vote.setVoter(voter);
+		voteRepository.add(vote);
+	}
+
+	@Override
+	public List<String> getVotes(IOption option) {
+		List<String> strings = new ArrayList<String>();
+		for (BOVote v : this.voteRepository.findAll()) {
+			if (v.getOptionId().toString().equals(option.getId())) {
+				strings.add(v.getVoter());
+			}
+		}
+		return strings;
+	}
+
+	@Override
+	public void removeVote(IOption option, String voter) {
+		for (BOVote v : this.voteRepository.findAll()) {
+			if (v.getOptionId().toString().equals(option.getId()) &&
+					v.getVoter().equals(voter)) {
+				voteRepository.remove(v);
+			}
+		}
 	}
 }

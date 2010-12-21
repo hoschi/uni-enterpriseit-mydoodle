@@ -3,6 +3,7 @@ package de.uniluebeck.itm.ep5.poll.service;
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
 import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOVote;
 import java.util.List;
 
 import de.uniluebeck.itm.ep5.poll.domain.boPoll;
@@ -23,5 +24,11 @@ public interface PollService {
 	public IOption getOption(String id);
 
 	public void updateOption(IOption option);
+
+	public void addVote(IOption option, String voter);
+
+	public void removeVote(IOption option, String voter);
+
+	public List<String> getVotes(IOption option);
 
 }

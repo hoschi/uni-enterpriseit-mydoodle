@@ -7,6 +7,7 @@
     <class>de.uniluebeck.itm.ep5.poll.domain.BOLocalizedString</class>
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>de.uniluebeck.itm.ep5.poll.domain.boPoll</class>
+    <class>de.uniluebeck.itm.ep5.poll.domain.BOVote</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="hibernate.connection.username" value="soa05"/>

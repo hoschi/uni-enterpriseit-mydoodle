@@ -1,26 +1,43 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
+import de.uniluebeck.itm.ep5.poll.service.PollService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class XODateOption implements IOption {
 
     private String id;
 	private Date date;
     private XOOptionList list;
-    private List<String> votes;
+	private PollService pollService;
+
+
 	// the desired format
     private static final String pattern = "yyyy-MM-dd'T'HH:mm";
 
     public XODateOption() {
-        this.setVotes(new ArrayList<String>());
+		// Create the spring container using the XML configuration in
+        // application-context.xml
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(
+                "application-context.xml");
+
+        // Retrieve the beans we'll use during testing
+        pollService = ctx.getBean(PollService.class);
     }
 
 	public XODateOption(Date date) {
-        this.setVotes(new ArrayList<String>());
+		// Create the spring container using the XML configuration in
+        // application-context.xml
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(
+                "application-context.xml");
+
+        // Retrieve the beans we'll use during testing
+        pollService = ctx.getBean(PollService.class);
 		this.date = date;
     }
 
@@ -57,27 +74,16 @@ public class XODateOption implements IOption {
         this.list = list;
     }
 
-	/**
-	 * @param votes the votes to set
-	 */
-	public void setVotes(List<String> votes) {
-		this.votes = votes;
-	}
-
-	/**
-	 * @return the votes
-	 */
-	public List<String> getVotes() {
-		return votes;
-	}
-
-
 	public void addVote(String voter) {
-		this.votes.add(voter);
+		this.pollService.addVote(this, voter);
 	}
 	
 	public void removeVote(String voter) {
-		this.votes.remove(voter);
+		this.pollService.removeVote(this, voter);
+	}
+
+	public List<String> getVotes() {
+		return pollService.getVotes(this);
 	}
 
 	/**

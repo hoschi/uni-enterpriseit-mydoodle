@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface IOption {
 	public void addVote(String voter);
+	public String getId();
 }

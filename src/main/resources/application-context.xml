@@ -53,10 +53,14 @@
 	<bean name="localizedStringRepository"
 		class="de.uniluebeck.itm.ep5.poll.repository.PersistentLocalizedStringRepository">
 	</bean>
+	<bean name="voteRepository"
+		class="de.uniluebeck.itm.ep5.poll.repository.PersistentVoteRepository">
+	</bean>
 
 	<!-- This is our service object that we want to make transactional -->
 	<bean name="pollService" class="de.uniluebeck.itm.ep5.poll.service.PollServiceImpl">
 		<property name="pollRepository" ref="pollRepository" />
+		<property name="voteRepository" ref="voteRepository" />
 		<property name="optionListRepository" ref="optionListRepository" />
 		<property name="dateOptionRepository" ref="dateOptionRepository" />
 		<property name="textOptionRepository" ref="textOptionRepository" />

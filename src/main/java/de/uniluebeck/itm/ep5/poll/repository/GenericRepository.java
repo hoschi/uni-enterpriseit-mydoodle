@@ -6,7 +6,7 @@ public interface GenericRepository<T> {
 
 	T findById(Integer id);
 
-	void update(T object);
+	T update(T object);
 
 	void add(T object);
 

@@ -110,7 +110,7 @@ public class PollServiceImpl implements PollService {
 		}
 		boPoll b = PollMapper.createBO(poll);
 		handleOptionLists(b.getOptions());
-		pollRepository.update(b);
+		b = pollRepository.update(b);
 		return PollMapper.createXO(b);
 	}
 
@@ -170,9 +170,12 @@ public class PollServiceImpl implements PollService {
 		if (option instanceof XODateOption) {
 			BODateOption date = PollMapper.createBO((XODateOption) option);
 			dateOptionRepository.update(date);
+			dateOptionRepository.add(date);
 		} else if (option instanceof XOTextOption) {
 			BOTextOption text = PollMapper.createBO((XOTextOption) option);
-			textOptionRepository.update(text);
+			text = textOptionRepository.update(text);
+			textOptionRepository.add(text);
+			option = text;
 		}
 	}
 

@@ -20,8 +20,8 @@ public abstract class AbstractPersistentRepository<T> implements
 		entityManager.persist(t);
 	}
 
-	public void update(T t) {
-		entityManager.merge(t);
+	public T update(T t) {
+		return entityManager.merge(t);
 	}
 
 	public void remove(T t) {

@@ -147,6 +147,14 @@ public class PollServiceImpl implements PollService {
 		return PollMapper.createXO(bo);
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public xoPoll refresh(xoPoll poll) {
+		boPoll b = PollMapper.createBO(poll);
+		b = pollRepository.refresh(b);
+		return PollMapper.createXO(b);
+	}
+
 	@Override
 	@Transactional(readOnly = true)
 	public IOption getOption(String id) {

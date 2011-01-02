@@ -24,6 +24,12 @@ public abstract class AbstractPersistentRepository<T> implements
 		return entityManager.merge(t);
 	}
 
+	public T refresh(T t) {
+		t = entityManager.merge(t);
+		entityManager.refresh(t);
+		return t;
+	}
+
 	public void remove(T t) {
 		entityManager.remove(t);
 	}

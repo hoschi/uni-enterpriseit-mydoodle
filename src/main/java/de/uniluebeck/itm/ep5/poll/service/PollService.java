@@ -20,6 +20,8 @@ public interface PollService {
 
 	xoPoll getPoll(Integer integer);
 
+	public xoPoll refresh(xoPoll poll);
+
 	public IOption getOption(String id);
 
 	public void updateOption(IOption option);

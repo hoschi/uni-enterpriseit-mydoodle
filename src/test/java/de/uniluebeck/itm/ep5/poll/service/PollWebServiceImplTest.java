@@ -221,7 +221,7 @@ public class PollWebServiceImplTest {
 		vote.getOptionId().add(text.getId());
 		instance.voteForOptions(vote);
 
-		poll = pollService.updatePoll(poll);
+		poll = pollService.refresh(poll);
 		text = (XOTextOption) olist.getTexts().get(0);
 		assertEquals(1, text.getVotes().size());
 		assertEquals(0, date.getVotes().size());

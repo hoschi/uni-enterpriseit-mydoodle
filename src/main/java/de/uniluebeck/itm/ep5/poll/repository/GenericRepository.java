@@ -8,6 +8,8 @@ public interface GenericRepository<T> {
 
 	T update(T object);
 
+	T refresh(T object);
+
 	void add(T object);
 
 	void remove(T object);

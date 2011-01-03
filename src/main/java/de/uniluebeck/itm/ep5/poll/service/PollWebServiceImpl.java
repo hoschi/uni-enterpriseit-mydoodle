@@ -18,6 +18,7 @@ import de.uniluebeck.itm.pollservice.XsVote;
 import de.uniluebeck.itm.pollservice.XsVotes;
 import java.util.ArrayList;
 import java.util.List;
+import javax.jws.WebService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -27,6 +28,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author hoschi
  */
+@WebService(portName = "PollWebServicePort", serviceName = "Pollservice", targetNamespace = "www.itm.uniluebeck.de/pollservice", endpointInterface = "de.uniluebeck.itm.pollservice.PollWebService", wsdlLocation = "WEB-INF/Pollservice.wsdl")
 public class PollWebServiceImpl implements PollWebService {
 
 	final static Logger logger =
@@ -96,7 +98,7 @@ public class PollWebServiceImpl implements PollWebService {
 				op.setVotes(votes);
 				xsList.getOption().add(op);
 			}
-			
+
 			xs.getOptionList().add(xsList);
 		}
 		return xs;
@@ -104,7 +106,7 @@ public class PollWebServiceImpl implements PollWebService {
 
 	@Override
 	public void voteForOptions(XsVote voteForOptions) {
-		for (String id : voteForOptions.getOptionId()){
+		for (String id : voteForOptions.getOptionId()) {
 			IOption option = pollService.getOption(id);
 			option.addVote(voteForOptions.getVoter());
 			pollService.updateOption(option);

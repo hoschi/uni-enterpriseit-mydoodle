@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+    <s:Body>
+		<m:voteForOptions xmlns:m="www.itm.uniluebeck.de/pollservice">
+			<voteForOptions>
+				<OptionId>96cc7168-d1e8-4593-a5af-13f03e7465fc</OptionId>
+				<Voter>jj</Voter>
+			</voteForOptions>
+		</m:voteForOptions>
+    </s:Body>
+</s:Envelope>

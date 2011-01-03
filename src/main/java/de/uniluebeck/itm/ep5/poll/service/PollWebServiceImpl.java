@@ -61,6 +61,9 @@ public class PollWebServiceImpl implements PollWebService {
 
 	@Override
 	public XsPoll getPoll(String pollId, String languageCode) {
+		if (pollId == null)
+			return null;
+		
 		xoPoll poll = pollService.getPoll(new Integer(pollId));
 		XsPoll xs = new XsPoll();
 		xs.setId(poll.getId().toString());

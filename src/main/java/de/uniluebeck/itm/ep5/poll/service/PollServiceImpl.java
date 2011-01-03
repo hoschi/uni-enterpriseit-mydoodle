@@ -22,6 +22,8 @@ import de.uniluebeck.itm.ep5.poll.repository.PollRepository;
 import de.uniluebeck.itm.ep5.poll.repository.TextOptionRepository;
 import de.uniluebeck.itm.ep5.util.InactiveExcepiton;
 import de.uniluebeck.itm.ep5.util.Wildcard;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PollServiceImpl implements PollService {
 
@@ -177,13 +179,16 @@ public class PollServiceImpl implements PollService {
 	public void updateOption(IOption option) {
 		if (option instanceof XODateOption) {
 			BODateOption date = PollMapper.createBO((XODateOption) option);
-			dateOptionRepository.update(date);
+			date = dateOptionRepository.update(date);
+			date.filterVotes();
 			dateOptionRepository.add(date);
 		} else if (option instanceof XOTextOption) {
 			BOTextOption text = PollMapper.createBO((XOTextOption) option);
+			// reatach object to entity mapper
 			text = textOptionRepository.update(text);
+			text.filterVotes();
+			// update option
 			textOptionRepository.add(text);
-			option = text;
 		}
 	}
 

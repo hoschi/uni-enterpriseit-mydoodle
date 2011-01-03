@@ -222,6 +222,7 @@ public class PollWebServiceImplTest {
 		instance.voteForOptions(vote);
 
 		poll = pollService.refresh(poll);
+		olist = poll.getOptionLists().get(0);
 		text = (XOTextOption) olist.getTexts().get(0);
 		assertEquals(1, text.getVotes().size());
 		assertEquals(0, date.getVotes().size());
@@ -234,8 +235,10 @@ public class PollWebServiceImplTest {
 		vote.getOptionId().add(date.getId());
 		instance.voteForOptions(vote);
 
-		pollService.updatePoll(poll);
+		poll = pollService.refresh(poll);
+		olist = poll.getOptionLists().get(0);
 		text = (XOTextOption) olist.getTexts().get(0);
+		date = (XODateOption) olist.getDates().get(0);
 		assertEquals(1, text.getVotes().size());
 		assertEquals(1, date.getVotes().size());
 		assertEquals("hoschi", text.getVotes().get(0));
@@ -248,8 +251,10 @@ public class PollWebServiceImplTest {
 		vote.getOptionId().add(date.getId());
 		instance.voteForOptions(vote);
 
-		pollService.updatePoll(poll);
+		poll = pollService.refresh(poll);
+		olist = poll.getOptionLists().get(0);
 		text = (XOTextOption) olist.getTexts().get(0);
+		date = (XODateOption) olist.getDates().get(0);
 		assertEquals(2, text.getVotes().size());
 		assertEquals(2, date.getVotes().size());
 		assertEquals("hoschi", text.getVotes().get(0));
@@ -262,8 +267,10 @@ public class PollWebServiceImplTest {
 		vote.setVoter("hoschi");
 		instance.voteForOptions(vote);
 
-		pollService.updatePoll(poll);
+		poll = pollService.refresh(poll);
+		olist = poll.getOptionLists().get(0);
 		text = (XOTextOption) olist.getTexts().get(0);
+		date = (XODateOption) olist.getDates().get(0);
 		assertEquals(2, text.getVotes().size());
 		assertEquals(2, date.getVotes().size());
 		assertEquals("hoschi", text.getVotes().get(0));

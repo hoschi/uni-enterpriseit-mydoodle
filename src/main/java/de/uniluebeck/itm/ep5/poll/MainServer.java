@@ -2,11 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.uniluebeck.itm.ep5.poll.domain;
+package de.uniluebeck.itm.ep5.poll;
 
+import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
 import de.uniluebeck.itm.ep5.poll.service.PollWebServiceImpl;
+import de.uniluebeck.itm.pollservice.PollWebService;
+import de.uniluebeck.itm.pollservice.Pollservice;
+import de.uniluebeck.itm.pollservice.XsPoll;
+import de.uniluebeck.itm.pollservice.XsPollInfo;
+import de.uniluebeck.itm.pollservice.XsVote;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import javax.xml.ws.Endpoint;
 import org.slf4j.Logger;
@@ -27,11 +37,11 @@ public class MainServer {
 		logger.info("starting service");
 		Endpoint.publish("http://localhost:8080/poll", new PollWebServiceImpl());
 		logger.info("service stared");
-		createData();
-		logger.info("data added to db");
+		//createData();
 	}
 
 	private static void createData() {
+		logger.info("adding data to db");
 		ApplicationContext ctx;
 		PollService pollService;
 		// Create the spring container using the XML configuration in
@@ -72,5 +82,6 @@ public class MainServer {
 		pollService.addPoll(poll);
 		poll = new xoPoll("poll3");
 		pollService.addPoll(poll);
+		logger.info("data added to db");
 	}
 }

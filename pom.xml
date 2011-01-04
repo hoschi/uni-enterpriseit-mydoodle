@@ -173,7 +173,7 @@
 							<goal>wsimport</goal>
 						</goals>
 						<configuration>
-							<wsdlDirectory>src/main/resources/wsdl</wsdlDirectory>
+							<wsdlDirectory>src/main/resources/WEB-INF</wsdlDirectory>
 							<wsdlFiles>                   
 								<wsdlFile>Pollservice.wsdl</wsdlFile>
 							</wsdlFiles>

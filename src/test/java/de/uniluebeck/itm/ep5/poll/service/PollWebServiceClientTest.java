@@ -8,14 +8,19 @@ import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
 import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
+import de.uniluebeck.itm.pollservice.Pollservice;
 import de.uniluebeck.itm.pollservice.XsOption;
 import de.uniluebeck.itm.pollservice.XsOptionList;
 import de.uniluebeck.itm.pollservice.XsPoll;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
 import de.uniluebeck.itm.pollservice.XsVote;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import javax.xml.namespace.QName;
 import org.junit.*;
 import static org.junit.Assert.*;
 import org.slf4j.Logger;
@@ -24,15 +29,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * This is the test class to test the service methods, isoladet from the soap
- * and jax-ws stuff.
+ * Test web service through soap interface.
+ * Caution: you have to start the server manually!!
  * 
  * @author hoschi
  */
-public class PollWebServiceImplTest {
+public class PollWebServiceClientTest {
 // <editor-fold defaultstate="collapsed" desc="generated stuff">
 
-	public PollWebServiceImplTest() {
+	public PollWebServiceClientTest() {
 	}
 
 	@BeforeClass
@@ -47,9 +52,10 @@ public class PollWebServiceImplTest {
 	public void tearDown() {
 	}// </editor-fold>
 	final static Logger logger =
-			LoggerFactory.getLogger(PollWebServiceImplTest.class);
+			LoggerFactory.getLogger(PollWebServiceClientTest.class);
 	ApplicationContext ctx;
 	PollService pollService;
+	Pollservice instance;
 
 	@Before
 	public void setUp() {
@@ -60,15 +66,22 @@ public class PollWebServiceImplTest {
 
 		// Retrieve the beans we'll use during testing
 		pollService = ctx.getBean(PollService.class);
+
+		instance = null;
+		try {
+			instance = new Pollservice(new URL("http://localhost:8080/poll?WSDL"), new QName("www.itm.uniluebeck.de/pollservice", "Pollservice"));
+		} catch (MalformedURLException ex) {
+			java.util.logging.Logger.getLogger(PollWebServiceClientTest.class.getName()).log(Level.SEVERE, null, ex);
+		}
 	}
 
 	/**
-	 * Test of getPolls method, of class PollWebServiceImpl.
+	 * Test of getPolls method, of class Pollservice.
 	 */
 	@Test
 	public void testGetPolls() {
 		logger.info("getPolls");
-		PollWebServiceImpl instance = new PollWebServiceImpl();
+		
 		List<XsPollInfo> result;
 		xoPoll poll;
 
@@ -99,7 +112,7 @@ public class PollWebServiceImplTest {
 
 
 		logger.info("- get poll infos");
-		result = instance.getPolls(Locale.ENGLISH.toString());
+		result = instance.getPollWebServicePort().getPolls(Locale.ENGLISH.toString());
 		assertEquals(3, result.size());
 		assertEquals("poll1", result.get(0).getTitle());
 		assertEquals("poll2", result.get(1).getTitle());
@@ -107,12 +120,11 @@ public class PollWebServiceImplTest {
 	}
 
 	/**
-	 * Test of getPoll method, of class PollWebServiceImpl.
+	 * Test of getPoll method, of class Pollservice.
 	 */
 	@Test
 	public void testGetPoll() throws Exception {
 		logger.info("getPoll");
-		PollWebServiceImpl instance = new PollWebServiceImpl();
 		XsPoll result;
 		XsOptionList optionList;
 
@@ -140,7 +152,7 @@ public class PollWebServiceImplTest {
 		pollService.addPoll(poll);
 
 		logger.info("- get the poll - english locale");
-		result = instance.getPoll(poll.getId().toString(),
+		result = instance.getPollWebServicePort().getPoll(poll.getId().toString(),
 				Locale.ENGLISH.toString());
 		assertEquals(poll.getTitle(), result.getTitle());
 		assertEquals(1, result.getOptionList().size());
@@ -161,7 +173,7 @@ public class PollWebServiceImplTest {
 		}
 
 		logger.info("- get the poll - german locale");
-		result = instance.getPoll(poll.getId().toString(),
+		result = instance.getPollWebServicePort().getPoll(poll.getId().toString(),
 				Locale.GERMAN.toString());
 		assertEquals(poll.getTitle(), result.getTitle());
 		assertEquals(1, result.getOptionList().size());
@@ -183,13 +195,12 @@ public class PollWebServiceImplTest {
 	}
 
 	/**
-	 * Test of voteForOptions method, of class PollWebServiceImpl.
+	 * Test of voteForOptions method, of class Pollservice.
 	 */
 	@Test
 	public void testVoteForOptions() {
 		logger.info("voteForOptions");
 		XsVote vote = null;
-		PollWebServiceImpl instance = new PollWebServiceImpl();
 
 		logger.info(" - create poll with two options to vote for");
 		// create strings
@@ -221,7 +232,7 @@ public class PollWebServiceImplTest {
 		vote = new XsVote();
 		vote.setVoter("hoschi");
 		vote.getOptionId().add(text.getId());
-		instance.voteForOptions(vote);
+		instance.getPollWebServicePort().voteForOptions(vote);
 
 		poll = pollService.refresh(poll);
 		olist = poll.getOptionLists().get(0);
@@ -235,7 +246,7 @@ public class PollWebServiceImplTest {
 		vote.setVoter("hoschi");
 		vote.getOptionId().add(text.getId());
 		vote.getOptionId().add(date.getId());
-		instance.voteForOptions(vote);
+		instance.getPollWebServicePort().voteForOptions(vote);
 
 		poll = pollService.refresh(poll);
 		olist = poll.getOptionLists().get(0);
@@ -251,7 +262,7 @@ public class PollWebServiceImplTest {
 		vote.setVoter("jacob");
 		vote.getOptionId().add(text.getId());
 		vote.getOptionId().add(date.getId());
-		instance.voteForOptions(vote);
+		instance.getPollWebServicePort().voteForOptions(vote);
 
 		poll = pollService.refresh(poll);
 		olist = poll.getOptionLists().get(0);
@@ -267,7 +278,7 @@ public class PollWebServiceImplTest {
 		logger.info(" - vote for no one");
 		vote = new XsVote();
 		vote.setVoter("hoschi");
-		instance.voteForOptions(vote);
+		instance.getPollWebServicePort().voteForOptions(vote);
 
 		poll = pollService.refresh(poll);
 		olist = poll.getOptionLists().get(0);

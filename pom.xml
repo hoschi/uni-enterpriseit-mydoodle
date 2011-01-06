@@ -13,15 +13,23 @@
 		<org.slf4j.version>1.5.10</org.slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-        <repositories>
-            <repository>
-                <id>jboss</id>
-                <name>jboss</name>
-                <layout>default</layout>
-                <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-             </repository>
-        </repositories>
-        
+
+	<repositories>
+		<repository>
+			<id>jboss</id>
+			<name>jboss</name>
+			<layout>default</layout>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>onejar-maven-plugin.googlecode.com</id>
+			<url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<dependencies>
 		<!-- Spring -->
 		<!-- Application Context (depends on spring-core, spring-expression, spring-aop, 
@@ -150,6 +158,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -174,13 +183,55 @@
 						</goals>
 						<configuration>
 							<wsdlDirectory>src/main/resources/WEB-INF</wsdlDirectory>
-							<wsdlFiles>                   
+							<wsdlFiles>
 								<wsdlFile>Pollservice.wsdl</wsdlFile>
 							</wsdlFiles>
-							<wsdlLocation>http://blahbl.ah/keineahnung</wsdlLocation> 
+							<wsdlLocation>http://blahbl.ah/keineahnung</wsdlLocation>
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>de.uniluebeck.itm.ep5.poll.MainServer</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.dstovall</groupId>
+				<artifactId>onejar-maven-plugin</artifactId>
+				<version>1.4.4</version>
+				<executions>
+					<execution>
+						<configuration>
+                            <!-- Optional, default is false -->
+							<attachToBuild>true</attachToBuild>
+						</configuration>
+						<goals>
+							<goal>one-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>de.uniluebeck.itm.ep5.poll.MainServer</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

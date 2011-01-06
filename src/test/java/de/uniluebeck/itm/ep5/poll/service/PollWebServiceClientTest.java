@@ -79,6 +79,7 @@ public class PollWebServiceClientTest {
 	 * Test of getPolls method, of class Pollservice.
 	 */
 	@Test
+	@Ignore
 	public void testGetPolls() {
 		logger.info("getPolls");
 		
@@ -123,6 +124,7 @@ public class PollWebServiceClientTest {
 	 * Test of getPoll method, of class Pollservice.
 	 */
 	@Test
+	@Ignore
 	public void testGetPoll() throws Exception {
 		logger.info("getPoll");
 		XsPoll result;
@@ -198,6 +200,7 @@ public class PollWebServiceClientTest {
 	 * Test of voteForOptions method, of class Pollservice.
 	 */
 	@Test
+	@Ignore
 	public void testVoteForOptions() {
 		logger.info("voteForOptions");
 		XsVote vote = null;

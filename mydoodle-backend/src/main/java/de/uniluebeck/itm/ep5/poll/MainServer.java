@@ -37,7 +37,7 @@ public class MainServer {
 		logger.info("starting service");
 		Endpoint.publish("http://localhost:8080/poll", new PollWebServiceImpl());
 		logger.info("service stared");
-		//createData();
+		createData();
 	}
 
 	private static void createData() {

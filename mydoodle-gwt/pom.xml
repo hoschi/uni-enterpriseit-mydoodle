@@ -21,7 +21,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.uniluebeck.itm.ep5</groupId>
-			<artifactId>mydoodle</artifactId>
+			<artifactId>mydoodle-backend</artifactId>
 			<version>0.1</version>
 		</dependency>
 		<dependency>
@@ -48,6 +48,12 @@
 			<version>${gwt.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>
@@ -107,7 +113,13 @@
 				<artifactId>maven-jetty-plugin</artifactId>
 				<version>6.1.14</version>
 				<configuration>
-					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<scanIntervalSeconds>9999</scanIntervalSeconds>
+					<connectors>
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>9090</port>
+							<maxIdleTime>60000</maxIdleTime>
+						</connector>
+					</connectors>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -8,4 +8,16 @@
 	<welcome-file-list>
 		<welcome-file>welcomeGWT.html</welcome-file>
 	</welcome-file-list>
+
+	<!-- servlets -->
+	<servlet>
+		<servlet-name>PollServiceGwtImpl</servlet-name>
+		<servlet-class>
+    de.uniluebeck.itm.ep5.server.PollServiceGwtImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PollServiceGwtImpl</servlet-name>
+		<url-pattern>/de.uniluebeck.itm.ep5.Main/poll</url-pattern>
+	</servlet-mapping>
 </web-app>

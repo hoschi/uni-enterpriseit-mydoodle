@@ -28,7 +28,7 @@ public class MainEntryPoint implements EntryPoint {
      * that declares an implementing class as an entry-point
      */
     public void onModuleLoad() {
-        final Label label = new Label("Hello, GWT!!!");
+        final Label label = new Label("hello, GWT!!!");
         final Button button = new Button("Click me!");
         
         button.addClickHandler(new ClickHandler() {

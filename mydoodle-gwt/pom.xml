@@ -20,6 +20,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>de.uniluebeck.itm.ep5</groupId>
+			<artifactId>mydoodle</artifactId>
+			<version>0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>6.0</version>

@@ -18,9 +18,9 @@ Instrcutions
 
  * create a tunnel to our DB
  * run "mvn clean package" to create the one jar file
- * run web service with "java -jar target/mydoodle-0.1.one-jar.jar"
+ * run web service with "java -jar mydoodle-backend/target/mydoodle-0.1.one-jar.jar"
  * ignore the warnings (http://stackoverflow.com/questions/3662659/one-jar-remove-verbose-warning-information-on-application-load/3908716#3908716)
- * remove the "@Ignore" statements from "src/test/java/de/uniluebeck/itm/ep5/poll/service/PollWebServiceClientTest.java" and run "mvn test" to test the client automatically
+ * remove the "@Ignore" statements from "mydoodle-backend/src/test/java/de/uniluebeck/itm/ep5/poll/service/PollWebServiceClientTest.java" and run "mvn test" to test the client automatically
  * or test it with curl (see below)
 
 Additional Info
@@ -37,8 +37,9 @@ because option IDs are random!
 Milestone 3
 ================================================================================
 
-starting server with
+start web service like in M2 (see above) and then you can start the web server with
 	
+	cd mydoodle-gwt
 	mvn package jetty:run-exploded
 
 after some changes in the code you can redeploy your changes in another terminal with

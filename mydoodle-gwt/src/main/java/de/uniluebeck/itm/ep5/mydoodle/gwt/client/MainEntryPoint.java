@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.yournamehere.client;
+package de.uniluebeck.itm.ep5.mydoodle.gwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.Button;
@@ -28,7 +28,7 @@ public class MainEntryPoint implements EntryPoint {
      * that declares an implementing class as an entry-point
      */
     public void onModuleLoad() {
-        final Label label = new Label("hello, GWT!!!");
+        final Label label = new Label("blubb, GWT!!!");
         final Button button = new Button("Click me!");
         
         button.addClickHandler(new ClickHandler() {

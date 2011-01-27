@@ -9,6 +9,7 @@ We use
  * spring
  * hibernate
  * gwt
+ * jetty
 
 Milestone 2
 ================================================================================
@@ -23,7 +24,7 @@ Instrcutions
  * or test it with curl (see below)
 
 Additional Info
-================================================================================
+--------------------------------------------------------------------------------
 
 To test service with curl use the following commands, but make sure you change
 the data in the test files. In any case, change the IDs in the vote.xml,
@@ -32,3 +33,14 @@ because option IDs are random!
 	curl -H "Accept: text/xml" -H "Content-Type: text/xml;charset=UTF-8" -v -d @src/test/resources/poll.xml http://localhost:8080/poll/getPoll
 	curl -H "Accept: text/xml" -H "Content-Type: text/xml;charset=UTF-8" -v -d @src/test/resources/polls.xml http://localhost:8080/poll/getPolls
 	curl -H "Accept: text/xml" -H "Content-Type: text/xml;charset=UTF-8" -v -d @src/test/resources/vote.xml http://localhost:8080/poll/voteForOptions
+
+Milestone 3
+================================================================================
+
+starting server with
+	
+	mvn package jetty:run-exploded
+
+after some changes in the code you can redeploy your changes in another terminal with
+
+	mvn clean install

@@ -13,11 +13,11 @@
 	<servlet>
 		<servlet-name>PollServiceGwtImpl</servlet-name>
 		<servlet-class>
-    de.uniluebeck.itm.ep5.mydoodle.gwt.server.PollServiceGwtImpl
+    de.uniluebeck.itm.ep5.server.PollServiceGwtImpl
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PollServiceGwtImpl</servlet-name>
-		<url-pattern>/de.uniluebeck.itm.ep5.mydoodle.gwt.Main/poll</url-pattern>
+		<url-pattern>/de.uniluebeck.itm.ep5.Main/poll</url-pattern>
 	</servlet-mapping>
 </web-app>

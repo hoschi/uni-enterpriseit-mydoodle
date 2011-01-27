@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.uniluebeck.itm.ep5.mydoodle.gwt.server;
+package de.uniluebeck.itm.ep5.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import de.uniluebeck.itm.ep5.mydoodle.gwt.client.PollServiceGwt;
+import de.uniluebeck.itm.ep5.client.PollServiceGwt;
 import de.uniluebeck.itm.pollservice.Pollservice;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
 import java.net.MalformedURLException;
@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
  */
 public class PollServiceGwtImpl extends RemoteServiceServlet implements PollServiceGwt {
 
-	public String myMethod(String s) {
+	public List<XsPollInfo> myMethod(String s) {
 		Pollservice instance = null;
 		try {
 			instance = new Pollservice(new URL("http://localhost:8080/poll?WSDL"), new QName("www.itm.uniluebeck.de/pollservice", "Pollservice"));
@@ -30,6 +30,6 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements PollServ
 			Logger.getLogger(PollServiceGwtImpl.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		List<XsPollInfo> polls = instance.getPollWebServicePort().getPolls(Locale.ENGLISH.toString());
-		return "size " + polls.size();
+		return polls;
 	}
 }

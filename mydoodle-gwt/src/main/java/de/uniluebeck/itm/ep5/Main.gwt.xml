@@ -4,7 +4,7 @@
 
 <module>
     <inherits name="com.google.gwt.user.User"/>
-
+	<inherits name="de.uniluebeck.itm.ep5.shared" />
     <!-- Inherit the default GWT style sheet. You can change -->
     <!-- the theme of your GWT application by uncommenting -->
     <!-- any one of the following lines. -->
@@ -12,7 +12,7 @@
     <!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
     <inherits name="com.google.gwt.user.theme.dark.Dark"/>
 
-    <entry-point class="de.uniluebeck.itm.ep5.mydoodle.gwt.client.MainEntryPoint"/>
+    <entry-point class="de.uniluebeck.itm.ep5.client.MainEntryPoint"/>
 
     <!-- Do not define servlets here, use web.xml -->
 </module>

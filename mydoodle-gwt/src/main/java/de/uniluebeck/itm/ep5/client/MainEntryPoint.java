@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.uniluebeck.itm.ep5.mydoodle.gwt.client;
+package de.uniluebeck.itm.ep5.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -13,6 +13,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import de.uniluebeck.itm.pollservice.XsPollInfo;
+import java.util.List;
 
 /**
  * Main entry point.
@@ -52,14 +54,18 @@ public class MainEntryPoint implements EntryPoint {
 	}
 
 	void sendFooString(String s) {
-		service.myMethod(s, new AsyncCallback<String>() {
+		service.myMethod(s, new AsyncCallback<List<XsPollInfo>>() {
 
 			public void onFailure(Throwable caught) {
 				Window.alert("RPC to sendEmail() failed.");
 			}
 
-			public void onSuccess(String result) {
-				label.setText(result);
+			public void onSuccess(List<XsPollInfo> result) {
+				if (result.size() > 0) {
+					XsPollInfo poll = result.get(0);
+					label.setText(poll.getTitle());
+
+				}
 			}
 		});
 	}

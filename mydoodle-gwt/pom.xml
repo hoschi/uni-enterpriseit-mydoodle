@@ -21,7 +21,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>de.uniluebeck.itm.ep5</groupId>
-			<artifactId>mydoodle</artifactId>
+			<artifactId>mydoodle-backend</artifactId>
 			<version>0.1</version>
 		</dependency>
 		<dependency>

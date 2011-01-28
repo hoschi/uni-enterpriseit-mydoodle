@@ -11,6 +11,14 @@ We use
  * gwt
  * jetty
 
+Stuff
+================================================================================
+
+run maven targets without the tests
+	
+	mvn -Dmaven.test.skip=true clean package 
+
+
 Milestone 2
 ================================================================================
 

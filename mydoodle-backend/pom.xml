@@ -170,7 +170,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
-					<include>**/*.gwt.xml</include>
+					<include>**/*</include>
 				</includes>
 			</resource>
 		</resources>

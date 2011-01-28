@@ -71,6 +71,8 @@ public class MainEntryPoint implements EntryPoint {
 		grid.setWidget(0, 1, new TextBox());
 		addPollPanel.add(grid);
 
+		addEmptyRow(addPollPanel);
+
 		addOptionListButton = new Button("add an option list");
 		addOptionListButton.addClickHandler(new ClickHandler() {
 
@@ -80,6 +82,8 @@ public class MainEntryPoint implements EntryPoint {
 			}
 		});
 		addPollPanel.add(addOptionListButton);
+
+		addEmptyRow(addPollPanel);
 
 		validateAndSaveNewPollButton = new Button("save");
 		validateAndSaveNewPollButton.addClickHandler(new ClickHandler() {
@@ -152,7 +156,9 @@ public class MainEntryPoint implements EntryPoint {
 					panel.add(item);
 				}
 				// add status line
+				addEmptyRow(panel);
 				panel.add(new Label("fetched " + result.size() + " polls"));
+				addEmptyRow(panel);
 
 				// control buttons for list
 				Panel bottom = new HorizontalPanel();
@@ -162,17 +168,7 @@ public class MainEntryPoint implements EntryPoint {
 
 					public void onClick(ClickEvent event) {
 						Element element = event.getRelativeElement();
-						Element pollList = element
-								.getParentElement()
-								.getParentElement()
-								.getParentElement()
-								.getParentElement()
-								.getParentElement()
-								.getParentElement()
-								.getParentElement()
-								.getParentElement()
-								.getParentElement()
-								.getParentElement();
+						Element pollList = element.getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement();
 						pollList.getParentElement().removeChild(pollList);
 					}
 				});
@@ -182,5 +178,9 @@ public class MainEntryPoint implements EntryPoint {
 				showPollListPanel.add(panel);
 			}
 		});
+	}
+
+	private void addEmptyRow(Panel panel) {
+		panel.add(new InlineHTML("<br/>"));
 	}
 }

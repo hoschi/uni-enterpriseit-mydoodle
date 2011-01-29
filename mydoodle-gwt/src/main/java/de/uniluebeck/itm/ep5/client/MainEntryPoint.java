@@ -14,6 +14,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.DeckPanel;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
@@ -29,7 +31,8 @@ import java.util.List;
  */
 public class MainEntryPoint implements EntryPoint {
 
-	private PollServiceGwtAsync service = (PollServiceGwtAsync) GWT.create(PollServiceGwt.class);
+	private PollServiceGwtAsync service = (PollServiceGwtAsync) GWT.create(
+			PollServiceGwt.class);
 	private Panel showPollListPanel;
 	private Panel addPollPanel;
 	private Panel myRootPanel;
@@ -108,7 +111,8 @@ public class MainEntryPoint implements EntryPoint {
 	private void createPollList() {
 		showPollListPanel.add(new InlineHTML("<h1>Poll List</h1>"));
 		// add more lists
-		showPollListPanel.add(new InlineHTML("<h2>Add polls from other host</h2>"));
+		showPollListPanel.add(new InlineHTML(
+				"<h2>Add polls from other host</h2>"));
 		otherHostUrl = new TextBox();
 		otherHostLocale = new TextBox();
 		Button button = new Button("add");
@@ -144,7 +148,8 @@ public class MainEntryPoint implements EntryPoint {
 
 			public void onSuccess(List<String> result) {
 				Panel panel = new VerticalPanel();
-				panel.add(new InlineHTML("<h2>List from " + myUrl + " (" + myLocale + ")</h2>"));
+				panel.add(new InlineHTML("<h2>List from <a href=\"" + myUrl +
+						"\">" + myUrl + "</a> (" +	myLocale + ")</h2>"));
 
 				for (String titel : result) {
 					Panel item = new HorizontalPanel();
@@ -152,6 +157,7 @@ public class MainEntryPoint implements EntryPoint {
 					Label label = new Label(titel);
 					item.add(label);
 					item.add(new Button("show"));
+					item.add(new Button("delete"));
 
 					panel.add(item);
 				}
@@ -162,20 +168,29 @@ public class MainEntryPoint implements EntryPoint {
 
 				// control buttons for list
 				Panel bottom = new HorizontalPanel();
-				Button updateButton = new Button("update data");
-				Button removeButton = new Button("remove list");
+				Button updateButton = new Button("update");
+				Button removeButton = new Button("remove");
 				removeButton.addClickHandler(new ClickHandler() {
 
 					public void onClick(ClickEvent event) {
 						Element element = event.getRelativeElement();
-						Element pollList = element.getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement().getParentElement();
+						Element pollList = element.getParentElement().
+								getParentElement().getParentElement().
+								getParentElement().getParentElement().
+								getParentElement().getParentElement().
+								getParentElement().getParentElement().
+								getParentElement().getParentElement().
+								getParentElement().getParentElement().
+								getParentElement().getParentElement();
 						pollList.getParentElement().removeChild(pollList);
 					}
 				});
 				bottom.add(updateButton);
 				bottom.add(removeButton);
 				panel.add(bottom);
-				showPollListPanel.add(panel);
+				DecoratorPanel decorator = new DecoratorPanel();
+				decorator.setWidget(panel);
+				showPollListPanel.add(decorator);
 			}
 		});
 	}

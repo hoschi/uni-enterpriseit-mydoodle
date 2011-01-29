@@ -16,7 +16,7 @@ public class GwtPoll implements Serializable {
 
 	private Integer id;
 	private String title;
-	//private List<GwtOptionList> options;
+	private List<GwtOptionList> options;
 	private boolean isPublic;
 	private Date startDate;
 	private Date endDate;
@@ -59,5 +59,13 @@ public class GwtPoll implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public List<GwtOptionList> getOptions() {
+		return options;
+	}
+
+	public void setOptions(List<GwtOptionList> options) {
+		this.options = options;
 	}
 }

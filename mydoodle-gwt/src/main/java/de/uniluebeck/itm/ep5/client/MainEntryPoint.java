@@ -226,7 +226,7 @@ public class MainEntryPoint implements EntryPoint {
 					showButton.addClickHandler(new ClickHandler() {
 						@Override
 						public void onClick(ClickEvent event) {
-							showPoll(showPanel, pollFinal);
+							showPoll(showPanel, pollFinal, myLocale);
 						}
 					});
 					item.add(showButton);
@@ -262,9 +262,9 @@ public class MainEntryPoint implements EntryPoint {
 		});
 	}
 
-	private void showPoll(Panel mainPanel, GwtPoll poll) {
+	private void showPoll(Panel mainPanel, GwtPoll pollInfo, String locale) {
 		mainPanel.clear();
-		mainPanel.add(new Label("blubb " + poll.getId()));
+		
 		addEmptyRow(mainPanel);
 	}
 

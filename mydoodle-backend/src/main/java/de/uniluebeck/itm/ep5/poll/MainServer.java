@@ -53,6 +53,7 @@ public class MainServer {
 		pollService = ctx.getBean(PollService.class);
 
 		xoPoll poll;
+
 		// create strings
 		XOTextOption text = new XOTextOption();
 		text.addString("hello", Locale.ENGLISH.toString());
@@ -75,11 +76,14 @@ public class MainServer {
 		olist.addOption(date);
 
 		poll = new xoPoll("poll1");
+		poll.setPublic(true);
 		poll.addOptionList(olist);
 		pollService.addPoll(poll);
 
 		poll = new xoPoll("poll2");
+		poll.setPublic(true);
 		pollService.addPoll(poll);
+		
 		poll = new xoPoll("poll3");
 		pollService.addPoll(poll);
 		logger.info("data added to db");

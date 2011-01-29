@@ -4,6 +4,9 @@
  */
 package de.uniluebeck.itm.ep5.poll.service;
 
+import de.uniluebeck.itm.ep5.poll.bo.DateFormatter;
+import de.uniluebeck.itm.ep5.poll.bo.PollMapper;
+import de.uniluebeck.itm.ep5.poll.bo.boPoll;
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
 import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
 import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
@@ -28,7 +31,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author hoschi
  */
-@WebService(portName = "PollWebServicePort", serviceName = "Pollservice", targetNamespace = "www.itm.uniluebeck.de/pollservice", endpointInterface = "de.uniluebeck.itm.pollservice.PollWebService", wsdlLocation = "WEB-INF/Pollservice.wsdl")
+@WebService(portName = "PollWebServicePort", serviceName = "Pollservice", targetNamespace =
+"www.itm.uniluebeck.de/pollservice", endpointInterface =
+"de.uniluebeck.itm.pollservice.PollWebService", wsdlLocation =
+"WEB-INF/Pollservice.wsdl")
 public class PollWebServiceImpl implements PollWebService {
 
 	final static Logger logger =
@@ -52,18 +58,21 @@ public class PollWebServiceImpl implements PollWebService {
 		List<XsPollInfo> list = new ArrayList<XsPollInfo>();
 		for (xoPoll poll : polls) {
 			XsPollInfo info = new XsPollInfo();
-			info.setId(poll.getId().toString());
-			info.setTitle(poll.getTitle());
-			list.add(info);
+			if (poll.isPublic()) {
+				info.setId(poll.getId().toString());
+				info.setTitle(poll.getTitle());
+				list.add(info);
+			}
 		}
 		return list;
 	}
 
 	@Override
 	public XsPoll getPoll(String pollId, String languageCode) {
-		if (pollId == null)
+		if (pollId == null) {
 			return null;
-		
+		}
+
 		xoPoll poll = pollService.getPoll(new Integer(pollId));
 		XsPoll xs = new XsPoll();
 		xs.setId(poll.getId().toString());
@@ -73,12 +82,13 @@ public class PollWebServiceImpl implements PollWebService {
 		for (XOOptionList list : poll.getOptionLists()) {
 			XsOptionList xsList = new XsOptionList();
 			xsList.setTitle(list.getTitle());
+			xsList.setId(list.getId().toString());
 
 			// all date options
 			for (IOption option : list.getDates()) {
 				XsOption op = new XsOption();
 				XODateOption date = (XODateOption) option;
-				op.setDateTime(date.toString());
+				op.setDateTime(DateFormatter.dateToString(date.getDate()));
 				op.setId(date.getId().toString());
 				XsVotes votes = new XsVotes();
 				for (String voter : date.getVotes()) {

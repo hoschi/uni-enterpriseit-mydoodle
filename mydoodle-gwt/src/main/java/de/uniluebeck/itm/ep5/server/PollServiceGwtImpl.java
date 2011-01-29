@@ -37,17 +37,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class PollServiceGwtImpl extends RemoteServiceServlet implements
 		PollServiceGwt {
 
-	PollService service;
-
-	public PollServiceGwtImpl() {
-		ApplicationContext ctx;
-		// Create the spring container using the XML configuration in
-		// application-context.xml
-		ctx = new ClassPathXmlApplicationContext(
-				"application-context.xml");
-		this.service = (PollService) ctx.getBean("pollService");
-	}
-
 	@Override
 	public List<xoPoll> getPollTitles(String url, String locale) {
 		PollWebService service = getWebService(url);
@@ -62,6 +51,14 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 		return list;
 	}
 
+	private PollService getService() {
+		ApplicationContext ctx;
+		// Create the spring container using the XML configuration in
+		// application-context.xml
+		ctx = new ClassPathXmlApplicationContext(
+				"application-context.xml");
+		return (PollService) ctx.getBean("pollService");
+	}
 	private PollWebService getWebService(String url) {
 		Pollservice instance = null;
 		try {
@@ -77,6 +74,8 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void addPoll(xoPoll poll) {
+		PollService service = getService();
+
 		xoPoll x = new xoPoll();
 		x.setActiveTimeSpan(poll.getStartDate(), poll.getEndDate());
 		x.setOptions(null);

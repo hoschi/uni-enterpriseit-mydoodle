@@ -292,8 +292,8 @@ public class MainEntryPoint implements EntryPoint {
 			}
 
 			@Override
-			public void onSuccess(xoPoll result) {
-
+			public void onSuccess(xoPoll poll) {
+				mainPanelFinal.add(new Label(poll.getTitle()));
 				addEmptyRow(mainPanelFinal);
 			}
 		});

@@ -42,9 +42,9 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements PollServ
 
 
 	@Override
-	public List<GwtPoll> getPollTitles() {
-		PollWebService service = getWebService();
-		List<XsPollInfo> polls = service.getPolls(Locale.ENGLISH.toString());
+	public List<GwtPoll> getPollTitles(String url, String locale) {
+		PollWebService service = getWebService(url);
+		List<XsPollInfo> polls = service.getPolls(locale);
 		List<GwtPoll> list = new ArrayList<GwtPoll>();
 		for (XsPollInfo pollinfo : polls) {
 			GwtPoll poll = new GwtPoll();
@@ -55,11 +55,11 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements PollServ
 		return list;
 	}
 
-	private PollWebService getWebService() {
+	private PollWebService getWebService(String url) {
 		Pollservice instance = null;
 		try {
 			instance =
-					new Pollservice(new URL("http://localhost:8080/poll?WSDL"),
+					new Pollservice(new URL(url),
 					new QName("www.itm.uniluebeck.de/pollservice", "Pollservice"));
 		} catch (MalformedURLException ex) {
 			Logger.getLogger(PollServiceGwtImpl.class.getName()).

@@ -42,8 +42,6 @@ public class MainEntryPoint implements EntryPoint {
 	private Panel myRootPanel;
 	private Button addOptionListButton;
 	private Button validateAndSaveNewPollButton;
-	private TextBox otherHostUrl;
-	private TextBox otherHostLocale;
 	private Grid addPollFormGrid;
 
 	/**
@@ -59,6 +57,7 @@ public class MainEntryPoint implements EntryPoint {
 	 * The entry point method, called automatically by loading a module
 	 * that declares an implementing class as an entry-point
 	 */
+	@Override
 	public void onModuleLoad() {
 		createAddPollForm();
 		createPollList();
@@ -173,14 +172,16 @@ public class MainEntryPoint implements EntryPoint {
 		// add more lists
 		showPollListPanel.add(new InlineHTML(
 				"<h2>Add polls from other host</h2>"));
-		otherHostUrl = new TextBox();
-		otherHostLocale = new TextBox();
+		final TextBox otherHostUrl = new TextBox();
+		otherHostUrl.setWidth("400px");
+		final TextBox otherHostLocale = new TextBox();
+		otherHostLocale.setWidth("50px");
 		Button button = new Button("add");
 		button.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				throw new UnsupportedOperationException("Not supported yet.");
+				createPollList(otherHostUrl.getText(), otherHostLocale.getText());
 			}
 		});
 
@@ -197,16 +198,10 @@ public class MainEntryPoint implements EntryPoint {
 		createPollList("http://localhost:8080/poll?WSDL", "en");
 	}
 
-	private void showPoll(Panel mainPanel, GwtPoll poll) {
-		mainPanel.clear();
-		mainPanel.add(new Label("blubb " + poll.getId()));
-		addEmptyRow(mainPanel);
-	}
-
 	private void createPollList(String url, String locale) {
 		final String myUrl = url;
 		final String myLocale = locale;
-		service.getPollTitles(new AsyncCallback<List<GwtPoll>>() {
+		service.getPollTitles(url, locale, new AsyncCallback<List<GwtPoll>>() {
 
 			public void onFailure(Throwable caught) {
 				Window.alert("RPC to getPollTitles() failed.");
@@ -229,12 +224,9 @@ public class MainEntryPoint implements EntryPoint {
 					item.add(label);
 					Button showButton = new Button("show");
 					showButton.addClickHandler(new ClickHandler() {
-
-						Panel panel = showPanel;
-
 						@Override
 						public void onClick(ClickEvent event) {
-							showPoll(panel, pollFinal);
+							showPoll(showPanel, pollFinal);
 						}
 					});
 					item.add(showButton);
@@ -268,6 +260,12 @@ public class MainEntryPoint implements EntryPoint {
 				showPollListPanel.add(decorator);
 			}
 		});
+	}
+
+	private void showPoll(Panel mainPanel, GwtPoll poll) {
+		mainPanel.clear();
+		mainPanel.add(new Label("blubb " + poll.getId()));
+		addEmptyRow(mainPanel);
 	}
 
 	private void addEmptyRow(Panel panel) {

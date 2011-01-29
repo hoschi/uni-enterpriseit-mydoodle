@@ -65,6 +65,9 @@ public class MainEntryPoint implements EntryPoint {
 		myRootPanel.add(addPollPanel);
 	}
 
+	/*
+	 * create the "add new poll" form
+	 */
 	private void createAddPollForm() {
 		addPollPanel.clear();
 		addPollFormGrid = new Grid(4, 2);
@@ -116,10 +119,16 @@ public class MainEntryPoint implements EntryPoint {
 
 	}
 
+	/*
+	 * add an option list to the "add new poll" form
+	 */
 	private void addOptionList() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
+	/*
+	 * save a new poll with the form data
+	 */
 	private void saveNewPoll() {
 		TextBox titleBox =
 				(TextBox) addPollFormGrid.getWidget(0, 1);
@@ -164,6 +173,9 @@ public class MainEntryPoint implements EntryPoint {
 
 	}
 
+	/*
+	 * create main poll list
+	 */
 	private void createPollList() {
 		showPollListPanel.add(new InlineHTML("<h1>Poll List</h1>"));
 		// add more lists
@@ -195,6 +207,11 @@ public class MainEntryPoint implements EntryPoint {
 		createPollList("http://localhost:8080/poll?WSDL", "en");
 	}
 
+	/*
+	 * create a poll list with data, fetched from server
+	 * @url url to WSDL from other server
+	 * @locale string which represents a locale of the server
+	 */
 	private void createPollList(String url, String locale) {
 		final String myUrl = url;
 		final String myLocale = locale;
@@ -260,12 +277,18 @@ public class MainEntryPoint implements EntryPoint {
 		});
 	}
 
+	/*
+	 * show details of a partially loaded poll
+	 */
 	private void showPoll(Panel mainPanel, xoPoll pollInfo, String locale) {
 		mainPanel.clear();
 
 		addEmptyRow(mainPanel);
 	}
 
+	/*
+	 * add a empty row to a panel for styling issues
+	 */
 	private void addEmptyRow(Panel panel) {
 		panel.add(new InlineHTML("<br/>"));
 	}

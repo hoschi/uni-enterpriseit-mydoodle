@@ -1,11 +1,8 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
 import java.io.Serializable;
-import static java.lang.String.format;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class xoPoll implements Serializable{
@@ -99,25 +96,7 @@ public class xoPoll implements Serializable{
         this.endDate = endDate;
     }
 
-    public boolean isActive() {
-
-        if (this.startDate == null || this.endDate == null)
-            return true;
-
-        Date now = GregorianCalendar.getInstance().getTime();
-        if (this.startDate.before(now) && this.endDate.after(now)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return format("Poll: id=%s, title=%s, #options=%s", getId(),
-                getTitle(), getOptionLists().size());
-    }
-
+    
     public void setActiveTimeSpan(Date start, Date end) {
         this.startDate = start;
         this.endDate = end;

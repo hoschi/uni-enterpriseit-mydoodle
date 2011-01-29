@@ -1,5 +1,11 @@
-package de.uniluebeck.itm.ep5.poll.domain;
+package de.uniluebeck.itm.ep5.poll.bo;
 
+import de.uniluebeck.itm.ep5.poll.domain.IOption;
+import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOLocalizedString;
+import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

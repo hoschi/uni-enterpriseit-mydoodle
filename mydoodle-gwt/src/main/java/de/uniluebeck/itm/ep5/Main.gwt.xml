@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
-<module>
-  <inherits name="com.google.gwt.user.User"/>
-  <!-- Inherit the default GWT style sheet. You can change -->
-  <!-- the theme of your GWT application by uncommenting -->
-  <!-- any one of the following lines. -->
-  <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
-  <!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
 
-  <inherits name="de.uniluebeck.itm.ep5.domain"/>
-  <inherits name="com.google.gwt.user.theme.dark.Dark"/>
-  
-  <entry-point class="de.uniluebeck.itm.ep5.client.MainEntryPoint"/>
-  <!-- Do not define servlets here, use web.xml -->
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.7.0/distro-source/core/src/gwt-module.dtd">
+
+<module>
+    <inherits name="com.google.gwt.user.User"/>
+	<inherits name="de.uniluebeck.itm.ep5.poll.shared" />
+    <!-- Inherit the default GWT style sheet. You can change -->
+    <!-- the theme of your GWT application by uncommenting -->
+    <!-- any one of the following lines. -->
+    <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
+    <!-- <inherits name="com.google.gwt.user.theme.chrome.Chrome"/> -->
+    <inherits name="com.google.gwt.user.theme.dark.Dark"/>
+
+    <entry-point class="de.uniluebeck.itm.ep5.client.MainEntryPoint"/>
+
+    <!-- Do not define servlets here, use web.xml -->
 </module>

@@ -5,7 +5,7 @@ import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import java.util.List;
 
-import de.uniluebeck.itm.ep5.poll.domain.boPoll;
+import de.uniluebeck.itm.ep5.poll.bo.boPoll;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 
 public interface PollService {

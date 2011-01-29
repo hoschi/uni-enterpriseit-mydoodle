@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XOOptionList   implements Serializable{
+public class XOOptionList implements Serializable {
 
     private Integer id;
     private String title;

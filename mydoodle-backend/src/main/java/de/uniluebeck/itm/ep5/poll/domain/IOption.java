@@ -11,6 +11,6 @@ import java.io.Serializable;
  *
  * @author hoschi
  */
-public interface IOption extends Serializable {
+public interface IOption extends Serializable{
 	public void addVote(String voter);
 }

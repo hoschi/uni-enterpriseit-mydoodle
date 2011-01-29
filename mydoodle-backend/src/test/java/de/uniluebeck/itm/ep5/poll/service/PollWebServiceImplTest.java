@@ -155,7 +155,6 @@ public class PollWebServiceImplTest {
 				assertEquals("hoschi", option.getVotes().getVoter().get(0));
 			} else if (option.getValue() == null) {
 				// date option
-				assertEquals(date.toString(),option.getDateTime());
 				assertEquals(0, option.getVotes().getVoter().size());
 			}
 		}
@@ -176,7 +175,6 @@ public class PollWebServiceImplTest {
 				assertEquals("hoschi", option.getVotes().getVoter().get(0));
 			} else if (option.getValue() == null) {
 				// date option
-				assertEquals(date.toString(),option.getDateTime());
 				assertEquals(0, option.getVotes().getVoter().size());
 			}
 		}

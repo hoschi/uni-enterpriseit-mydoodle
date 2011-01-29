@@ -2,7 +2,7 @@ package de.uniluebeck.itm.ep5.poll.repository;
 
 import org.springframework.stereotype.Repository;
 
-import de.uniluebeck.itm.ep5.poll.domain.BOTextOption;
+import de.uniluebeck.itm.ep5.poll.bo.BOTextOption;
 
 @Repository
 public class PersistentTextOptionRepository 

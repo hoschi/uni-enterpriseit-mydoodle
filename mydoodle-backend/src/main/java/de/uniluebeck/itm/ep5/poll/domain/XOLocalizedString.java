@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * @author hoschi
  */
-public class XOLocalizedString  implements Serializable{
+public class XOLocalizedString implements Serializable{
     private Integer id;
     private String text;
     private String locale;

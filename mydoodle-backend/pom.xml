@@ -173,7 +173,13 @@
 					<include>**/*</include>
 				</includes>
 			</resource>
-		</resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>src/man/java</targetPath>
+				<includes>
+					<include>**/*.gwt.xml</include>
+				</includes>
+			</resource>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

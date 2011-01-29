@@ -6,7 +6,7 @@ package de.uniluebeck.itm.ep5.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import de.uniluebeck.itm.pollservice.XsPollInfo;
+import de.uniluebeck.itm.ep5.mydoodle.gwt.GwtPoll;
 import java.util.List;
 
 /**
@@ -18,4 +18,6 @@ import java.util.List;
 public interface PollServiceGwt extends RemoteService {
 
 	public List<String> getPollTitles();
+
+	public void addPoll(GwtPoll poll);
 }

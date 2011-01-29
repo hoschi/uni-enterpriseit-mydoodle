@@ -5,7 +5,7 @@
 package de.uniluebeck.itm.ep5.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import de.uniluebeck.itm.pollservice.XsPollInfo;
+import de.uniluebeck.itm.ep5.mydoodle.gwt.GwtPoll;
 import java.util.List;
 
 /**
@@ -15,4 +15,7 @@ import java.util.List;
 public interface PollServiceGwtAsync {
 
 	public void getPollTitles(AsyncCallback<List<String>> asyncCallback);
+
+	public void addPoll(GwtPoll poll,
+			AsyncCallback<Void> asyncCallback);
 }

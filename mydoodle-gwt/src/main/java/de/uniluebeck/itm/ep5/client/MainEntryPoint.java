@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -22,6 +23,7 @@ import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.DateBox;
 import java.util.List;
 
 /**
@@ -66,12 +68,27 @@ public class MainEntryPoint implements EntryPoint {
 
 	private void createAddPollForm() {
 		addPollPanel.clear();
-		Grid grid = new Grid(1, 2);
+		Grid grid = new Grid(4, 2);
 
 		addPollPanel.add(new InlineHTML("<h1>Add a new one</h1>"));
 
 		grid.setWidget(0, 0, new Label("title"));
-		grid.setWidget(0, 1, new TextBox());
+		TextBox titleBox = new TextBox();
+		grid.setWidget(0, 1, titleBox);
+
+		grid.setWidget(1, 0, new Label("is public"));
+		CheckBox isPublicBox = new CheckBox();
+		isPublicBox.setValue(Boolean.TRUE);
+		grid.setWidget(1, 1, isPublicBox);
+
+		grid.setWidget(2, 0, new Label("start date"));
+		DateBox startDateBox = new DateBox();
+		grid.setWidget(2, 1, startDateBox);
+
+		grid.setWidget(3, 0, new Label("end date"));
+		DateBox endDateBox = new DateBox();
+		grid.setWidget(3, 1, endDateBox);
+
 		addPollPanel.add(grid);
 
 		addEmptyRow(addPollPanel);

@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
+import de.uniluebeck.itm.ep5.gwt.GwtPoll;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +44,7 @@ public class MainEntryPoint implements EntryPoint {
 	private Button validateAndSaveNewPollButton;
 	private TextBox otherHostUrl;
 	private TextBox otherHostLocale;
+	private Grid addPollFormGrid;
 
 	/**
 	 * Creates a new instance of MainEntryPoint
@@ -68,28 +71,28 @@ public class MainEntryPoint implements EntryPoint {
 
 	private void createAddPollForm() {
 		addPollPanel.clear();
-		Grid grid = new Grid(4, 2);
+		addPollFormGrid = new Grid(4, 2);
 
 		addPollPanel.add(new InlineHTML("<h1>Add a new one</h1>"));
 
-		grid.setWidget(0, 0, new Label("title"));
+		addPollFormGrid.setWidget(0, 0, new Label("title"));
 		TextBox titleBox = new TextBox();
-		grid.setWidget(0, 1, titleBox);
+		addPollFormGrid.setWidget(0, 1, titleBox);
 
-		grid.setWidget(1, 0, new Label("is public"));
+		addPollFormGrid.setWidget(1, 0, new Label("is public"));
 		CheckBox isPublicBox = new CheckBox();
 		isPublicBox.setValue(Boolean.TRUE);
-		grid.setWidget(1, 1, isPublicBox);
+		addPollFormGrid.setWidget(1, 1, isPublicBox);
 
-		grid.setWidget(2, 0, new Label("start date"));
+		addPollFormGrid.setWidget(2, 0, new Label("start date"));
 		DateBox startDateBox = new DateBox();
-		grid.setWidget(2, 1, startDateBox);
+		addPollFormGrid.setWidget(2, 1, startDateBox);
 
-		grid.setWidget(3, 0, new Label("end date"));
+		addPollFormGrid.setWidget(3, 0, new Label("end date"));
 		DateBox endDateBox = new DateBox();
-		grid.setWidget(3, 1, endDateBox);
+		addPollFormGrid.setWidget(3, 1, endDateBox);
 
-		addPollPanel.add(grid);
+		addPollPanel.add(addPollFormGrid);
 
 		addEmptyRow(addPollPanel);
 
@@ -110,7 +113,7 @@ public class MainEntryPoint implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				validateAndSaveNewPoll();
+				saveNewPoll();
 			}
 		});
 		addPollPanel.add(validateAndSaveNewPollButton);
@@ -121,8 +124,47 @@ public class MainEntryPoint implements EntryPoint {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
-	private void validateAndSaveNewPoll() {
-		throw new UnsupportedOperationException("Not yet implemented");
+	private void saveNewPoll() {
+		TextBox titleBox =
+				(TextBox) addPollFormGrid.getWidget(0, 1);
+		CheckBox isPublicBox =
+				(CheckBox) addPollFormGrid.getWidget(1, 1);
+		DateBox startDateBox =
+				(DateBox) addPollFormGrid.getWidget(2, 1);
+		DateBox endDateBox =
+				(DateBox) addPollFormGrid.getWidget(3, 1);
+
+		// check null
+		if (titleBox == null || isPublicBox == null || startDateBox == null || endDateBox ==
+				null) {
+			throw new RuntimeException("widget is null");
+		}
+
+		// validate
+		if (titleBox.getValue() == null || titleBox.getValue().equals("")) {
+			Window.alert("title can't be empty");
+			return;
+		}
+
+		GwtPoll poll = new GwtPoll();
+		poll.setEndDate(endDateBox.getValue());
+		poll.setIsPublic(isPublicBox.getValue());
+		poll.setStartDate(startDateBox.getValue());
+		poll.setTitle(titleBox.getValue());
+
+		this.service.addPoll(poll, new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("RPC to addPoll() failed: "+ caught.getLocalizedMessage());
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				createAddPollForm();
+			}
+		});
+		
 	}
 
 	private void createPollList() {
@@ -166,7 +208,7 @@ public class MainEntryPoint implements EntryPoint {
 			public void onSuccess(List<String> result) {
 				Panel panel = new VerticalPanel();
 				panel.add(new InlineHTML("<h2>List from <a href=\"" + myUrl +
-						"\">" + myUrl + "</a> (" +	myLocale + ")</h2>"));
+						"\">" + myUrl + "</a> (" + myLocale + ")</h2>"));
 
 				for (String titel : result) {
 					Panel item = new HorizontalPanel();

@@ -6,7 +6,7 @@ package de.uniluebeck.itm.ep5.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import de.uniluebeck.itm.ep5.mydoodle.gwt.GwtPoll;
+import de.uniluebeck.itm.ep5.gwt.GwtPoll;
 import java.util.List;
 
 /**

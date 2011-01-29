@@ -5,7 +5,7 @@
 package de.uniluebeck.itm.ep5.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import de.uniluebeck.itm.ep5.mydoodle.gwt.GwtPoll;
+import de.uniluebeck.itm.ep5.gwt.GwtPoll;
 import java.util.List;
 
 /**

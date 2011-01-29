@@ -1,5 +1,6 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
+import java.io.Serializable;
 import static java.lang.String.format;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class xoPoll {
+public class xoPoll implements Serializable{
 
     private Integer id;
     private String title;

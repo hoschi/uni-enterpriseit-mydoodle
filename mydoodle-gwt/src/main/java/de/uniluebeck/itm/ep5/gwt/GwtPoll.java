@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package de.uniluebeck.itm.ep5.gwt;
 
-package de.uniluebeck.itm.ep5.mydoodle.gwt;
-
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,13 +12,14 @@ import java.util.List;
  *
  * @author hoschi
  */
-public class GwtPoll {
-private Integer id;
-    private String title;
-    //private List<GwtOptionList> options;
-    private boolean isPublic;
-    private Date startDate;
-    private Date endDate;
+public class GwtPoll implements Serializable {
+
+	private Integer id;
+	private String title;
+	//private List<GwtOptionList> options;
+	private boolean isPublic;
+	private Date startDate;
+	private Date endDate;
 
 	public Date getEndDate() {
 		return endDate;
@@ -59,6 +60,4 @@ private Integer id;
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-
 }

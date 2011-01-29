@@ -6,8 +6,9 @@ package de.uniluebeck.itm.ep5.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.uniluebeck.itm.ep5.client.PollServiceGwt;
-import de.uniluebeck.itm.ep5.mydoodle.gwt.GwtPoll;
+import de.uniluebeck.itm.ep5.gwt.GwtPoll;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
+import de.uniluebeck.itm.ep5.poll.service.PollService;
 import de.uniluebeck.itm.pollservice.PollWebService;
 import de.uniluebeck.itm.pollservice.Pollservice;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
@@ -19,16 +20,30 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.namespace.QName;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author hoschi
  */
 public class PollServiceGwtImpl extends RemoteServiceServlet implements PollServiceGwt {
+	PollService service;
+
+	public PollServiceGwtImpl() {
+		ApplicationContext ctx;
+		// Create the spring container using the XML configuration in
+		// application-context.xml
+		ctx = new ClassPathXmlApplicationContext(
+				"application-context.xml");
+		this.service = (PollService) ctx.getBean("pollService");
+	}
+
+
 
 	@Override
 	public List<String> getPollTitles() {
-		PollWebService service = getService();
+		PollWebService service = getWebService();
 		List<XsPollInfo> polls = service.getPolls(Locale.ENGLISH.toString());
 		List<String> list = new ArrayList<String>();
 		for (XsPollInfo pollinfo : polls) {
@@ -37,7 +52,7 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements PollServ
 		return list;
 	}
 
-	private PollWebService getService() {
+	private PollWebService getWebService() {
 		Pollservice instance = null;
 		try {
 			instance =
@@ -52,14 +67,15 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements PollServ
 
 	@Override
 	public void addPoll(GwtPoll poll) {
-
-
 		xoPoll x = new xoPoll();
 		x.setActiveTimeSpan(poll.getStartDate(), poll.getEndDate());
 		x.setOptions(null);
 		x.setPublic(poll.isIsPublic());
 		x.setTitle(poll.getTitle());
 
-		
+		if (service == null) {
+			throw new RuntimeException("spring is dooof");
+		}
+		service.addPoll(x);
 	}
 }

@@ -80,4 +80,13 @@
 		<property name="localizedStringRepository" ref="localizedStringRepository" />
 	</bean>
 
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="PollService"/>
+		<property name="service" ref="pollService"/>
+		<property name="serviceInterface" value="de.uniluebeck.itm.ep5.poll.service.PollService"/>
+    <!-- defaults to 1099 -->
+		<property name="registryPort" value="1298"/>
+	</bean>
+
+
 </beans>

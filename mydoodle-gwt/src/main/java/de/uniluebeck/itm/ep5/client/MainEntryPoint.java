@@ -156,7 +156,8 @@ public class MainEntryPoint implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("RPC to addPoll() failed: "+ caught.getLocalizedMessage());
+				Window.alert("RPC to addPoll() failed: " + caught.
+						getLocalizedMessage());
 			}
 
 			@Override
@@ -164,7 +165,7 @@ public class MainEntryPoint implements EntryPoint {
 				createAddPollForm();
 			}
 		});
-		
+
 	}
 
 	private void createPollList() {

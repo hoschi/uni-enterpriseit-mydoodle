@@ -6,7 +6,7 @@ package de.uniluebeck.itm.ep5.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import de.uniluebeck.itm.ep5.gwt.GwtPoll;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import java.util.List;
 
 /**
@@ -17,7 +17,9 @@ import java.util.List;
 
 public interface PollServiceGwt extends RemoteService {
 
-	public List<GwtPoll> getPollTitles(String url, String locale);
+	public List<xoPoll> getPollTitles(String url, String locale);
 
-	public void addPoll(GwtPoll poll);
+	public void addPoll(xoPoll poll);
+
+	public xoPoll getPoll(int id);
 }

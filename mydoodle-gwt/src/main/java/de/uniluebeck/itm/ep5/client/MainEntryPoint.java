@@ -6,7 +6,6 @@ package de.uniluebeck.itm.ep5.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -15,7 +14,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -24,8 +22,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
-import de.uniluebeck.itm.ep5.gwt.GwtPoll;
-import java.util.Date;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import java.util.List;
 
 /**
@@ -145,9 +142,9 @@ public class MainEntryPoint implements EntryPoint {
 			return;
 		}
 
-		GwtPoll poll = new GwtPoll();
+		xoPoll poll = new xoPoll();
 		poll.setEndDate(endDateBox.getValue());
-		poll.setIsPublic(isPublicBox.getValue());
+		poll.setPublic(isPublicBox.getValue());
 		poll.setStartDate(startDateBox.getValue());
 		poll.setTitle(titleBox.getValue());
 
@@ -201,13 +198,13 @@ public class MainEntryPoint implements EntryPoint {
 	private void createPollList(String url, String locale) {
 		final String myUrl = url;
 		final String myLocale = locale;
-		service.getPollTitles(url, locale, new AsyncCallback<List<GwtPoll>>() {
+		service.getPollTitles(url, locale, new AsyncCallback<List<xoPoll>>() {
 
 			public void onFailure(Throwable caught) {
 				Window.alert("RPC to getPollTitles() failed.");
 			}
 
-			public void onSuccess(List<GwtPoll> result) {
+			public void onSuccess(List<xoPoll> result) {
 				Panel panel = new VerticalPanel();
 				final DecoratorPanel decorator = new DecoratorPanel();
 				decorator.setWidget(panel);
@@ -215,8 +212,8 @@ public class MainEntryPoint implements EntryPoint {
 				panel.add(new InlineHTML("<h2>List from <a href=\"" + myUrl +
 						"\">" + myUrl + "</a> (" + myLocale + ")</h2>"));
 
-				for (GwtPoll poll : result) {
-					final GwtPoll pollFinal = poll;
+				for (xoPoll poll : result) {
+					final xoPoll pollFinal = poll;
 					Panel item = new HorizontalPanel();
 					final Panel showPanel = new VerticalPanel();
 
@@ -224,6 +221,7 @@ public class MainEntryPoint implements EntryPoint {
 					item.add(label);
 					Button showButton = new Button("show");
 					showButton.addClickHandler(new ClickHandler() {
+
 						@Override
 						public void onClick(ClickEvent event) {
 							showPoll(showPanel, pollFinal, myLocale);
@@ -262,9 +260,9 @@ public class MainEntryPoint implements EntryPoint {
 		});
 	}
 
-	private void showPoll(Panel mainPanel, GwtPoll pollInfo, String locale) {
+	private void showPoll(Panel mainPanel, xoPoll pollInfo, String locale) {
 		mainPanel.clear();
-		
+
 		addEmptyRow(mainPanel);
 	}
 

@@ -5,12 +5,14 @@
 
 package de.uniluebeck.itm.ep5.poll.domain;
 
+import java.io.Serializable;
+
 
 /**
  *
  * @author hoschi
  */
-public class XOLocalizedString {
+public class XOLocalizedString implements Serializable{
     private Integer id;
     private String text;
     private String locale;

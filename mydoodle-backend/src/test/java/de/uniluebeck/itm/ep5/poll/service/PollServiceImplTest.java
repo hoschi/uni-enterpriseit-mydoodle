@@ -2,6 +2,8 @@ package de.uniluebeck.itm.ep5.poll.service;
 
 //import static org.hamcrest.CoreMatchers.equalTo;
 //import static org.junit.Assert.assertThat;
+import de.uniluebeck.itm.ep5.poll.bo.PollMapper;
+import de.uniluebeck.itm.ep5.poll.bo.boPoll;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -19,7 +21,6 @@ import de.uniluebeck.itm.ep5.poll.domain.XOLocalizedString;
 import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
-import de.uniluebeck.itm.ep5.poll.service.PollService;
 import de.uniluebeck.itm.ep5.util.InactiveExcepiton;
 import java.util.Locale;
 
@@ -92,7 +93,6 @@ public class PollServiceImplTest {
         pollService.addPoll(poll);
         Assert.assertEquals("changepoll", poll.getTitle());
         Assert.assertEquals(false, poll.isPublic());
-        Assert.assertEquals(true, poll.isActive());
 
         // change it
         poll.setTitle("blubb");
@@ -113,7 +113,6 @@ public class PollServiceImplTest {
         poll = list.get(0);
         Assert.assertEquals("blubb", poll.getTitle());
         Assert.assertEquals(true, poll.isPublic());
-        Assert.assertEquals(true, poll.isActive());
     }
 
     /*
@@ -124,7 +123,8 @@ public class PollServiceImplTest {
     public void setActiveDatePoll() {
         // add poll
         xoPoll poll = new xoPoll("setActiveDatePoll");
-        Assert.assertEquals(true, poll.isActive());
+		boPoll b = PollMapper.createBO(poll);
+        Assert.assertEquals(true, b.isActive());
 
         GregorianCalendar tomorrow = new GregorianCalendar();
         tomorrow.add(GregorianCalendar.DAY_OF_MONTH, 1);
@@ -139,18 +139,21 @@ public class PollServiceImplTest {
         List<xoPoll> list = pollService.getPolls();
         Assert.assertEquals(1, list.size());
         poll = list.get(0);
-        Assert.assertEquals(false, poll.isActive());
+        b = PollMapper.createBO(poll);
+        Assert.assertEquals(false, b.isActive());
 
         // test other date cases
         GregorianCalendar yesterday = new GregorianCalendar();
         yesterday.add(GregorianCalendar.DAY_OF_MONTH, -1);
         poll.setActiveTimeSpan(yesterday.getTime(), inTwoDays.getTime());
-        Assert.assertEquals(true, poll.isActive());
+        b = PollMapper.createBO(poll);
+        Assert.assertEquals(true, b.isActive());
 
         GregorianCalendar beforeTwoDays = new GregorianCalendar();
         beforeTwoDays.add(GregorianCalendar.DAY_OF_MONTH, -2);
         poll.setActiveTimeSpan(beforeTwoDays.getTime(), yesterday.getTime());
-        Assert.assertEquals(false, poll.isActive());
+        b = PollMapper.createBO(poll);
+        Assert.assertEquals(false, b.isActive());
     }
 
     /*
@@ -344,7 +347,6 @@ public class PollServiceImplTest {
         poll.setActiveTimeSpan(beforeTwoDays.getTime(), yesterday.getTime());
 
         // if poll is not active -> don't allow an update
-        Assert.assertEquals(false, poll.isActive());
         Assert.assertEquals("changepoll", poll.getTitle());
         Assert.assertEquals(false, poll.isPublic());
 

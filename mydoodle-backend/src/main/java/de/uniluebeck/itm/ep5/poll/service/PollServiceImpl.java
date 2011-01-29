@@ -107,10 +107,10 @@ public class PollServiceImpl implements PollService {
 	@Transactional
 	@Override
 	public xoPoll updatePoll(xoPoll poll) {
-		if (!poll.isActive()) {
+		boPoll b = PollMapper.createBO(poll);
+		if (!b.isActive()) {
 			throw new InactiveExcepiton("you can't do this");
 		}
-		boPoll b = PollMapper.createBO(poll);
 		handleOptionLists(b.getOptions());
 		b = pollRepository.update(b);
 		return PollMapper.createXO(b);

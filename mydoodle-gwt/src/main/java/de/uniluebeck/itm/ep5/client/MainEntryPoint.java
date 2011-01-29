@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class MainEntryPoint implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
-		label = new Label("test");
+		label = new Label("teeeeeeest");
 		final Button button = new Button("Click me!");
 
 		button.addClickHandler(new ClickHandler() {
@@ -54,15 +55,15 @@ public class MainEntryPoint implements EntryPoint {
 	}
 
 	void sendFooString(String s) {
-		service.myMethod(s, new AsyncCallback<List<XsPollInfo>>() {
+		service.myMethod(s, new AsyncCallback<List<xoPoll>>() {
 
 			public void onFailure(Throwable caught) {
 				Window.alert("RPC to sendEmail() failed.");
 			}
 
-			public void onSuccess(List<XsPollInfo> result) {
+			public void onSuccess(List<xoPoll> result) {
 				if (result.size() > 0) {
-					XsPollInfo poll = result.get(0);
+					xoPoll poll = result.get(0);
 					label.setText(poll.getTitle());
 
 				}

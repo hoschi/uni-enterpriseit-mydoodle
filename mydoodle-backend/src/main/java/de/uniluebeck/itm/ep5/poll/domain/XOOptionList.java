@@ -1,9 +1,10 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XOOptionList  {
+public class XOOptionList implements Serializable {
 
     private Integer id;
     private String title;

@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.uniluebeck.itm.ep5.poll.domain;
+package de.uniluebeck.itm.ep5.poll.bo;
 
+import de.uniluebeck.itm.ep5.poll.domain.IOption;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

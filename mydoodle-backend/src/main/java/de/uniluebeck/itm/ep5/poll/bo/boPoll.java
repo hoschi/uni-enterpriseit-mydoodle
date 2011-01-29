@@ -1,4 +1,4 @@
-package de.uniluebeck.itm.ep5.poll.domain;
+package de.uniluebeck.itm.ep5.poll.bo;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -7,13 +7,13 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import de.uniluebeck.itm.ep5.poll.domain.BODateOption;
-import de.uniluebeck.itm.ep5.poll.domain.BOLocalizedString;
-import de.uniluebeck.itm.ep5.poll.domain.BOOptionList;
-import de.uniluebeck.itm.ep5.poll.domain.BOTextOption;
+import de.uniluebeck.itm.ep5.poll.bo.BODateOption;
+import de.uniluebeck.itm.ep5.poll.bo.BOLocalizedString;
+import de.uniluebeck.itm.ep5.poll.bo.BOOptionList;
+import de.uniluebeck.itm.ep5.poll.bo.BOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
-import de.uniluebeck.itm.ep5.poll.domain.PollMapper;
-import de.uniluebeck.itm.ep5.poll.domain.boPoll;
+import de.uniluebeck.itm.ep5.poll.bo.PollMapper;
+import de.uniluebeck.itm.ep5.poll.bo.boPoll;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.repository.DateOptionRepository;
 import de.uniluebeck.itm.ep5.poll.repository.LocalizedStringRepository;

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package de.uniluebeck.itm.ep5.poll.domain;
+package de.uniluebeck.itm.ep5.poll.bo;
 
 import java.io.Serializable;
 

@@ -6,11 +6,20 @@ package de.uniluebeck.itm.ep5.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.uniluebeck.itm.ep5.client.PollServiceGwt;
+import de.uniluebeck.itm.ep5.poll.bo.DateFormatter;
+import de.uniluebeck.itm.ep5.poll.domain.IOption;
+import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 import de.uniluebeck.itm.ep5.poll.service.PollService;
 import de.uniluebeck.itm.pollservice.PollWebService;
 import de.uniluebeck.itm.pollservice.Pollservice;
+import de.uniluebeck.itm.pollservice.XsOption;
+import de.uniluebeck.itm.pollservice.XsOptionList;
+import de.uniluebeck.itm.pollservice.XsPoll;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
+import de.uniluebeck.itm.pollservice.XsVotes;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -78,7 +87,45 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public xoPoll getPoll(int id) {
-		return service.getPoll(id);
+	public xoPoll getPoll(String url, String locale, Integer id) {
+		PollWebService webService = getWebService(url);
+		XsPoll webPoll = webService.getPoll(id.toString(), locale);
+		xoPoll poll = new xoPoll();
+		poll.setId(new Integer(webPoll.getId()));
+		poll.setTitle(webPoll.getTitle());
+		for (XsOptionList optionListWeb : webPoll.getOptionList()) {
+			XOOptionList optionList = new XOOptionList();
+			optionList.setTitle(optionListWeb.getTitle());
+			optionList.setId(new Integer(optionListWeb.getId()));
+			for (XsOption optionWeb : optionListWeb.getOption()) {
+				IOption option;
+				if (optionWeb.getDateTime() == null) {
+					// text option
+					XOTextOption textOption = new XOTextOption();
+					textOption.setId(textOption.getId());
+					textOption.addString(optionWeb.getValue(), locale);
+					option = textOption;
+				} else if (optionWeb.getValue() == null) {
+					// date option
+					XODateOption dateOption = new XODateOption();
+					dateOption.setId(optionWeb.getId());
+					try {
+						dateOption.setDate(DateFormatter.parseString(optionWeb.getDateTime()));
+					} catch (Exception ex) {
+						dateOption.setDate(null);
+						Logger.getLogger(PollServiceGwtImpl.class.getName()).
+								log(Level.SEVERE, null, ex);
+					}
+					option = dateOption;
+				} else {
+					throw new RuntimeException("unknow type");
+				}
+
+				for (String voter : optionWeb.getVotes().getVoter()) {
+					option.addVote(voter);
+				}
+			}
+		}
+		return poll;
 	}
 }

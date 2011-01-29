@@ -20,6 +20,6 @@ public interface PollServiceGwtAsync {
 	public void addPoll(xoPoll poll,
 			AsyncCallback<Void> asyncCallback);
 
-	public void getPoll(int id,
+	public void getPoll(String url, String locale, Integer id,
 			AsyncCallback<xoPoll> asyncCallback);
 }

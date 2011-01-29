@@ -241,7 +241,7 @@ public class MainEntryPoint implements EntryPoint {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							showPoll(showPanel, pollFinal, myLocale);
+							showPoll(showPanel, pollFinal, myUrl, myLocale);
 						}
 					});
 					item.add(showButton);
@@ -280,10 +280,25 @@ public class MainEntryPoint implements EntryPoint {
 	/*
 	 * show details of a partially loaded poll
 	 */
-	private void showPoll(Panel mainPanel, xoPoll pollInfo, String locale) {
+	private void showPoll(Panel mainPanel, xoPoll pollInfo, String url, String locale) {
 		mainPanel.clear();
+		final Panel mainPanelFinal = mainPanel;
 
-		addEmptyRow(mainPanel);
+		service.getPoll(url, locale, pollInfo.getId(), new AsyncCallback<xoPoll>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("RPC failure in showPoll");
+			}
+
+			@Override
+			public void onSuccess(xoPoll result) {
+
+				addEmptyRow(mainPanelFinal);
+			}
+		});
+
+
 	}
 
 	/*

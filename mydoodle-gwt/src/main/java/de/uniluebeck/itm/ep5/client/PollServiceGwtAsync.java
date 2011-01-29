@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface PollServiceGwtAsync {
 
-	public void getPollTitles(AsyncCallback<List<String>> asyncCallback);
+	public void getPollTitles(AsyncCallback<List<GwtPoll>> asyncCallback);
 
 	public void addPoll(GwtPoll poll,
 			AsyncCallback<Void> asyncCallback);

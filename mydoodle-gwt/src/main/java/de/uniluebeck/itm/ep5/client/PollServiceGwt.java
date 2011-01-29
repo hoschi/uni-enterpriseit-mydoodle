@@ -17,7 +17,7 @@ import java.util.List;
 
 public interface PollServiceGwt extends RemoteService {
 
-	public List<String> getPollTitles();
+	public List<GwtPoll> getPollTitles();
 
 	public void addPoll(GwtPoll poll);
 }

@@ -200,26 +200,40 @@ public class MainEntryPoint implements EntryPoint {
 	private void createPollList(String url, String locale) {
 		final String myUrl = url;
 		final String myLocale = locale;
-		service.getPollTitles(new AsyncCallback<List<String>>() {
+		service.getPollTitles(new AsyncCallback<List<GwtPoll>>() {
 
 			public void onFailure(Throwable caught) {
 				Window.alert("RPC to getPollTitles() failed.");
 			}
 
-			public void onSuccess(List<String> result) {
+			public void onSuccess(List<GwtPoll> result) {
 				Panel panel = new VerticalPanel();
+				final DecoratorPanel decorator = new DecoratorPanel();
+				decorator.setWidget(panel);
+
 				panel.add(new InlineHTML("<h2>List from <a href=\"" + myUrl +
 						"\">" + myUrl + "</a> (" + myLocale + ")</h2>"));
 
-				for (String titel : result) {
+				for (GwtPoll poll : result) {
 					Panel item = new HorizontalPanel();
+					final Panel showPanel = new VerticalPanel();
 
-					Label label = new Label(titel);
+					Label label = new Label(poll.getTitle());
 					item.add(label);
-					item.add(new Button("show"));
+					Button showButton = new Button("show");
+					showButton.addClickHandler(new ClickHandler() {
+						Panel panel = showPanel;
+
+						@Override
+						public void onClick(ClickEvent event) {
+							this.panel.add(new Label("test"));
+						}
+					});
+					item.add(showButton);
 					item.add(new Button("delete"));
 
 					panel.add(item);
+					panel.add(showPanel);
 				}
 				// add status line
 				addEmptyRow(panel);
@@ -231,25 +245,17 @@ public class MainEntryPoint implements EntryPoint {
 				Button updateButton = new Button("update");
 				Button removeButton = new Button("remove");
 				removeButton.addClickHandler(new ClickHandler() {
+					DecoratorPanel pollPanel = decorator;
 
 					public void onClick(ClickEvent event) {
-						Element element = event.getRelativeElement();
-						Element pollList = element.getParentElement().
-								getParentElement().getParentElement().
-								getParentElement().getParentElement().
-								getParentElement().getParentElement().
-								getParentElement().getParentElement().
-								getParentElement().getParentElement().
-								getParentElement().getParentElement().
-								getParentElement().getParentElement();
-						pollList.getParentElement().removeChild(pollList);
+						showPollListPanel.remove(this.pollPanel);
 					}
 				});
 				bottom.add(updateButton);
 				bottom.add(removeButton);
 				panel.add(bottom);
-				DecoratorPanel decorator = new DecoratorPanel();
-				decorator.setWidget(panel);
+				
+				
 				showPollListPanel.add(decorator);
 			}
 		});

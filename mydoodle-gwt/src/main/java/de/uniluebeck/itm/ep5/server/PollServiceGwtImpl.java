@@ -42,12 +42,15 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements PollServ
 
 
 	@Override
-	public List<String> getPollTitles() {
+	public List<GwtPoll> getPollTitles() {
 		PollWebService service = getWebService();
 		List<XsPollInfo> polls = service.getPolls(Locale.ENGLISH.toString());
-		List<String> list = new ArrayList<String>();
+		List<GwtPoll> list = new ArrayList<GwtPoll>();
 		for (XsPollInfo pollinfo : polls) {
-			list.add(pollinfo.getTitle());
+			GwtPoll poll = new GwtPoll();
+			poll.setTitle(pollinfo.getTitle());
+			poll.setId(new Integer(pollinfo.getId()));
+			list.add(poll);
 		}
 		return list;
 	}

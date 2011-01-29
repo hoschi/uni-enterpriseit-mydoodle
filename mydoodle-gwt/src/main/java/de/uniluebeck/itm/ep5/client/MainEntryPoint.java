@@ -197,6 +197,12 @@ public class MainEntryPoint implements EntryPoint {
 		createPollList("http://localhost:8080/poll?WSDL", "en");
 	}
 
+	private void showPoll(Panel mainPanel, GwtPoll poll) {
+		mainPanel.clear();
+		mainPanel.add(new Label("blubb " + poll.getId()));
+		addEmptyRow(mainPanel);
+	}
+
 	private void createPollList(String url, String locale) {
 		final String myUrl = url;
 		final String myLocale = locale;
@@ -215,6 +221,7 @@ public class MainEntryPoint implements EntryPoint {
 						"\">" + myUrl + "</a> (" + myLocale + ")</h2>"));
 
 				for (GwtPoll poll : result) {
+					final GwtPoll pollFinal = poll;
 					Panel item = new HorizontalPanel();
 					final Panel showPanel = new VerticalPanel();
 
@@ -222,11 +229,12 @@ public class MainEntryPoint implements EntryPoint {
 					item.add(label);
 					Button showButton = new Button("show");
 					showButton.addClickHandler(new ClickHandler() {
+
 						Panel panel = showPanel;
 
 						@Override
 						public void onClick(ClickEvent event) {
-							this.panel.add(new Label("test"));
+							showPoll(panel, pollFinal);
 						}
 					});
 					item.add(showButton);
@@ -245,6 +253,7 @@ public class MainEntryPoint implements EntryPoint {
 				Button updateButton = new Button("update");
 				Button removeButton = new Button("remove");
 				removeButton.addClickHandler(new ClickHandler() {
+
 					DecoratorPanel pollPanel = decorator;
 
 					public void onClick(ClickEvent event) {
@@ -254,8 +263,8 @@ public class MainEntryPoint implements EntryPoint {
 				bottom.add(updateButton);
 				bottom.add(removeButton);
 				panel.add(bottom);
-				
-				
+
+
 				showPollListPanel.add(decorator);
 			}
 		});

@@ -58,7 +58,9 @@ public class PollWebServiceImpl implements PollWebService {
 		List<XsPollInfo> list = new ArrayList<XsPollInfo>();
 		for (xoPoll poll : polls) {
 			XsPollInfo info = new XsPollInfo();
-			if (poll.isPublic()) {
+
+			boPoll b = PollMapper.createBO(poll);
+			if (poll.isPublic() && b.isActive()) {
 				info.setId(poll.getId().toString());
 				info.setTitle(poll.getTitle());
 				list.add(info);

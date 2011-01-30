@@ -7,6 +7,7 @@ package de.uniluebeck.itm.ep5.client;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
+import de.uniluebeck.itm.pollservice.XsVote;
 import java.util.List;
 
 /**
@@ -22,4 +23,6 @@ public interface PollServiceGwt extends RemoteService {
 	public void addPoll(xoPoll poll);
 
 	public xoPoll getPoll(String url, String locale, Integer id);
+
+	public void voteForOptions(String url, List<String> ids, String voter);
 }

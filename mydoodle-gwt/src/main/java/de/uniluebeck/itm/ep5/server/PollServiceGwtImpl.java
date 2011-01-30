@@ -19,6 +19,7 @@ import de.uniluebeck.itm.pollservice.XsOption;
 import de.uniluebeck.itm.pollservice.XsOptionList;
 import de.uniluebeck.itm.pollservice.XsPoll;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
+import de.uniluebeck.itm.pollservice.XsVote;
 import de.uniluebeck.itm.pollservice.XsVotes;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -130,4 +131,17 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 		}
 		return poll;
 	}
+
+	@Override
+	public void voteForOptions(String url, List<String> ids, String voter) {
+		PollWebService webService = getWebService(url);
+		XsVote vote = new XsVote();
+		vote.setVoter(voter);
+		for (String id : ids){
+				vote.getOptionId().add(id);
+		}
+		webService.voteForOptions(vote);
+	}
+
+	
 }

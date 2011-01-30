@@ -6,6 +6,7 @@ package de.uniluebeck.itm.ep5.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
+import de.uniluebeck.itm.pollservice.XsVote;
 import java.util.List;
 
 /**
@@ -22,4 +23,7 @@ public interface PollServiceGwtAsync {
 
 	public void getPoll(String url, String locale, Integer id,
 			AsyncCallback<xoPoll> asyncCallback);
+
+	public void voteForOptions(String url, List<String> ids, String voter,
+			AsyncCallback<Void> asyncCallback);
 }

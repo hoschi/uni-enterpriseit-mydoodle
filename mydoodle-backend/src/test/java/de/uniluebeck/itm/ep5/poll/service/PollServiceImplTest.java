@@ -135,7 +135,7 @@ public class PollServiceImplTest {
         // save changes
         pollService.addPoll(poll);
 
-        // interactive poll must be in list with other polls
+        // inactive poll must be in list with other polls
         List<xoPoll> list = pollService.getPolls();
         Assert.assertEquals(1, list.size());
         poll = list.get(0);

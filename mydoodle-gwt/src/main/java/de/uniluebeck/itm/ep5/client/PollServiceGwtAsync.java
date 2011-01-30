@@ -26,4 +26,9 @@ public interface PollServiceGwtAsync {
 
 	public void voteForOptions(String url, List<String> ids, String voter,
 			AsyncCallback<Void> asyncCallback);
+
+	public void getLocalPollTitles(AsyncCallback<List<xoPoll>> asyncCallback);
+
+	public void getLocalPoll(Integer id,
+			AsyncCallback<xoPoll> asyncCallback);
 }

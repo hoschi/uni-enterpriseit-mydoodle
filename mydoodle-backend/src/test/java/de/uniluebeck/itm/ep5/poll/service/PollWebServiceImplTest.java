@@ -90,11 +90,14 @@ public class PollWebServiceImplTest {
 
 		poll = new xoPoll("poll1");
 		poll.addOptionList(olist);
+		poll.setPublic(true);
 		pollService.addPoll(poll);
 
 		poll = new xoPoll("poll2");
+		poll.setPublic(true);
 		pollService.addPoll(poll);
 		poll = new xoPoll("poll3");
+		poll.setPublic(true);
 		pollService.addPoll(poll);
 
 

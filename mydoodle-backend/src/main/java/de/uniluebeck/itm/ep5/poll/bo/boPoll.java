@@ -36,16 +36,25 @@ public class boPoll implements Serializable {
 
 	public boolean isActive() {
 
-		if (this.startDate == null || this.endDate == null) {
-			return true;
-		}
-
 		Date now = GregorianCalendar.getInstance().getTime();
-		if (this.startDate.before(now) && this.endDate.after(now)) {
-			return true;
+		boolean active;
+
+		if (this.startDate == null && this.endDate ==
+				null) {
+			active = true;
+		} else if (this.startDate != null && this.endDate !=
+				null && this.startDate.before(now) && this.endDate.after(now)) {
+			active = true;
+		} else if (this.startDate != null && this.endDate == null && this.startDate.before(
+				now)) {
+			active = true;
+		} else if (this.endDate != null && this.startDate == null && this.endDate.after(now)) {
+			active = true;
+		} else {
+			active = false;
 		}
 
-		return false;
+		return active;
 	}
 
 	/**

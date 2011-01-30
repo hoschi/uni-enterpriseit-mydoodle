@@ -52,6 +52,13 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 		return list;
 	}
 
+	@Override
+	public List<xoPoll> getLocalPollTitles() {
+		PollService service = getService();
+		List<xoPoll> polls = service.getPolls();
+		return polls;
+	}
+
 	private PollService getService() {
 		ApplicationContext ctx;
 		// Create the spring container using the XML configuration in
@@ -142,6 +149,13 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 		}
 		webService.voteForOptions(vote);
 	}
+
+	@Override
+	public xoPoll getLocalPoll(Integer id) {
+		return getService().getPoll(id);
+	}
+
+
 
 	
 }

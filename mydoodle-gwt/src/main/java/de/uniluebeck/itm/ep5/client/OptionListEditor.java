@@ -103,10 +103,6 @@ public class OptionListEditor {
 			public void onClick(ClickEvent arg0) {
 				if (textOptions) {
 					LocalizedTextBox textBox = (LocalizedTextBox)box;
-					
-					if (!(box instanceof LocalizedTextBox))
-						throw new RuntimeException("box is wrong type");
-					
 					if (!textBox.noStringsSet()) {
 						addTextOption(textBox.getLocalizedStrings());
 						textBox.resetStrings();

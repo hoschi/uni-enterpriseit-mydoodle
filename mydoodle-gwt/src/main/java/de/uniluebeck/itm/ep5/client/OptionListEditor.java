@@ -23,23 +23,18 @@ import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
 import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 
 public class OptionListEditor {
-	
-	public interface OptionListEditorListener {
-		public void onRemoveOptionList(OptionListEditor editor);
-	}
-	
 	private Widget rootWidget;
 	private VerticalPanel optionsPanel;
 	private boolean textOptions;
 	private String title;
 	private String optionPrefix;
 	private String optionListPrefix;
-	private String[] locales;
+	private LocaleSettings ls;
 	
 	private Map<Widget, Object> optionMap;
 	
-	public OptionListEditor(XOOptionList optionList, String[] locales) {
-		this(optionList.getTitle(), locales, optionList.getTexts() != null);		
+	public OptionListEditor(XOOptionList optionList, final LocaleSettings ls) {
+		this(optionList.getTitle(), ls, optionList.getTexts() != null);		
 		if (textOptions) {
 			for (IOption option : optionList.getTexts()) {
 				addTextOption(((XOTextOption) option).getStrings());
@@ -51,13 +46,13 @@ public class OptionListEditor {
 		}
 	}
 	
-	public OptionListEditor(String title, boolean textOptions, String[] locales) {
-		this(title, locales, textOptions);
+	public OptionListEditor(String title, boolean textOptions, final LocaleSettings ls) {
+		this(title, ls, textOptions);
 	}
 
-	private OptionListEditor(String title, String[] locales, boolean textOptions) {
+	private OptionListEditor(String title, final LocaleSettings ls, boolean textOptions) {
 		this.title = title;
-		this.locales = locales;
+		this.ls = ls;
 		this.textOptions = textOptions;
 		this.optionListPrefix = "option list: ";
 		this.optionPrefix = "option: ";
@@ -96,17 +91,23 @@ public class OptionListEditor {
 	private Widget createAddWidget() {
 		final Grid grid = new Grid(1,2);
 		
-		final Widget box = textOptions?(new LocalizedTextBox(locales)):(new DateBox());
+		final Widget box = textOptions?(new LocalizedTextBox(ls)):(new DateBox());
 		final Button button = new Button("add option");
 		button.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent arg0) {
 				if (textOptions) {
+					ClientLog.log("onClick 1");
 					LocalizedTextBox textBox = (LocalizedTextBox)box;
+					ClientLog.log("onClick 2");
 					if (!textBox.noStringsSet()) {
+						ClientLog.log("onClick 2a");
 						addTextOption(textBox.getLocalizedStrings());
+						ClientLog.log("onClick 2b");
 						textBox.resetStrings();
+						ClientLog.log("onClick 2c");
 					}
+					ClientLog.log("onClick 3");
 				} else {
 					DateBox dateBox = (DateBox)box;
 					if (dateBox.getValue() != null) {

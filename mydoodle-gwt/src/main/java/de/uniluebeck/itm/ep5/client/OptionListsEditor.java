@@ -24,14 +24,14 @@ public class OptionListsEditor {
 	
 	private Map<Widget, OptionListEditor> optionListMap;
 	
-	public OptionListsEditor(final String[] locales, List<XOOptionList> optionLists) {
-		this(locales);
+	public OptionListsEditor(final LocaleSettings ls, List<XOOptionList> optionLists) {
+		this(ls);
 		for (XOOptionList optionList : optionLists) {
-			addOptionList(new OptionListEditor(optionList, locales));
+			addOptionList(new OptionListEditor(optionList, ls));
 		}
 	}
 	
-	public OptionListsEditor(final String[] locales) {
+	public OptionListsEditor(final LocaleSettings ls) {
 		this.optionListMap = new HashMap<Widget, OptionListEditor>();
 		
 		VerticalPanel panel = new VerticalPanel();
@@ -64,7 +64,7 @@ public class OptionListsEditor {
 				String title = textBox.getText();
 				
 				if (!(title.equals(""))) {
-					addOptionList(new OptionListEditor(title, textOptions, locales));
+					addOptionList(new OptionListEditor(title, textOptions, ls));
 					textBox.setText("");
 				}
 			}

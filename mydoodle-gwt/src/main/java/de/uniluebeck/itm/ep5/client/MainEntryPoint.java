@@ -4,40 +4,38 @@
  */
 package de.uniluebeck.itm.ep5.client;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DateBox;
-import de.uniluebeck.itm.ep5.poll.domain.IOption;
-import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
-import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
-import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
-import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
-import de.uniluebeck.itm.pollservice.XsVote;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+
+import de.uniluebeck.itm.ep5.poll.domain.IOption;
+import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
+import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
 
 /**
  * Main entry point.
@@ -54,9 +52,10 @@ public class MainEntryPoint implements EntryPoint {
 	private Panel addPollPanel;
 	private Panel myRootPanel;
 	private Button validateAndSaveNewPollButton;
-	private Grid addPollFormGrid;
 	private TextBox username;
 	private String currentLocale;
+	private LocaleSettings localeSettings;
+	private PollEditor pollEditor;
 
 	/**
 	 * Creates a new instance of MainEntryPoint
@@ -75,6 +74,10 @@ public class MainEntryPoint implements EntryPoint {
 	public void onModuleLoad() {
 		this.currentLocale = LocaleInfo.getCurrentLocale().
 				getLocaleName();
+		
+		localeSettings = new LocaleSettings(LocaleInfo.getAvailableLocaleNames(), 
+				indexOf(LocaleInfo.getAvailableLocaleNames(), this.currentLocale));
+		
 		createAddPollForm();
 		createPollList();
 
@@ -84,40 +87,26 @@ public class MainEntryPoint implements EntryPoint {
 		myRootPanel.add(addPollPanel);
 	}
 
+	private static int indexOf(String[] strings, String arg) {
+		for (int i = 0; i < strings.length; i++) {
+			if (arg.equals(strings[i])) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	/*
 	 * create the "add new poll" form
 	 */
 	private void createAddPollForm() {
 		addPollPanel.clear();
-		addPollFormGrid = new Grid(4, 2);
 
 		addPollPanel.add(new InlineHTML("<h1>Add a new one</h1>"));
 
-		addPollFormGrid.setWidget(0, 0, new Label("title"));
-		TextBox titleBox = new TextBox();
-		addPollFormGrid.setWidget(0, 1, titleBox);
-
-		addPollFormGrid.setWidget(1, 0, new Label("is public"));
-		CheckBox isPublicBox = new CheckBox();
-		isPublicBox.setValue(Boolean.TRUE);
-		addPollFormGrid.setWidget(1, 1, isPublicBox);
-
-		addPollFormGrid.setWidget(2, 0, new Label("start date"));
-		DateBox startDateBox = new DateBox();
-		addPollFormGrid.setWidget(2, 1, startDateBox);
-
-		addPollFormGrid.setWidget(3, 0, new Label("end date"));
-		DateBox endDateBox = new DateBox();
-		addPollFormGrid.setWidget(3, 1, endDateBox);
-
-		addPollPanel.add(addPollFormGrid);
-
-		addEmptyRow(addPollPanel);
-
-
-		Widget optionListForm = createOptionListsForm();
-		addPollPanel.add(optionListForm);
-
+		pollEditor = new PollEditor(localeSettings);
+		addPollPanel.add(pollEditor.getRootWidget());
+		
 		addEmptyRow(addPollPanel);
 
 		validateAndSaveNewPollButton = new Button("save");
@@ -131,15 +120,12 @@ public class MainEntryPoint implements EntryPoint {
 		addPollPanel.add(validateAndSaveNewPollButton);
 
 	}
-	private Widget createOptionListsForm() {
-		OptionListsEditor optionListsEditor = new OptionListsEditor(new String[]{"en", "de"}); // TODO
-		return optionListsEditor.getRootWidget();
-	}
-
+	
 	/*
 	 * save a new poll with the form data
 	 */
 	private void saveNewPoll() {
+		/*
 		TextBox titleBox =
 				(TextBox) addPollFormGrid.getWidget(0, 1);
 		CheckBox isPublicBox =
@@ -166,6 +152,9 @@ public class MainEntryPoint implements EntryPoint {
 		poll.setPublic(isPublicBox.getValue());
 		poll.setStartDate(startDateBox.getValue());
 		poll.setTitle(titleBox.getValue());
+		*/
+		
+		xoPoll poll = pollEditor.getPoll();
 
 		this.service.addPoll(poll, new AsyncCallback<Void>() {
 
@@ -177,7 +166,7 @@ public class MainEntryPoint implements EntryPoint {
 
 			@Override
 			public void onSuccess(Void result) {
-				createAddPollForm();
+				//createAddPollForm();
 			}
 		});
 

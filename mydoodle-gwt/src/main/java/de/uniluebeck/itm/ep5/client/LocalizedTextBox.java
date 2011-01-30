@@ -13,12 +13,15 @@ import de.uniluebeck.itm.ep5.poll.domain.XOLocalizedString;
 
 public class LocalizedTextBox extends Grid {
 	
+	private final LocaleSettings ls;
 	private String[] locales;
 	private String[] localizedTexts;
 	private TextBox textBox;
 	
-	public LocalizedTextBox(String[] locales) {
+	public LocalizedTextBox(final LocaleSettings ls) {
 		super(1,2);
+		this.ls = ls;
+		this.locales = ls.locales;
 		this.localizedTexts = new String[locales.length];
 		
 		Grid grid = this;
@@ -48,6 +51,8 @@ public class LocalizedTextBox extends Grid {
 				localizedTexts[list.getSelectedIndex()] = text.getText();
 			}
 		});
+		
+		list.setSelectedIndex(ls.defaultLocaleIndex);
 	}
 	
 	public int getLocaleCount() {

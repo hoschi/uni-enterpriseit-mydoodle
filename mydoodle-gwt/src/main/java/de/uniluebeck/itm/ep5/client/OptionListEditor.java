@@ -164,6 +164,7 @@ public class OptionListEditor {
 		for (int i = 0; i < optionsPanel.getWidgetCount(); i++) {
 			Object optionData = getOptionFromRemoveWidget(optionsPanel.getWidget(i));
 			if (textOptions) {
+				GWT.log("text option", null);
 				XOTextOption option = new XOTextOption();
 								
 				option.setStrings((List<XOLocalizedString>)optionData);

@@ -263,7 +263,6 @@ public class MainEntryPoint implements EntryPoint {
 						}
 					});
 					item.add(showButton);
-					item.add(new Button("delete"));
 
 					panel.add(item);
 					panel.add(showPanel);

@@ -15,6 +15,7 @@ public class xoPoll implements Serializable{
     private Date endDate;
 
     public xoPoll() {
+		this.options = new ArrayList<XOOptionList>();
     }
 
     public xoPoll(String title) {
@@ -31,6 +32,7 @@ public class xoPoll implements Serializable{
     public xoPoll(String title, boolean isPublic) {
         this.title = title;
         this.isPublic = isPublic;
+		this.options = new ArrayList<XOOptionList>();
     }
 
     public void addOptionList(XOOptionList list) {

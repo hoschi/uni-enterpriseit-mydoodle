@@ -11,19 +11,29 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import de.uniluebeck.itm.ep5.poll.domain.IOption;
+import de.uniluebeck.itm.ep5.poll.domain.XODateOption;
+import de.uniluebeck.itm.ep5.poll.domain.XOOptionList;
+import de.uniluebeck.itm.ep5.poll.domain.XOTextOption;
 import de.uniluebeck.itm.ep5.poll.domain.xoPoll;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Main entry point.
@@ -40,6 +50,7 @@ public class MainEntryPoint implements EntryPoint {
 	private Button addOptionListButton;
 	private Button validateAndSaveNewPollButton;
 	private Grid addPollFormGrid;
+	private TextBox username;
 
 	/**
 	 * Creates a new instance of MainEntryPoint
@@ -178,6 +189,13 @@ public class MainEntryPoint implements EntryPoint {
 	 */
 	private void createPollList() {
 		showPollListPanel.add(new InlineHTML("<h1>Poll List</h1>"));
+		// add username box
+		this.username = new TextBox();
+		Panel userpanel = new HorizontalPanel();
+		userpanel.add(new Label("username: "));
+		userpanel.add(this.username);
+		showPollListPanel.add(userpanel);
+
 		// add more lists
 		showPollListPanel.add(new InlineHTML(
 				"<h2>Add polls from other host</h2>"));
@@ -280,7 +298,8 @@ public class MainEntryPoint implements EntryPoint {
 	/*
 	 * show details of a partially loaded poll
 	 */
-	private void showPoll(Panel mainPanel, xoPoll pollInfo, String url, String locale) {
+	private void showPoll(Panel mainPanel, xoPoll pollInfo, String url,
+			String locale) {
 		mainPanel.clear();
 		final Panel mainPanelFinal = mainPanel;
 
@@ -293,12 +312,127 @@ public class MainEntryPoint implements EntryPoint {
 
 			@Override
 			public void onSuccess(xoPoll poll) {
-				mainPanelFinal.add(new Label(poll.getTitle()));
+				String publicString = "";
+				if (poll.isPublic()) {
+					publicString += "is public";
+				}
+				mainPanelFinal.add(new Label(publicString));
+
+				// TODO: test this with local poll which have this dates instead
+				// of web service polls
+				String dates = "";
+				if (poll.getStartDate() != null) {
+					dates += "start date is: " + DateTimeFormat.
+							getShortDateFormat().format(poll.getStartDate()) +
+							". ";
+				}
+				if (poll.getEndDate() != null) {
+					dates += "end date is: " + DateTimeFormat.getShortDateFormat().
+							format(poll.getEndDate()) + ".";
+				}
+				mainPanelFinal.add(new Label(dates));
+
+				mainPanelFinal.add(buildPollGrid(poll));
+
 				addEmptyRow(mainPanelFinal);
 			}
 		});
 
 
+	}
+
+	private Widget buildPollGrid(xoPoll poll) {
+		FlexTable t = new FlexTable();
+		t.setStylePrimaryName("pollgrid");
+		Set votersSet = new HashSet();
+		votersSet.add(username.getText());
+
+		if (poll != null) {
+			// create headers
+			int optionListCounter = 1;
+			for (XOOptionList optionList : poll.getOptionLists()) {
+				t.setText(0, optionListCounter, optionList.getTitle());
+				int optionCounter = 0;
+				for (IOption option : optionList.getOptions()) {
+					XOTextOption text;
+					XODateOption date;
+
+					int column;
+
+					// if this is the first entry there is no row 1, so
+					// getCellCount(1) throws out of bounds exception
+					if (t.getRowCount() == 1) {
+						column = 1;
+					} else {
+						column = t.getCellCount(1);
+					}
+
+					// make entry
+					if (option instanceof XOTextOption) {
+						text = (XOTextOption) option;
+						t.setText(1, column, text.getStrings().get(
+								0).getText());
+
+					} else if (option instanceof XODateOption) {
+						date = (XODateOption) option;
+						t.setText(1, column, DateTimeFormat.getLongTimeFormat().
+								format(date.getDate()));
+
+					} else {
+						throw new RuntimeException("unknown option type");
+					}
+
+					// add voters to hash set
+					for (String voter : option.getVotes()) {
+						votersSet.add(voter);
+					}
+					optionCounter++;
+				}
+
+
+				t.getFlexCellFormatter().setColSpan(0, optionListCounter,
+						optionCounter);
+				optionListCounter++;
+			}
+			// create checkboxes
+			if (poll.getOptionLists().size() > 0) {
+				Iterator iter = votersSet.iterator();
+				int row = 2;
+				while (iter.hasNext()) {
+					String voter = (String) iter.next();
+					t.setWidget(row, 0, new Label(voter));
+
+					// create checkboxes
+					for (XOOptionList optionList : poll.getOptionLists()) {
+						for (IOption option : optionList.getOptions()) {
+							int column = t.getCellCount(row);
+							VoteBox box = new VoteBox();
+
+							box.setOptionId(option.getId());
+							box.setValue(Boolean.FALSE);
+							box.setEnabled(false);
+							if (option.getVotes().contains(voter)) {
+								// add a checked checkbox
+								box.setValue(Boolean.TRUE);
+							}
+							if (voter.equals(username.getText())) {
+								// current user can delete his votes
+								box.setEnabled(true);
+							}
+							t.setWidget(row, column, box);
+						}
+					}
+
+					// add save button
+					if (voter.equals(username.getText())) {
+						Button saveVotesButton = new Button("save");
+						t.setWidget(row, t.getCellCount(row), saveVotesButton);
+					}
+					row++;
+				}
+			}
+		}
+		return t;
 	}
 
 	/*

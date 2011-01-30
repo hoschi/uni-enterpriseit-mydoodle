@@ -6,6 +6,7 @@
 package de.uniluebeck.itm.ep5.poll.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,6 @@ import java.io.Serializable;
  */
 public interface IOption extends Serializable{
 	public void addVote(String voter);
+	public List<String> getVotes();
+	public String getId();
 }

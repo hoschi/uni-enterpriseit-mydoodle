@@ -123,7 +123,10 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 				for (String voter : optionWeb.getVotes().getVoter()) {
 					option.addVote(voter);
 				}
+				optionList.addOption(option);
 			}
+			poll.addOptionList(optionList);
+
 		}
 		return poll;
 	}

@@ -4,6 +4,7 @@
 
 <module>
     <inherits name="com.google.gwt.user.User"/>
+	<inherits name="com.google.gwt.i18n.I18N"/>
 	<inherits name="de.uniluebeck.itm.ep5.poll.shared" />
     <!-- Inherit the default GWT style sheet. You can change -->
     <!-- the theme of your GWT application by uncommenting -->

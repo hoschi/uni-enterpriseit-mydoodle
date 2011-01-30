@@ -58,10 +58,13 @@ public class MainServer {
 		XOTextOption text = new XOTextOption();
 		text.addString("hello", Locale.ENGLISH.toString());
 		text.addString("hallo", Locale.GERMAN.toString());
+		text.addVote("hoschi");
 
 		XOTextOption text1 = new XOTextOption();
 		text1.addString("in the morning", Locale.ENGLISH.toString());
 		text1.addString("morgens", Locale.GERMAN.toString());
+		text1.addVote("hoschi");
+		text1.addVote("jacob");
 
 		// create dates option
 		GregorianCalendar yesterday = new GregorianCalendar();

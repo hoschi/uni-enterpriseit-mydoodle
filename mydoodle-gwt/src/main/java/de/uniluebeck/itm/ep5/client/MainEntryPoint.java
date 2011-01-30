@@ -345,7 +345,9 @@ public class MainEntryPoint implements EntryPoint {
 		FlexTable t = new FlexTable();
 		t.setStylePrimaryName("pollgrid");
 		Set votersSet = new HashSet();
-		votersSet.add(username.getText());
+
+		if (!username.getText().isEmpty())
+			votersSet.add(username.getText());
 
 		if (poll != null) {
 			// create headers
@@ -375,7 +377,7 @@ public class MainEntryPoint implements EntryPoint {
 
 					} else if (option instanceof XODateOption) {
 						date = (XODateOption) option;
-						t.setText(1, column, DateTimeFormat.getLongTimeFormat().
+						t.setText(1, column, DateTimeFormat.getLongDateTimeFormat().
 								format(date.getDate()));
 
 					} else {

@@ -161,7 +161,8 @@ public class MainEntryPoint implements EntryPoint {
 		VerticalPanel optionListRootPanel = new VerticalPanel();
 		
 		// add name and button for removal
-		optionListRootPanel.add(createRemoveWidget(REMOVE_OPTION_LIST, optionListsPanel, name, "option list"));
+		optionListRootPanel.add(createRemoveWidget(
+				REMOVE_OPTION_LIST, optionListsPanel, optionListRootPanel, name, "option list"));
 		
 		// list of options (empty at first)
 		VerticalPanel optionListPanel = new VerticalPanel();
@@ -175,13 +176,13 @@ public class MainEntryPoint implements EntryPoint {
 	}
 	
 	private void onAddWidgetAction(String action, Object object, String text) {
-		
 		if (action.equals(ADD_OPTION_LIST)) {
 			VerticalPanel optionListsPanel = (VerticalPanel)object;
 			optionListsPanel.add(createOptionListForm(optionListsPanel, text));
 		} else if (action.equals(ADD_OPTION)) {
 			VerticalPanel optionListPanel = (VerticalPanel)object;
-			optionListPanel.add(createRemoveWidget(REMOVE_OPTION, optionListPanel, text, "option"));
+			optionListPanel.add(createRemoveWidget(
+					REMOVE_OPTION, optionListPanel, null, text, "option"));
 		}
 	}
 	
@@ -219,7 +220,8 @@ public class MainEntryPoint implements EntryPoint {
 	}
 	
 	private Widget createRemoveWidget(
-			final String action, final Object parent, final String text, String type) {
+			final String action, final Object parent, final Object object, 
+			final String text, String type) {
 		final Grid result = new Grid(1,2);
 		
 		final Label label = new Label(type+": "+text);
@@ -227,7 +229,7 @@ public class MainEntryPoint implements EntryPoint {
 		removeButton.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent arg0) {
-				onRemoveWidgetAction(action, parent, result);
+				onRemoveWidgetAction(action, parent, (object == null)?result:object);
 			}
 		});
 		

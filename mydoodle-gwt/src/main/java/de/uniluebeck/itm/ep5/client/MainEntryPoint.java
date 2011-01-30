@@ -275,6 +275,16 @@ public class MainEntryPoint implements EntryPoint {
 				// control buttons for list
 				Panel bottom = new HorizontalPanel();
 				Button updateButton = new Button("update");
+				updateButton.addClickHandler(new ClickHandler() {
+
+					DecoratorPanel pollPanel = decorator;
+
+					public void onClick(ClickEvent event) {
+						showPollListPanel.remove(this.pollPanel);
+						createPollList(myUrl, myLocale);
+					}
+				});
+
 				Button removeButton = new Button("remove");
 				removeButton.addClickHandler(new ClickHandler() {
 

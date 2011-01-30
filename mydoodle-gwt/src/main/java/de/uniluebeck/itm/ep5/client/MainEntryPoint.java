@@ -53,6 +53,7 @@ public class MainEntryPoint implements EntryPoint {
 	private Button validateAndSaveNewPollButton;
 	private Grid addPollFormGrid;
 	private TextBox username;
+	private Widget optionListForm;
 
 	/**
 	 * Creates a new instance of MainEntryPoint
@@ -117,6 +118,9 @@ public class MainEntryPoint implements EntryPoint {
 			}
 		});
 		addPollPanel.add(addOptionListButton);
+		
+		optionListForm = createOptionListsForm();
+		addPollPanel.add(optionListForm);
 
 		addEmptyRow(addPollPanel);
 
@@ -130,6 +134,108 @@ public class MainEntryPoint implements EntryPoint {
 		});
 		addPollPanel.add(validateAndSaveNewPollButton);
 
+	}
+	
+	private static final String ADD_OPTION_LIST = "ADD OPTION LIST";
+	private static final String ADD_OPTION = "ADD OPTION";
+	private static final String REMOVE_OPTION_LIST = "REMOVE OPTION LIST";
+	private static final String REMOVE_OPTION = "REMOVE OPTION";
+
+	private Widget createOptionListsForm() {
+		// root panel
+		VerticalPanel optionListsRootPanel = new VerticalPanel();
+		
+		// list of option lists (empty at first)
+		VerticalPanel optionListsPanel = new VerticalPanel();
+		optionListsRootPanel.add(optionListsPanel);
+		
+		// add widget for adding an option list
+		Widget addOptionListWidget = createAddWidget(ADD_OPTION_LIST, optionListsPanel, "add option list");
+		optionListsRootPanel.add(addOptionListWidget);
+		
+		return optionListsRootPanel;
+	}
+	
+	private Widget createOptionListForm(VerticalPanel optionListsPanel, String name) {
+		// root panel
+		VerticalPanel optionListRootPanel = new VerticalPanel();
+		
+		// add name and button for removal
+		optionListRootPanel.add(createRemoveWidget(REMOVE_OPTION_LIST, optionListsPanel, name, "option list"));
+		
+		// list of options (empty at first)
+		VerticalPanel optionListPanel = new VerticalPanel();
+		optionListRootPanel.add(optionListPanel);
+		
+		// add widget for adding an option list
+		Widget addOptionWidget = createAddWidget(ADD_OPTION, optionListPanel, "add option");
+		optionListRootPanel.add(addOptionWidget);
+		
+		return optionListRootPanel;
+	}
+	
+	private void onAddWidgetAction(String action, Object object, String text) {
+		
+		if (action.equals(ADD_OPTION_LIST)) {
+			VerticalPanel optionListsPanel = (VerticalPanel)object;
+			optionListsPanel.add(createOptionListForm(optionListsPanel, text));
+		} else if (action.equals(ADD_OPTION)) {
+			VerticalPanel optionListPanel = (VerticalPanel)object;
+			optionListPanel.add(createRemoveWidget(REMOVE_OPTION, optionListPanel, text, "option"));
+		}
+	}
+	
+	private Widget createAddWidget(final String action, final Object object, String buttonText) {
+		Grid result = new Grid(1,2);
+		
+		final TextBox textBox = new TextBox();
+		Button addButton = new Button(buttonText);
+		addButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent arg0) {
+				if (!textBox.getText().equals("")) {
+					onAddWidgetAction(action, object, textBox.getText());
+					textBox.setText("");
+				}
+			}
+		});
+		
+		result.setWidget(0, 0, textBox);
+		result.setWidget(0, 1, addButton);
+		
+		return result;
+	}
+	
+	private void onRemoveWidgetAction(String action, Object parent, Object object) {
+		if (action.equals(REMOVE_OPTION_LIST)) {
+			VerticalPanel optionListsPanel = (VerticalPanel)parent;
+			Widget widget = (Widget)object;
+			optionListsPanel.remove(widget);
+		} else if (action.equals(REMOVE_OPTION)) {
+			VerticalPanel optionListPanel = (VerticalPanel)parent;
+			Widget widget = (Widget)object;
+			optionListPanel.remove(widget);
+		}
+	}
+	
+	private Widget createRemoveWidget(
+			final String action, final Object parent, final String text, String type) {
+		final Grid result = new Grid(1,2);
+		
+		final Label label = new Label(type+": "+text);
+		Button removeButton = new Button("remove");
+		removeButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent arg0) {
+				onRemoveWidgetAction(action, parent, result);
+			}
+		});
+		
+		result.setWidget(0, 0, label);
+		result.setWidget(0, 1, removeButton);
+		result.setTitle(text);
+		
+		return result;
 	}
 
 	/*

@@ -254,7 +254,7 @@ public class MainEntryPoint implements EntryPoint {
 
 					Label label = new Label(poll.getTitle());
 					item.add(label);
-					Button showButton = new Button("show");
+					Button showButton = new Button("show/refresh");
 					showButton.addClickHandler(new ClickHandler() {
 
 						@Override

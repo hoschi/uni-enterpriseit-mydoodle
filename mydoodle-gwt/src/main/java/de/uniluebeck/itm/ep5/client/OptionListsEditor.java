@@ -90,4 +90,8 @@ public class OptionListsEditor {
 		return result;
 	}
 
+	public void clearInputs() {
+		// TODO
+	}
+
 }

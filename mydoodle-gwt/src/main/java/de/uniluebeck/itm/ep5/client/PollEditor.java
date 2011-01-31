@@ -85,6 +85,14 @@ public class PollEditor {
 		return result;
 	}
 	
+	public void clearInputs() {
+		titleBox.setText("");
+		isPublicBox.setChecked(true);
+		startDateBox.setValue(null);
+		endDateBox.setValue(null);
+		listsEditor.clearInputs();
+	}
+	
 	public Widget getRootWidget() {
 		return rootWidget;
 	}

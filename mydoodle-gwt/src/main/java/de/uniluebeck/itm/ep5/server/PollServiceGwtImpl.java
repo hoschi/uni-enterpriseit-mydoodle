@@ -4,7 +4,20 @@
  */
 package de.uniluebeck.itm.ep5.server;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.namespace.QName;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.uniluebeck.itm.ep5.client.PollServiceGwt;
 import de.uniluebeck.itm.ep5.poll.bo.DateFormatter;
 import de.uniluebeck.itm.ep5.poll.domain.IOption;
@@ -20,16 +33,6 @@ import de.uniluebeck.itm.pollservice.XsOptionList;
 import de.uniluebeck.itm.pollservice.XsPoll;
 import de.uniluebeck.itm.pollservice.XsPollInfo;
 import de.uniluebeck.itm.pollservice.XsVote;
-import de.uniluebeck.itm.pollservice.XsVotes;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.namespace.QName;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -86,7 +89,7 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 
 		xoPoll x = new xoPoll();
 		x.setActiveTimeSpan(poll.getStartDate(), poll.getEndDate());
-		x.setOptions(null);
+		x.setOptions(poll.getOptionLists());
 		x.setPublic(poll.isPublic());
 		x.setTitle(poll.getTitle());
 

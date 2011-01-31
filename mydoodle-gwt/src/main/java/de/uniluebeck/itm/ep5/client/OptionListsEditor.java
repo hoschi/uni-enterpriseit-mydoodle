@@ -91,7 +91,13 @@ public class OptionListsEditor {
 	}
 
 	public void clearInputs() {
-		// TODO
+		List<Widget> removeList = new ArrayList<Widget>();
+		for (int i = 0; i < optionListsPanel.getWidgetCount(); i++) {
+			removeList.add(optionListsPanel.getWidget(i));
+		}
+		for (Widget w : removeList) {
+			w.removeFromParent();
+		}
 	}
 
 }

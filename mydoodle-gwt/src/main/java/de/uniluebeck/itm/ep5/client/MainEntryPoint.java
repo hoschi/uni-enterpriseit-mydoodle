@@ -192,7 +192,7 @@ public class MainEntryPoint implements EntryPoint {
 
 		// add more lists
 		showPollListPanel.add(new InlineHTML(
-				"<h2>Add polls from other host</h2>"));
+				"<h2>Add polls from other host</h2> (leave empty for localhost)"));
 		final TextBox otherHostUrl = new TextBox();
 		otherHostUrl.setWidth("400px");
 		final TextBox otherHostLocale = new TextBox();
@@ -203,7 +203,13 @@ public class MainEntryPoint implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				createPollList(otherHostUrl.getText(), otherHostLocale.getText());
+				if (otherHostLocale.getText().isEmpty())
+					Window.alert("you must give a locale");
+				
+				if (otherHostUrl.getText().isEmpty())
+					createLocalPollList(otherHostLocale.getText());
+				else
+					createPollList(otherHostUrl.getText(), otherHostLocale.getText());
 			}
 		});
 

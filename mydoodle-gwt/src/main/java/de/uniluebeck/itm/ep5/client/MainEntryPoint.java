@@ -4,7 +4,6 @@
  */
 package de.uniluebeck.itm.ep5.client;
 
-import com.google.gwt.event.dom.client.KeyUpEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,6 +15,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -24,6 +24,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Label;
@@ -52,12 +53,15 @@ public class MainEntryPoint implements EntryPoint {
 			"http://localhost:8080/poll?WSDL";
 	private Panel showPollListPanel;
 	private Panel addPollPanel;
+	private Panel editPollPanel;
 	private Panel myRootPanel;
 	private Button validateAndSaveNewPollButton;
 	private TextBox username;
 	private String currentLocale;
 	private LocaleSettings localeSettings;
-	private PollEditor pollEditor;
+	private PollEditor addPollEditor;
+	private PollEditor editPollEditor;
+	private Integer editedPollId;
 
 	/**
 	 * Creates a new instance of MainEntryPoint
@@ -66,6 +70,7 @@ public class MainEntryPoint implements EntryPoint {
 		addPollPanel = new VerticalPanel();
 		showPollListPanel = new VerticalPanel();
 		myRootPanel = new VerticalPanel();
+		editPollPanel = new VerticalPanel();
 	}
 
 	/**
@@ -83,11 +88,13 @@ public class MainEntryPoint implements EntryPoint {
 
 		createAddPollForm();
 		createPollList();
+		createEditPollForm();
 
 		myRootPanel.addStyleName("main");
 		RootPanel.get().add(myRootPanel);
 		myRootPanel.add(showPollListPanel);
 		myRootPanel.add(addPollPanel);
+		myRootPanel.add(editPollPanel);
 	}
 
 	private static int indexOf(String[] strings, String arg) {
@@ -98,6 +105,79 @@ public class MainEntryPoint implements EntryPoint {
 		}
 		return -1;
 	}
+	
+	private void createEditPollForm() {
+		editPollPanel = new VerticalPanel();
+		
+		editPollPanel.add(new InlineHTML("<h1>Edit a poll</h1>"));
+		
+		Grid grid = new Grid(1,3);
+		grid.setWidget(0, 0, new Label("poll ID"));
+		final TextBox box = new TextBox();
+		grid.setWidget(0, 1, box);
+		Button loadButton = new Button("load");
+		loadButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent arg0) {
+				loadPollForEditing(box.getText());
+				box.setText("");
+			}
+		});
+		grid.setWidget(0, 2, loadButton);
+		editPollPanel.add(grid);
+		
+		editPollEditor = new PollEditor(localeSettings);
+		editPollPanel.add(editPollEditor.getRootWidget());
+		
+		Button saveButton = new Button("save");
+		saveButton.addClickHandler(new ClickHandler(){
+			@Override
+			public void onClick(ClickEvent arg0) {
+				saveEditedPoll();
+			}
+		});
+		editPollPanel.add(saveButton);
+	}
+
+	private void loadPollForEditing(String idText) {
+		final Integer id = Integer.valueOf(Integer.parseInt(idText));
+		service.getLocalPoll(id, new AsyncCallback<xoPoll>() {
+			@Override
+			public void onSuccess(xoPoll poll) {
+				editPollEditor.setPoll(poll);
+				editedPollId = id;
+				ClientLog.log("loaded poll "+id);
+			}
+			@Override
+			public void onFailure(Throwable arg0) {
+				ClientLog.log("failed to load poll "+id);
+				editedPollId = null;
+			}
+		});
+	}
+
+	private void saveEditedPoll() {
+		if (editedPollId != null) {
+			xoPoll poll = editPollEditor.getPoll();
+			poll.setId(editedPollId);
+			this.service.addPoll(poll, new AsyncCallback<Void>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					editPollEditor.clearInputs();
+					Window.alert("RPC to addPoll() failed: " + caught.
+							getLocalizedMessage());
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+					ClientLog.log("poll saved");
+					editedPollId = null;
+					editPollEditor.clearInputs();
+				}
+			});
+		}
+	}
 
 	/*
 	 * create the "add new poll" form
@@ -107,8 +187,8 @@ public class MainEntryPoint implements EntryPoint {
 
 		addPollPanel.add(new InlineHTML("<h1>Add a new one</h1>"));
 
-		pollEditor = new PollEditor(localeSettings);
-		addPollPanel.add(pollEditor.getRootWidget());
+		addPollEditor = new PollEditor(localeSettings);
+		addPollPanel.add(addPollEditor.getRootWidget());
 
 		addEmptyRow(addPollPanel);
 
@@ -128,36 +208,8 @@ public class MainEntryPoint implements EntryPoint {
 	 * save a new poll with the form data
 	 */
 	private void saveNewPoll() {
-		/*
-		TextBox titleBox =
-		(TextBox) addPollFormGrid.getWidget(0, 1);
-		CheckBox isPublicBox =
-		(CheckBox) addPollFormGrid.getWidget(1, 1);
-		DateBox startDateBox =
-		(DateBox) addPollFormGrid.getWidget(2, 1);
-		DateBox endDateBox =
-		(DateBox) addPollFormGrid.getWidget(3, 1);
 
-		// check null
-		if (titleBox == null || isPublicBox == null || startDateBox == null || endDateBox ==
-		null) {
-		throw new RuntimeException("widget is null");
-		}
-
-		// validate
-		if (titleBox.getValue() == null || titleBox.getValue().equals("")) {
-		Window.alert("title can't be empty");
-		return;
-		}
-
-		xoPoll poll = new xoPoll();
-		poll.setEndDate(endDateBox.getValue());
-		poll.setPublic(isPublicBox.getValue());
-		poll.setStartDate(startDateBox.getValue());
-		poll.setTitle(titleBox.getValue());
-		 */
-
-		xoPoll poll = pollEditor.getPoll();
+		xoPoll poll = addPollEditor.getPoll();
 
 		this.service.addPoll(poll, new AsyncCallback<Void>() {
 
@@ -169,7 +221,7 @@ public class MainEntryPoint implements EntryPoint {
 
 			@Override
 			public void onSuccess(Void result) {
-				//createAddPollForm();
+				ClientLog.log("poll saved");
 			}
 		});
 
@@ -381,8 +433,6 @@ public class MainEntryPoint implements EntryPoint {
 		bottom.add(removeButton);
 		panel.add(bottom);
 		showPollListPanel.add(decorator);
-
-
 	}
 
 	/*
@@ -396,21 +446,13 @@ public class MainEntryPoint implements EntryPoint {
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("RPC failure in showPoll");
-
-
 			}
 
 			@Override
 			public void onSuccess(xoPoll poll) {
 				showPoll(poll, mainPanel, url, locale);
-
-
 			}
 		});
-
-
-
-
 	}
 
 	/*
@@ -423,30 +465,21 @@ public class MainEntryPoint implements EntryPoint {
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("RPC failure in showPoll");
-
-
 			}
 
 			@Override
 			public void onSuccess(xoPoll poll) {
 				showPoll(poll, mainPanel, localhostWsdl, locale);
-
-
 			}
 		});
-
-
 	}
 
 	private void showPoll(xoPoll poll, Panel panel, String url, String locale) {
 		panel.clear();
 		String privateString = "";
 
-
 		if (!poll.isPublic()) {
 			privateString += "is private";
-
-
 		}
 		panel.add(new Label(privateString));
 		String dates = "";
@@ -467,8 +500,6 @@ public class MainEntryPoint implements EntryPoint {
 					DateTimeFormat.getShortDateFormat().
 					format(poll.getEndDate()) + ".";
 			panel.add(new Label(dates));
-
-
 		}
 		panel.add(buildPollGrid(poll, url, locale));
 		addEmptyRow(
@@ -483,13 +514,8 @@ public class MainEntryPoint implements EntryPoint {
 		t.setStylePrimaryName("pollgrid");
 		Set votersSet = new HashSet();
 
-
-
-
 		if (!username.getText().isEmpty()) {
 			votersSet.add(username.getText());
-
-
 		}
 
 		if (poll != null) {
@@ -499,64 +525,36 @@ public class MainEntryPoint implements EntryPoint {
 
 			for (XOOptionList optionList : poll.getOptionLists()) {
 				t.setText(0, optionListCounter, optionList.getTitle());
-
-
 				int optionCounter = 0;
-
-
 				for (IOption option : optionList.getOptions()) {
 					XOTextOption text;
 					XODateOption date;
-
-
-
 					int column;
-
 					// if this is the first entry there is no row 1, so
 					// getCellCount(1) throws out of bounds exception
-
-
 					if (t.getRowCount() == 1) {
 						column = 1;
-
-
 					} else {
 						column = t.getCellCount(1);
-
-
 					}
 
 					// make entry
 					if (option instanceof XOTextOption) {
 						text = (XOTextOption) option;
 						t.setText(1, column, text.getStringByLocale(locale));
-
-
-
 					} else if (option instanceof XODateOption) {
 						date = (XODateOption) option;
 						t.setText(1, column, DateTimeFormat.
 								getLongDateTimeFormat().
 								format(date.getDate()));
-
-
-
 					} else {
 						throw new RuntimeException("unknown option type");
-
-
 					} // add voters to hash set
 					for (String voter : option.getVotes()) {
 						votersSet.add(voter);
-
-
 					}
 					optionCounter++;
-
-
 				}
-
-
 				t.getFlexCellFormatter().setColSpan(0, optionListCounter,
 						optionCounter);
 				optionListCounter++;
@@ -568,53 +566,37 @@ public class MainEntryPoint implements EntryPoint {
 				// calculate if poll is active or not
 				Date now = new Date();
 
-
 				boolean active;
-
 
 				if (poll.getStartDate() == null && poll.getEndDate() ==
 						null) {
 					active = true;
-
-
 				} else if (poll.getStartDate() != null && poll.getEndDate() !=
 						null && poll.getStartDate().before(now) && poll.
 						getEndDate().after(now)) {
 					active = true;
-
-
 				} else if (poll.getStartDate() != null && poll.getEndDate() ==
 						null && poll.getStartDate().before(
 						now)) {
 					active = true;
-
-
 				} else if (poll.getEndDate() != null && poll.getStartDate() ==
 						null && poll.getEndDate().after(now)) {
 					active = true;
-
-
 				} else {
 					active = false;
-
-
 				}
 
 				// create checkboxes
 				final List<VoteBox> saveableBoxes = new ArrayList<VoteBox>();
 				Iterator iter = votersSet.iterator();
 
-
 				int row = 2;
-
 
 				while (iter.hasNext()) {
 					String voter = (String) iter.next();
 					t.setWidget(row, 0, new Label(voter));
 
 					// create checkboxes
-
-
 					for (XOOptionList optionList : poll.getOptionLists()) {
 						for (IOption option : optionList.getOptions()) {
 							int column = t.getCellCount(row);
@@ -623,23 +605,18 @@ public class MainEntryPoint implements EntryPoint {
 							box.setOptionId(option.getId());
 							box.setValue(Boolean.FALSE);
 							box.setEnabled(false);
-
-
+							
 							if (option.getVotes().contains(voter)) {
 								// add a checked checkbox
 								box.setValue(Boolean.TRUE);
-
-
 							}
 							if (active && voter.equals(username.getText())) {
 								// current user can delete his votes
 								box.setEnabled(true);
 								saveableBoxes.add(box);
 
-
 							}
 							t.setWidget(row, column, box);
-
 
 						}
 					}
@@ -652,35 +629,24 @@ public class MainEntryPoint implements EntryPoint {
 							@Override
 							public void onClick(ClickEvent event) {
 								saveVotes(saveableBoxes, url);
-
-
 							}
 						});
 						t.setWidget(row, t.getCellCount(row), saveVotesButton);
-
-
 					}
 					row++;
-
-
 				}
 			}
 		}
 		return t;
-
-
 	}
 
 	private void saveVotes(List<VoteBox> boxes,
 			String url) {
 		List<String> ids = new ArrayList<String>();
 
-
 		for (VoteBox box : boxes) {
 			if (box.getValue()) {
 				ids.add(box.getOptionId());
-
-
 			}
 		}
 		service.voteForOptions(url, ids, username.getText(), new AsyncCallback<Void>() {
@@ -688,25 +654,18 @@ public class MainEntryPoint implements EntryPoint {
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("error on RPC call in saveVotes");
-				;
-
-
 			}
 
 			@Override
 			public void onSuccess(Void result) {
 				Window.alert("saved");
-
-
 			}
 		});
-
-
-	} /*
+	} 
+	
+	/*
 	 * add a empty row to a panel for styling issues
 	 */
-
-
 	private void addEmptyRow(Panel panel) {
 		panel.add(new InlineHTML("<br/>"));
 

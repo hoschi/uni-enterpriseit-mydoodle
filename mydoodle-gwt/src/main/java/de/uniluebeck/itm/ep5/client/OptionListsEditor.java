@@ -21,6 +21,7 @@ public class OptionListsEditor {
 	
 	private Widget rootWidget;
 	private VerticalPanel optionListsPanel;
+	private LocaleSettings ls;
 	
 	private Map<Widget, OptionListEditor> optionListMap;
 	
@@ -33,6 +34,7 @@ public class OptionListsEditor {
 	
 	public OptionListsEditor(final LocaleSettings ls) {
 		this.optionListMap = new HashMap<Widget, OptionListEditor>();
+		this.ls = ls;
 		
 		VerticalPanel panel = new VerticalPanel();
 		rootWidget = panel;
@@ -97,6 +99,14 @@ public class OptionListsEditor {
 		}
 		for (Widget w : removeList) {
 			w.removeFromParent();
+		}
+		optionListMap.clear();
+	}
+
+	public void setOptionLists(List<XOOptionList> optionLists) {
+		clearInputs();
+		for (XOOptionList optionList : optionLists) {
+			addOptionList(new OptionListEditor(optionList, ls));
 		}
 	}
 

@@ -67,6 +67,15 @@ public class PollEditor {
 		panel.add(listsEditor.getRootWidget());
 	}
 	
+	public void setPoll(xoPoll poll) {
+		clearInputs();
+		titleBox.setText(poll.getTitle());
+		isPublicBox.setChecked(poll.isPublic());
+		startDateBox.setValue(poll.getStartDate());
+		endDateBox.setValue(poll.getEndDate());
+		listsEditor.setOptionLists(poll.getOptionLists());
+	}
+	
 	public xoPoll getPoll() {
 		xoPoll result = new xoPoll();
 		

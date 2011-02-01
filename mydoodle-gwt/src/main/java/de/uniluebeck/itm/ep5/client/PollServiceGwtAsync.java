@@ -31,4 +31,7 @@ public interface PollServiceGwtAsync {
 
 	public void getLocalPoll(Integer id,
 			AsyncCallback<xoPoll> asyncCallback);
+
+	public void updatePoll(xoPoll poll,
+			AsyncCallback<Void> asyncCallback);
 }

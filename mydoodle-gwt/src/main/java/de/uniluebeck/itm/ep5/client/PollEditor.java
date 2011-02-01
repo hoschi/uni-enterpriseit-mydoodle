@@ -26,7 +26,7 @@ public class PollEditor {
 	public PollEditor(LocaleSettings ls, xoPoll poll) {
 		this(ls, poll.getOptionLists());
 		titleBox.setText(poll.getTitle());
-		isPublicBox.setChecked(poll.isPublic());
+		isPublicBox.setValue(poll.isPublic());
 		startDateBox.setValue(poll.getStartDate());
 		endDateBox.setValue(poll.getEndDate());
 	}
@@ -70,7 +70,7 @@ public class PollEditor {
 	public void setPoll(xoPoll poll) {
 		clearInputs();
 		titleBox.setText(poll.getTitle());
-		isPublicBox.setChecked(poll.isPublic());
+		isPublicBox.setValue(poll.isPublic());
 		startDateBox.setValue(poll.getStartDate());
 		endDateBox.setValue(poll.getEndDate());
 		listsEditor.setOptionLists(poll.getOptionLists());
@@ -80,7 +80,7 @@ public class PollEditor {
 		xoPoll result = new xoPoll();
 		
 		String title = titleBox.getText();
-		boolean isPublic = isPublicBox.isChecked();
+		boolean isPublic = isPublicBox.getValue();
 		Date startDate = startDateBox.getValue();
 		Date endDate = endDateBox.getValue();
 		List<XOOptionList> optionLists = listsEditor.getOptionLists();
@@ -96,7 +96,7 @@ public class PollEditor {
 	
 	public void clearInputs() {
 		titleBox.setText("");
-		isPublicBox.setChecked(true);
+		isPublicBox.setValue(true);
 		startDateBox.setValue(null);
 		endDateBox.setValue(null);
 		listsEditor.clearInputs();

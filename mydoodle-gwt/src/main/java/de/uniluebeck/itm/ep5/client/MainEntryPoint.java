@@ -160,7 +160,7 @@ public class MainEntryPoint implements EntryPoint {
 		if (editedPollId != null) {
 			xoPoll poll = editPollEditor.getPoll();
 			poll.setId(editedPollId);
-			this.service.addPoll(poll, new AsyncCallback<Void>() {
+			this.service.updatePoll(poll, new AsyncCallback<Void>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -174,6 +174,7 @@ public class MainEntryPoint implements EntryPoint {
 					ClientLog.log("poll saved");
 					editedPollId = null;
 					editPollEditor.clearInputs();
+					Window.alert("saved");
 				}
 			});
 		}
@@ -222,6 +223,9 @@ public class MainEntryPoint implements EntryPoint {
 			@Override
 			public void onSuccess(Void result) {
 				ClientLog.log("poll saved");
+				createAddPollForm();
+				Window.alert("saved");
+				
 			}
 		});
 

@@ -85,15 +85,7 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void addPoll(xoPoll poll) {
-		PollService service = getService();
-
-		xoPoll x = new xoPoll();
-		x.setActiveTimeSpan(poll.getStartDate(), poll.getEndDate());
-		x.setOptions(poll.getOptionLists());
-		x.setPublic(poll.isPublic());
-		x.setTitle(poll.getTitle());
-
-		service.addPoll(x);
+		getService().addPoll(poll);
 	}
 
 	@Override
@@ -156,6 +148,11 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 	@Override
 	public xoPoll getLocalPoll(Integer id) {
 		return getService().getPoll(id);
+	}
+
+	@Override
+	public void updatePoll(xoPoll poll) {
+		this.getService().updatePoll(poll);
 	}
 
 

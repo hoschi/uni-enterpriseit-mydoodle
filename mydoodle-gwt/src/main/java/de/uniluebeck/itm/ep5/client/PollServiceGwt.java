@@ -26,9 +26,9 @@ public interface PollServiceGwt extends RemoteService {
 
 	public void updatePoll(xoPoll poll);
 
-	public xoPoll getPoll(String url, String locale, Integer id);
+	public xoPoll getPoll(String url, String locale, String id);
 
-	public xoPoll getLocalPoll(Integer id);
+	public xoPoll getLocalPoll(String id);
 
 	public void voteForOptions(String url, List<String> ids, String voter);
 }

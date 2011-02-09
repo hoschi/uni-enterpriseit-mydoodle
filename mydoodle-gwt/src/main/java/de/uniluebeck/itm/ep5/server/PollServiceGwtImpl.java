@@ -49,7 +49,7 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 		for (XsPollInfo pollinfo : polls) {
 			xoPoll poll = new xoPoll();
 			poll.setTitle(pollinfo.getTitle());
-			poll.setId(new Integer(pollinfo.getId()));
+			poll.setId(pollinfo.getId());
 			list.add(poll);
 		}
 		return list;
@@ -89,11 +89,11 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public xoPoll getPoll(String url, String locale, Integer id) {
+	public xoPoll getPoll(String url, String locale, String id) {
 		PollWebService webService = getWebService(url);
 		XsPoll webPoll = webService.getPoll(id.toString(), locale);
 		xoPoll poll = new xoPoll();
-		poll.setId(new Integer(webPoll.getId()));
+		poll.setId(webPoll.getId());
 		poll.setTitle(webPoll.getTitle());
 		for (XsOptionList optionListWeb : webPoll.getOptionList()) {
 			XOOptionList optionList = new XOOptionList();
@@ -146,7 +146,7 @@ public class PollServiceGwtImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public xoPoll getLocalPoll(Integer id) {
+	public xoPoll getLocalPoll(String id) {
 		return getService().getPoll(id);
 	}
 

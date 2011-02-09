@@ -61,7 +61,7 @@ public class MainEntryPoint implements EntryPoint {
 	private LocaleSettings localeSettings;
 	private PollEditor addPollEditor;
 	private PollEditor editPollEditor;
-	private Integer editedPollId;
+	private String editedPollId;
 
 	/**
 	 * Creates a new instance of MainEntryPoint
@@ -140,7 +140,7 @@ public class MainEntryPoint implements EntryPoint {
 	}
 
 	private void loadPollForEditing(String idText) {
-		final Integer id = Integer.valueOf(Integer.parseInt(idText));
+		final String id = idText;
 		service.getLocalPoll(id, new AsyncCallback<xoPoll>() {
 			@Override
 			public void onSuccess(xoPoll poll) {

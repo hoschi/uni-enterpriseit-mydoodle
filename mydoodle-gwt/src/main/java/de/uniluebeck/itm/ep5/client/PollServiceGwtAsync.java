@@ -21,7 +21,7 @@ public interface PollServiceGwtAsync {
 	public void addPoll(xoPoll poll,
 			AsyncCallback<Void> asyncCallback);
 
-	public void getPoll(String url, String locale, Integer id,
+	public void getPoll(String url, String locale, String id,
 			AsyncCallback<xoPoll> asyncCallback);
 
 	public void voteForOptions(String url, List<String> ids, String voter,
@@ -29,7 +29,7 @@ public interface PollServiceGwtAsync {
 
 	public void getLocalPollTitles(AsyncCallback<List<xoPoll>> asyncCallback);
 
-	public void getLocalPoll(Integer id,
+	public void getLocalPoll(String id,
 			AsyncCallback<xoPoll> asyncCallback);
 
 	public void updatePoll(xoPoll poll,

@@ -18,7 +18,7 @@ public interface PollService {
 
 	List<xoPoll> search(String search);
 
-	xoPoll getPoll(Integer integer);
+	xoPoll getPoll(String integer);
 
 	public xoPoll refresh(xoPoll poll);
 

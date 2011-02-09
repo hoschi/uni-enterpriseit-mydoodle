@@ -7,7 +7,7 @@ import java.util.List;
 
 public class xoPoll implements Serializable{
 
-    private Integer id;
+    private String id;
     private String title;
     private List<XOOptionList> options;
     private boolean isPublic;
@@ -23,7 +23,7 @@ public class xoPoll implements Serializable{
         this.options = new ArrayList<XOOptionList>();
     }
 
-    public xoPoll(Integer id, String title, List<XOOptionList> options) {
+    public xoPoll(String id, String title, List<XOOptionList> options) {
         this.id = id;
         this.title = title;
         this.options = options;
@@ -41,7 +41,7 @@ public class xoPoll implements Serializable{
         }
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -53,7 +53,7 @@ public class xoPoll implements Serializable{
         return options;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

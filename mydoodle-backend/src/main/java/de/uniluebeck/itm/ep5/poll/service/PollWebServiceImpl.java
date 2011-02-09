@@ -75,7 +75,7 @@ public class PollWebServiceImpl implements PollWebService {
 			return null;
 		}
 
-		xoPoll poll = pollService.getPoll(new Integer(pollId));
+		xoPoll poll = pollService.getPoll(pollId);
 		XsPoll xs = new XsPoll();
 		xs.setId(poll.getId().toString());
 		xs.setTitle(poll.getTitle());

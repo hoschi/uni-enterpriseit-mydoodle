@@ -143,7 +143,7 @@ public class PollWebServiceImplTest {
 		pollService.addPoll(poll);
 
 		logger.info("- get the poll - english locale");
-		result = instance.getPoll(poll.getId().toString(),
+		result = instance.getPoll(poll.getId(),
 				Locale.ENGLISH.toString());
 		assertEquals(poll.getTitle(), result.getTitle());
 		assertEquals(1, result.getOptionList().size());

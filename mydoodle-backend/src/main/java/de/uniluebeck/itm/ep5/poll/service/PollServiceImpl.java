@@ -144,9 +144,12 @@ public class PollServiceImpl implements PollService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public xoPoll getPoll(Integer integer) {
-		boPoll bo = this.pollRepository.findById(integer);
-		return PollMapper.createXO(bo);
+	public xoPoll getPoll(String integer) {
+                for (boPoll bop : this.pollRepository.findAll()) {
+                    if (bop.getId().equals(integer))
+                        return PollMapper.createXO(bop);
+                }
+		return null;
 	}
 
 	@Transactional(readOnly = true)

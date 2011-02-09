@@ -72,9 +72,9 @@ public class PollServiceImplTest {
         List<xoPoll> list = pollService.getPolls();
         Assert.assertEquals(2, list.size());
 
-        int id = list.get(0).getId();
-        int id1 = list.get(1).getId();
-        Assert.assertFalse(id == id1);
+        String id = list.get(0).getId();
+        String id1 = list.get(1).getId();
+        Assert.assertFalse(id.equals(id1));
 
         // Print all polls and options
         for (xoPoll p : pollService.getPolls()) {

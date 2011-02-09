@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "polls")
@@ -20,8 +21,9 @@ public class boPoll implements Serializable {
 	@Transient
 	private static final long serialVersionUID = -980869932728084332L;
 	@Id
-	@GeneratedValue
-	private Integer id;
+	@GenericGenerator(name = "seq_id", strategy = "de.uniluebeck.itm.ep5.util.UuidGenerator")
+	@GeneratedValue(generator = "seq_id")
+	private String id;
 	private String title;
 	@OneToMany
 	private List<BOOptionList> options;
@@ -60,14 +62,14 @@ public class boPoll implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
